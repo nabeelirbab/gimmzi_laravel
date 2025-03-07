@@ -81,7 +81,7 @@
                                         <span>Within 50.0 mi (&lt;20+)</span>
                                     </label>
                                     <label>
-                                        <input type="radio" name="name" >
+                                        <input type="radio" name="name">
                                         <span>Within 100.0 mi (&lt;30+)</span>
                                     </label>
                                     <label>
@@ -149,7 +149,8 @@
                                                     </a>
                                                     <span>Save</span>
                                                 </div>
-                                                <div class="purchase-wishlst share-blkss">
+                                                <div class="purchase-wishlst share-blkss" data-bs-toggle="modal"
+                                                    data-bs-target="#shareModal">
                                                     <a href="javascript:void(0)" class="cmn-purchase">
                                                         <img loading="lazy"
                                                             src="{{ asset('frontend_assets/images/shrss.svg') }}"
@@ -173,9 +174,26 @@
                                                     <div class="universe-top-btm-head">
                                                         @if ($business->formatted_location)
                                                             <p>{{ $business->formatted_location }}</p>
-                                                            @if ($business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->latitude)
+                                                            @if ($business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->latitude ?? '')
                                                                 @php
-                                                                    $lat_long_array[] = [$business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->latitude, $business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->longitude, $business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->location_name, $business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->address];
+                                                                    $lat_long_array[] = [
+                                                                        $business->locations
+                                                                            ->where('location_type', 'Headquarters')
+                                                                            ->where('status', 1)
+                                                                            ->first()->latitude,
+                                                                        $business->locations
+                                                                            ->where('location_type', 'Headquarters')
+                                                                            ->where('status', 1)
+                                                                            ->first()->longitude,
+                                                                        $business->locations
+                                                                            ->where('location_type', 'Headquarters')
+                                                                            ->where('status', 1)
+                                                                            ->first()->location_name,
+                                                                        $business->locations
+                                                                            ->where('location_type', 'Headquarters')
+                                                                            ->where('status', 1)
+                                                                            ->first()->address,
+                                                                    ];
 
                                                                 @endphp
                                                                 <span>{{ $this->haversineDistance($business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->latitude, $business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->longitude) }}
@@ -185,22 +203,20 @@
 
                                                     </div>
                                                 </div>
-                                              
+
                                                 @if ($business->loyalty->where('status', 1)->where('end_on', '>', Carbon\Carbon::today()->format('Y-m-d'))->isNotEmpty())
                                                     @foreach ($business->loyalty->where('status', 1)->where('end_on', '>', Carbon\Carbon::today()->format('Y-m-d')) as $key => $item)
-                                                      
-                                                            <div class="universe-mdl-con universe-btm-con">
-                                                                <form>
-                                                                    <label>
-                                                                        <input type="radio">
-                                                                        <div class="universe-con-radio">
-                                                                              <p> {{ $item->program_name }}</p>
-                                                                              <span>Earn up to 20 points per purchase</span>
-                                                                        </div>
-                                                                    </label>
-                                                                </form>
-                                                            </div>
-                                                       
+                                                        <div class="universe-mdl-con universe-btm-con">
+                                                            <form>
+                                                                <label>
+                                                                    <input type="radio">
+                                                                    <div class="universe-con-radio">
+                                                                        <p> {{ $item->program_name }}</p>
+                                                                        <span>Earn up to 20 points per purchase</span>
+                                                                    </div>
+                                                                </label>
+                                                            </form>
+                                                        </div>
                                                     @endforeach
                                                 @endif
 
@@ -209,14 +225,15 @@
                                                         @if ($loop->iteration <= 2)
                                                             <div class="universe-btm-con">
                                                                 <form>
-                                                                <label>
-                                                                    <input type="radio">
-                                                                    <div class="universe-con-radio">
-                                                                        <p><strong>{{ $item->suggested_description ?? '-' }}</strong></p>
-                                                                        <p>{{ $item->point }} points to redeem</p>
-                                                                    </div>
-                                                                </label>
-                                                            </form>
+                                                                    <label>
+                                                                        <input type="radio">
+                                                                        <div class="universe-con-radio">
+                                                                            <p><strong>{{ $item->suggested_description ?? '-' }}</strong>
+                                                                            </p>
+                                                                            <p>{{ $item->point }} points to redeem</p>
+                                                                        </div>
+                                                                    </label>
+                                                                </form>
                                                             </div>
                                                         @endif
                                                     @endforeach
@@ -237,9 +254,126 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Social Sharing Modal -->
+                                    <div class="modal fade" id="shareModal" tabindex="-1"
+                                        aria-labelledby="shareModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered custom-modal">
+                                            <div class="modal-content">
+                                                <!-- Close Button at Top-Right -->
+                                                <button type="button" class="btn-close position-absolute"
+                                                    style="top: 10px; right: 10px; z-index: 1050;"
+                                                    data-bs-dismiss="modal" aria-label="Close">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </button>
+
+                                                <div class="modal-body text-center">
+                                                    <span>{{ $business->business_name }}</span><br>
+                                                    <span>
+                                                        @if ($business->street_address != '')
+                                                            {{ $business->street_address }}, {{ $business->city }},
+                                                            {{ $business->states->name }}, {{ $business->zip_code }}
+                                                        @endif
+                                                    </span><br>
+                                                    <span>{{ $business->business_phone }}</span>
+
+                                                    <hr>
+                                                    <small>Share this business, earn points!</small>
+                                                    Start Earning Points and make every share count!
+                                                    <div class="row align-items-center">
+                                                        <!-- Left Side - Image -->
+                                                        <div class="col-md-5 text-center">
+                                                            <img loading="lazy"
+                                                                src="{{ asset($business->main_image_url) }}"
+                                                                alt="{{ $business->business_name }}" width="234"
+                                                                height="166" class="img-fluid rounded">
+
+                                                        </div>
+                                                        <!-- Right Side - Text and Share Buttons -->
+                                                        <div class="col-md-7">
+                                                            <!-- Share Buttons -->
+                                                            <div class="row text-center my-3">
+                                                                <!-- Facebook -->
+                                                                <div class="col-6 mb-3">
+                                                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}"
+                                                                        target="_blank"
+                                                                        class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
+                                                                        <img src="{{ asset('frontend_assets/images/facebook.svg') }}"
+                                                                            alt="Facebook"
+                                                                            style="height: 30px; margin-right: 8px;">
+                                                                        <span>Facebook</span>
+                                                                    </a>
+                                                                </div>
+                                                                <!-- X (Example: Custom Social Network or Function) -->
+                                                                <div class="col-6 mb-3">
+                                                                    <a href="https://x.com/intent/tweet?text={{ urlencode(url()->current()) }}"
+                                                                        target="_blank"
+                                                                        class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
+                                                                        <img src="{{ asset('frontend_assets/images/X.svg') }}"
+                                                                            alt="X"
+                                                                            style="height: 30px; margin-right: 8px;">
+                                                                        <span>X</span>
+                                                                    </a>
+                                                                </div>
+                                                                <!-- LinkedIn -->
+                                                                <div class="col-6 mb-3">
+                                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url()->current()) }}&title=YourPageTitle&summary=YourSummaryHere"
+                                                                        target="_blank"
+                                                                        class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
+                                                                        <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
+                                                                            alt="LinkedIn"
+                                                                            style="height: 30px; margin-right: 8px;">
+                                                                        <span>LinkedIn</span>
+                                                                    </a>
+                                                                </div>
+                                                                <!-- WhatsApp -->
+                                                                <div class="col-6 mb-3">
+                                                                    <a href="https://api.whatsapp.com/send?text={{ urlencode(url()->current()) }}"
+                                                                        target="_blank"
+                                                                        class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
+                                                                        <img src="{{ asset('frontend_assets/images/whatsapp.svg') }}"
+                                                                            alt="WhatsApp"
+                                                                            style="height: 30px; margin-right: 8px;">
+                                                                        <span>WhatsApp</span>
+                                                                    </a>
+                                                                </div>
+                                                                <!-- Email -->
+                                                                <div class="col-6 mb-3">
+                                                                    <a href="#" data-bs-toggle="modal"
+                                                                        data-bs-target="#shareSocialModal"
+                                                                        class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
+                                                                        <img src="{{ asset('frontend_assets/images/email.svg') }}"
+                                                                            alt="Email"
+                                                                            style="height: 30px; margin-right: 8px;">
+                                                                        <span>Email</span>
+                                                                    </a>
+                                                                </div>
+                                                                <!-- Copy Link -->
+                                                                <div class="col-6 mb-3">
+                                                                    <a href="#"
+                                                                        onclick="copyToClipboard('{{ url()->current() }}'); return false;"
+                                                                        class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
+                                                                        <img src="{{ asset('frontend_assets/images/copy.svg') }}"
+                                                                            alt="Copy Link"
+                                                                            style="height: 30px; margin-right: 8px;">
+                                                                        <span>Copy Link</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <p class="mt-3" style="background-color: #f2f4f7">Earn 1 point
+                                                        for each
+                                                        listing you share on
+                                                        Facebook, X
+                                                        (formerly Twitter)
+                                                        , and LinkedIn (10 point limit per day).</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @empty
                                     <p class="universe-top-head d-flex justify-content-center">No Result found</p>
-
                                 @endforelse
 
 
@@ -409,7 +543,7 @@
 
             }
 
-            $(".closeModal").on('click',function(){
+            $(".closeModal").on('click', function() {
                 $('#message_modal').modal('hide');
                 $("#textmsg").html('');
             })

@@ -364,7 +364,7 @@
                                 <div class="d-flex align-items-center rounded-2"
                                     style="background-color: #F2F4F7; padding: 10px;">
                                     <img src="{{ asset('frontend_assets/images/global.svg') }}" alt="">
-                                    <p style="margin-left: 7px;">visit website</p>
+                                    <p style="margin-left: 7px;">visit website</p> 
                                 </div>
 
                                 <div class="d-flex align-items-center" style="cursor: pointer;"

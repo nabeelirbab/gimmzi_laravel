@@ -1,0 +1,943 @@
+   {{ Session::has('error') }}
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+        @if (!empty(Session::get('error_code')))
+            <script>
+            $(window).on('load', function() {
+                $('#loginModal').modal('show');
+            });
+            </script>
+        @endif
+        <script>
+            @if (!empty(Session::get('token')))
+                $(window).on('load', function() {
+                    $('#changepasswordModal').modal('show');
+                    $("#changepassword").on('submit', function(e) {
+                        e.preventDefault();
+                        var token = '<?php echo Session::get('token'); ?>';
+                        var new_password = $("#new_password").val();
+                        var confirm_password = $("#confirm_password").val();
+
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: '/reset-user-password',
+                            type: 'post',
+                            data: {
+                                'token': token,
+                                'new_password': new_password,
+                                'confirm_password': confirm_password
+                            },
+                            success: function(response) {
+                                // alert('saved');
+                                if (response.status == 4) {
+                                    $('#changepassword')[0].reset();
+                                    $('#changepasswordModal').modal('hide');
+                                    toastr.success(
+                                        'Password updated successfully but mail not sent');
+
+                                } else if (response.status == 1) {
+                                    $('#changepassword')[0].reset();
+                                    $('#changepasswordModal').modal('hide');
+                                    toastr.success(
+                                        'Password updated successfully and mail sent to your email address'
+                                        );
+                                } else if (response.status == 0) {
+                                    $(".confirmerror").html(
+                                            'New password and confirm password does not matched')
+                                        .css('color', 'red');
+                                } else if (response.status == 2) {
+                                    $(".confirmerror").html('Confirm password field is required..')
+                                        .css('color', 'red');
+                                } 
+                            }
+                        });
+                    });
+                })
+            @endif
+        </script>
+
+        @if (Session::has('error'))
+            <script>
+                $(function() {
+                    $('#loginModal').modal('show');
+                });
+            </script>
+        @endif
+        @if (Session::has('link'))
+            <script>
+                $(function() {
+                    $('#Join-Today').modal('show');
+                });
+            </script>
+        @else
+            <script>
+                $(function() {
+                    $('#Join-Today').modal('hide');
+
+                });
+            </script>
+        @endif
+        @if (Session::has('token'))
+            @if (Session::get('token') != '')
+                <script>
+                    $(function() {
+                        var token = '<?php echo Session::get('token'); ?>';
+                        $("#user_token").val(token);
+                        $('#resetpasswordModal').modal('show');
+
+                    });
+                </script>
+            @else
+                <script>
+                    $(function() {
+                        $('#resetpasswordModal').modal('hide');
+
+                    });
+                </script>
+            @endif
+        @endif
+        <script>
+                var path = "{{ route('frontend.apartment-autocomplete') }}";
+  
+                $( "#consumerPropertyApartment" ).autocomplete({
+                   
+                    source: function( request, response ) {
+                        if(request.term != ''){
+                            $.ajax({
+                                url: path,
+                                type: 'GET',
+                                dataType: "json",
+                                data: {
+                                    search: request.term
+                                },
+                                success: function( data ) {
+                                    if(data != ''){
+                                        $('#list').fadeIn();  
+                                        $('#list').html(data);
+                                    }
+                                    else{
+                                        $('#list').fadeOut();  
+                                    }     
+                                }
+                            });
+                        }
+                        else{
+                            $('#list').fadeOut();  
+                        }
+                        
+                    },
+                    // select: function (event, ui) {
+                    //     $('#first_name').val(ui.item.first_name);
+                    //     console.log(ui.item); 
+                    //     return false;
+                    // }
+                });
+                $(document).on('click', 'ul.dropdown-menu li', function(){  
+                    $('#consumerPropertyApartment').val($(this).text());  
+                    $('#list').fadeOut();  
+                });
+            $(document).ready(function(){
+                $(".join-today-button").click(function(){
+                    $('#Join-Today').modal('show');
+                    $('#Join-Today').find('form').trigger('reset');
+                });
+                $(".btn-close").click(function(){
+                    $('#Join-Today').modal('hide');
+                    $('#Join-Today').find('form').trigger('reset');
+                });
+            });
+            $(document).ready(function() {
+                $("#consumerforgetpassword").click(function() {
+                    $("#forgetpasswordModal").modal('show');
+                    $('#loginModal').modal('hide');
+                });
+                $('#thanksmodal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                $('#login_smart_account').click(function() {
+                    $('#exampleModal').modal('hide');
+                    $('#loginModal').modal('show');
+                    $("#nav-home-tab").removeClass("active");
+                    $("#nav-profile-tab").addClass("active");
+                    $("#user_type").val('My Smart Rewards');
+                    $("#nav-home").removeClass("active show");
+                    $("#nav-profile").addClass("active show");
+                })
+
+                $('#login_property_manager').click(function() {
+                    $('#exampleModal').modal('hide');
+                    $('#loginModal').modal('show');
+                    $("#nav-profile-tab").removeClass("active");
+                    $("#nav-home-tab").addClass("active");
+                    $("#user_type").val('Property Manager');
+                    $("#nav-home").addClass("active show");
+                    $("#nav-profile").removeClass("active show");
+
+                })
+
+            });
+            $(document).on('click', '.user_type', function() {
+                if ($('#nav-profile-tab').hasClass('active')) {
+                    $("#user_type").val('My Smart Rewards');
+                } else {
+                    $("#user_type").val('');
+                }
+            });
+            $(document).ready(function() {
+                $('#contactmodal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            });
+            $(document).ready(function() {
+                $('#unitmodal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            });
+            $(document).ready(function() {
+
+
+            var validator =  $("#signup-step1").validate({
+                    rules: {
+                        first_name: "required",
+                        last_name: "required",
+                
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        phone: {
+                            required: true,
+                        },
+                        zip_code: {
+                            required: true,
+                            minlength: 5,
+                            maxlength: 5
+                        },
+                        city: "required",
+                        state: "required",
+                        lives_an_apartment: "required",
+                        provider_id: {
+                            required: {
+                                depends: function(elem) {
+                                    if ($("#lives_an_apartment").val() == 'yes') {
+                                        if (($("#get_link").val() == 1) || ($("#get_link_2").val() == 1)) {
+                                            return false;
+                                        } else {
+                                            return true;
+                                        }
+                                    }
+
+                                }
+                            }
+                        },
+
+                        unit_one_name: {
+                            required: {
+                                depends: function(elem) {
+                                    return $("#get_link").val() == 1
+                                }
+                            }
+                        },
+
+                        unit_two_name: {
+                            required: {
+                                depends: function(elem) {
+                                    return $("#get_link_2").val() == 1
+                                }
+                            }
+                        },
+
+                    },
+                    messages: {
+                        first_name: " Please enter your First Name",
+                        last_name: " Please enter your Last Name",
+                        email: {
+                            required: " Please enter your Email Address ",
+                            email: " Email address should be a valid address"
+                        },
+                     
+                        phone: {
+                            required: " Please enter your Phone number",
+                        },
+                        zip_code: {
+                            required: " Please enter your Zip Code",
+                            minlength: " Your Zip Code  must be consist of at least 5 characters",
+                            maxlength: " Your Zip Code  must be consist of at most 5 characters"
+                        },
+                        city: " Please enter your City",
+                        state: " Please select your State",
+                        lives_an_apartment: " Please select any of the options",
+                        provider_id: {
+                            required: " Please Select Your Apartment"
+                        },
+                        unit_one_name: {
+                            required: " Please Enter Unit Number"
+                        },
+                        unit_two_name: {
+                            required: " Please Enter Unit Number"
+                        }
+                    },
+                    errorPlacement: function(label, element) {
+                        label.addClass('errorMsq');
+                        element.parent().append(label);
+                    },
+                });
+
+                $("#signup-step2").validate({
+                    rules: {
+                        unit: "required",
+                        access_code: "required",
+                    },
+                    messages: {
+                        unit: " Please enter unit number",
+                        access_code: " Please enter access code",
+                    }
+                });
+
+                $("#forgetpassword").validate({
+                    rules: {
+                        consumer_email: {
+                            required: true,
+                            email: true
+                        },
+                    },
+                    messages: {
+                        consumer_email: {
+                            required: " Please enter your Email Address ",
+                            email: " Email address should be a valid address"
+                        },
+                    }
+                });
+
+                $("#resetpassword").validate({
+                    rules: {
+                        new_password: {
+                            required: true,
+                            minlength: 6,
+                        },
+                        confirm_password: {
+                            required: true,
+                            minlength: 6,
+                            equalTo: "#new_password"
+                        },
+                    },
+                    messages: {
+                        new_password: {
+                            required: "Please enter a New password ",
+                            minlength: "Password minimum length should be 6"
+                        },
+                        confirm_password: {
+                            required: "Please enter Confirm password ",
+                            minlength: "Password minimum length should be 6",
+                            equalTo: "Confirm password should be equal to New password"
+                        },
+                    }
+                });
+
+                // $("#loginFormid").submit(function (e) {
+                //     e.preventDefault();
+                //   })
+
+                $("#signup-step1").submit(function(e) {
+                    e.preventDefault();
+                    // $("#signup-step1").validate();
+                    //console.log($("#signup-step1").serialize())
+                    if ($("#lives_an_apartment").val() == 'yes') {
+                        var provider_id = $("#provider_id").val();
+
+                    } else {
+                        var provider_id = '';
+                    }
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: "{{ route('frontend.consumer-signup-step1') }}",
+                        type: 'POST',
+                        data: {
+                            first_name: $("#first_name").val(),
+                            last_name: $("#last_name").val(),
+                            email: $("#email").val(),
+                            phone: $("#phone").val(),
+                            zip_code: $("#zip_code").val(),
+                            city: $("#city").val(),
+                            state: $("#state").val(),
+                            birth_month: $("#birth_month").val(),
+                            birth_day: $("#birth_day").val(),
+                            birth_year: $("#birth_year").val(),
+                            lives_an_apartment: $("#lives_an_apartment:checked").val(),
+                            provider_id: provider_id,
+                            unit_one_name: $("#unit_one_name").val(),
+                            unit_two_name: $("#unit_two_name").val(),
+                            get_link: $("#get_link").val(),
+                            get_link_2: $("#get_link_2").val(),
+
+
+                        },
+                        success: function(result) {
+                            console.log(result);
+                            if (result.status == 0) {
+                                $('#Join-Today').find('form').trigger('reset');
+                                $("#Join-Today").modal('hide');
+                                $("#thanksmodal").modal('show');
+                                $("#thanks_message1").html(result.message1);
+                                $("#thanks_message2").html(result.message2);
+                            } else if (result.status == 2) {
+                                if ($("#unit_incorrect_count").val() == '') {
+                                    $("#unit_incorrect_count").val(1);
+                                    $("#unitnameerror").html('Please check unit number').css(
+                                        'color', 'red');
+                                } else if (($("#unit_incorrect_count").val() != '') && ($(
+                                        "#unit_incorrect_count").val() != 3)) {
+                                    var value = parseInt($("#unit_incorrect_count").val()) +
+                                        parseInt(1);
+                                    $("#unit_incorrect_count").val(value);
+                                    $("#unitnameerror").html('Please check unit number').css(
+                                        'color', 'red');
+                                } else {
+                                    $('#Join-Today').find('form').trigger('reset');
+                                    $("#Join-Today").modal('hide');
+                                    $("#contactmodal").modal('show');
+                                    $("#providername").html('Contact ' + result.data);
+                                    //$("#consumerid").val($("#consumerid").val());
+                                    $("#alertprovider").html(
+                                        'The access code and/or unit number was incorrect or is no longer valid.' +
+                                        'Please reach out to ' + result.data +
+                                        ' office and request a new member link be sent to you via email or text.'
+                                    );
+                                }
+
+                            } else if (result.status == 1) {
+                                $("#sameemailerror").html('Email has already been used');
+                            } else if (result.status == 3) {
+                                $('#Join-Today').find('form').trigger('reset');
+                                $("#Join-Today").modal('hide');
+                                $("#consumerid").val(result.consumer);
+                                $("#password").val(result.password);
+                                $("#property_id").val(result.provider_id);
+                                $("#unitmodal").modal('show');
+                            } else if (result.status == 5) {
+                                $("#sameemailerror").html('Email has already been used');
+                            } else if (result.status == 9) {
+                                $("#signup1error").html(result.validation_errors).css('color',
+                                    'red');
+                            } else if (result.status == 10) {
+                                console.log(result.state_id);
+                                $('#consumerPropertyCode').val(result.zipcode);
+                                $('#consumerPropertyCity').val(result.city);
+                                $('#consumerPropertyState').val(result.state_id);
+                                $('#consumerPropertyId').val(result.consumer);
+                                $("#Join-Today").modal('hide');
+                                $("#propertyModal").modal('show');
+                            }
+
+                        }
+                    });
+                })
+
+                $("#signup-step2").submit(function(e) {
+                    e.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: "{{ route('frontend.consumer-signup-step2') }}",
+                        type: 'POST',
+                        data: {
+                            'consumerid': $("#consumerid").val(),
+                            'unit': $("#unit").val(),
+                            'access_code': $("#access_code").val(),
+                            'password': $("#password").val(),
+                            'property_id': $("#property_id").val(),
+                        },
+                        success: function(result) {
+                            console.log(result);
+                            if (result.status == 2) {
+
+                                if ($("#unit_incorrect_count2").val() == '') {
+                                    $("#unit_incorrect_count2").val(1);
+                                    $("#unitaccesserror").html(
+                                        'Please check unit number & access code').css('color',
+                                        'red');
+                                } else if (($("#unit_incorrect_count2").val() != '') && ($(
+                                        "#unit_incorrect_count2").val() != 3)) {
+                                    var value = parseInt($("#unit_incorrect_count2").val()) +
+                                        parseInt(1);
+                                    $("#unit_incorrect_count2").val(value);
+                                    $("#unitaccesserror").html(
+                                        'Please check unit number & access code').css('color',
+                                        'red');
+                                } else {
+
+                                    $('#unitmodal').find('form').trigger('reset');
+                                    $("#unitmodal").modal('hide');
+                                    $("#unitaccesserror").html('');
+                                    $("#contactmodal").modal('show');
+                                    if (result.data == '') {
+                                        $("#providername").html('Contact Provider');
+                                        $("#alertprovider").html(
+                                            'The access code and/or unit number was incorrect or is no longer valid.' +
+                                            'Please reach out to provider office and request a new member link be sent to you via email or text.'
+                                        );
+                                    } else {
+                                        $("#providername").html('Contact ' + result.data);
+                                        $("#alertprovider").html(
+                                            'The access code and/or unit number was incorrect or is no longer valid.' +
+                                            'Please reach out to ' + result.data +
+                                            ' office and request a new member link be sent to you via email or text.'
+                                        );
+                                    }
+
+                                    $("#consumerid").val($("#consumerid").val());
+
+                                }
+                            } else if (result.status == 3) {
+
+                            }
+                        }
+                    });
+                });
+
+                $("#forgetpassword").submit(function(e) {
+                    e.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: "{{ route('frontend.consumer-forget-password') }}",
+                        type: 'POST',
+                        data: {
+                            'email': $("#consumer_email").val(),
+                        },
+                        success: function(result) {
+                            if (result.status == 2) {
+                                $('#linksent').css('color', 'green').fadeIn().html(
+                                    'Reset link sent to your email address');
+                                setTimeout(function() {
+                                    $('#linksent').fadeOut("slow");
+                                    location.reload();
+                                }, 3000);
+                            } else if (result.status == 0) {
+                                $('#linksent').css('color', 'red').fadeIn().html('User not found');
+                                setTimeout(function() {
+                                    $('#linksent').fadeOut("slow");
+                                    location.reload();
+                                }, 3000);
+                            } else if (result.status == 1) {
+                                $('#linksent').css('color', 'red').fadeIn().html('Mail not sent');
+                                setTimeout(function() {
+                                    $('#linksent').fadeOut("slow");
+                                    location.reload();
+                                }, 3000);
+                            }
+                        }
+                    });
+                });
+
+                $("#resetpassword").submit(function(e) {
+                    e.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: "{{ route('frontend.consumer-reset-password.store') }}",
+                        type: 'POST',
+                        data: {
+                            'new_password': $("#new_password").val(),
+                            'user_token': $("#user_token").val(),
+                            'confirm_password': $("#confirm_password").val(),
+                        },
+                        success: function(result) {
+                            if (result.status == 3) {
+                                $('#resetpasswordmessage').css('color', 'green').fadeIn().html(
+                                    'Password updated successfully & mail sent');
+                                setTimeout(function() {
+                                    $('#resetpasswordmessage').fadeOut("slow");
+                                    location.reload();
+                                }, 3000);
+                            } else if (result.status == 0) {
+                                $('#resetpasswordmessage').css('color', 'red').fadeIn().html(
+                                    'Confirm password does not matched with new password');
+                                setTimeout(function() {
+                                    $('#resetpasswordmessage').fadeOut("slow");
+                                    location.reload();
+                                }, 3000);
+                            } else if (result.status == 1) {
+                                $('#resetpasswordmessage').css('color', 'red').fadeIn().html(
+                                    'New password should not be blank');
+                                setTimeout(function() {
+                                    $('#resetpasswordmessage').fadeOut("slow");
+                                    location.reload();
+                                }, 3000);
+                            } else if (result.status == 2) {
+                                $('#resetpasswordmessage').css('color', 'red').fadeIn().html(
+                                    'User not found');
+                                setTimeout(function() {
+                                    $('#resetpasswordmessage').fadeOut("slow");
+                                    location.reload();
+                                }, 3000);
+                            } else if (result.status == 4) {
+                                $('#resetpasswordmessage').css('color', 'green').fadeIn().html(
+                                    'Password updated successfully but mail not sent');
+                                setTimeout(function() {
+                                    $('#resetpasswordmessage').fadeOut("slow");
+                                    location.reload();
+                                }, 3000);
+                            }
+                        }
+                    });
+                });
+
+                $("#dismissaccount").on('click', function() {
+                    validator.resetForm();
+                    if(($("#first_name").val() != '') && ($("#last_name").val() != '') && ($("#email").val() != '') && ($("#phone").val() != '') && ($("#zip_code").val() != '') && ($("#city").val() != '') && ($("#state").val() != '') && ($("#lives_an_apartment:checked").val() != ''))
+                    {
+                        if ($("#lives_an_apartment").val() == 'yes') {
+                            var provider_id = $("#provider_id").val();
+                        } else {
+                            var provider_id = '';
+                        }
+
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+
+                        $.ajax({
+                            url: "{{ route('frontend.dismiss-registration') }}",
+                            type: 'POST',
+                            data: {
+                                first_name: $("#first_name").val(),
+                                last_name: $("#last_name").val(),
+                                email: $("#email").val(),
+                                phone: $("#phone").val(),
+                                zip_code: $("#zip_code").val(),
+                                city: $("#city").val(),
+                                state: $("#state").val(),
+                                birth_month: $("#birth_month").val(),
+                                birth_day: $("#birth_day").val(),
+                                birth_year: $("#birth_year").val(),
+                                lives_an_apartment: $("#lives_an_apartment:checked").val(),
+                                provider_id: provider_id,
+                                unit_one_name: $("#unit_one_name").val(),
+                                unit_two_name: $("#unit_two_name").val(),
+                                get_link: $("#get_link").val(),
+                                get_link_2: $("#get_link_2").val(),
+
+
+                            },
+                            success: function(result) {
+                                console.log(result);
+                                
+                                    setTimeout(() => {
+                                    toastr.error(
+                                        'Your registration have not successfully done.');
+                                    }, 500)
+                                
+                            }
+                          });
+                    }
+                    else{
+                        $('#Join-Today').find('form').trigger('reset');
+                        $('#Join-Today').modal('hide');
+                    }
+                    
+                })
+                $(".join-today-close").on('click', function(){
+                    validator.resetForm();
+                });
+
+            });
+
+            $(".cancelregistration").on('click', function() {
+                var consumerid = $("#consumerid").val();
+                $.ajax({
+                    url: "{{ route('frontend.cancel-registration') }}",
+                    type: 'get',
+                    data: {
+                        'consumerid': consumerid
+                    },
+                    success: function(result) {
+                        //console.log(result.data);
+                        if (result.status == 1) {
+                            location.reload();
+
+                        } else if (result.status == 0) {
+                            setTimeout(() => {
+                                toastr.error('User not found');
+                                location.reload();
+                            }, 500)
+
+                        } else {
+                            setTimeout(() => {
+                                toastr.error('User not found');
+                                location.reload();
+                            }, 500)
+                        }
+
+                    }
+                });
+            })
+
+            $("#zip_code").on('keyup', function() {
+                var zipcode = $(this).val();
+                if (zipcode.length == 5) {
+                    $.ajax({
+                        url: "{{ route('frontend.ajax.get_city') }}",
+                        type: 'get',
+                        data: {
+                            'zipcode': zipcode
+                        },
+                        success: function(result) {
+                            //console.log(result.data);
+                            if (result.success == 1) {
+                                $("#city").val(result.data.City);
+                                $("#ziperror").html('');
+                                $("#state").val(result.state_name);
+
+                            } else {
+                                $("#ziperror").html(result.data[0]);
+                                $("#ziperror").css('color', 'red');
+                            }
+
+                        }
+                    });
+                } else {
+                    $("#city").val('');
+                    $("#state").val('');
+                }
+
+            });
+
+            function isNumber(evt) {
+                var charCode = (evt.which) ? evt.which : event.keyCode
+                if (charCode > 31 && (charCode < 48 || charCode > 57))
+                    return false;
+
+                return true;
+            }
+            $('input[name="lives_an_apartment"]').on('click', function() {
+                var apartmentvalue = $(this).val();
+                if (apartmentvalue == 'yes') {
+                    if (($('#get_link').val() == 1) || ($('#get_link_2').val() == 1)) {
+                        $("#congratulationshow").css('display', 'block');
+                        $("#unitaddress").css('display', 'block');
+                        $(".apartmenttext").css('display', 'none');
+                        $(".apartmentlist").css('display', 'none');
+                    } else {
+                        $(".apartmenttext").css('display', 'block');
+                        $(".apartmentlist").css('display', 'block');
+                    }
+
+                } else {
+                    if (($('#get_link').val() == 1) || ($('#get_link_2').val() == 1)) {
+                        $(".apartmenttext").css('display', 'none');
+                        $(".apartmentlist").css('display', 'none');
+                        $("#congratulationshow").css('display', 'none');
+                        $("#unitaddress").css('display', 'none');
+                    } else {
+                        $(".apartmenttext").css('display', 'none');
+                        $(".apartmentlist").css('display', 'none');
+                    }
+
+                }
+            })
+            $(document).ready(function() {
+                
+                $('#email').on('blur', function() {
+                   if(($('#get_link_2').val() == 0) || ($('#get_link_2').val() == '')){
+                    var email = $(this).val();
+                    $.ajax({
+                        url: "{{ route('frontend.consumer-email-check') }}",
+                        type: 'get',
+                        data: {
+                            'email': email
+                        },
+                        success: function(result) {
+                            if (result.success == true) {
+                                var property = result.data.providers.name + ', ' + result.data
+                                        .providers.address + ', ' + result.data.providers.city + ', ' +
+                                        result.data.providers.states.name + ', ' + result.data.providers
+                                        .zip_code;
+                                $('#get_link').val(1);
+                                $("#congratulationshow").css('display', 'block');
+                                $("#unitaddress").css('display', 'block');
+                                $("#propertyText").css('display', 'block');
+                                $("#unitText").css('display', 'block');
+                                $("#unitText").text(result.data.building_name);
+                                $("#propertyText").text(property);
+
+                            } else {
+                                $('#get_link').val(0);
+                                $("#congratulationshow").css('display', 'none');
+                                $("#unitaddress").css('display', 'none');
+                                $("#propertyText").css('display', 'none');
+                                $("#unitText").css('display', 'none');
+                                console.log('no');
+                            }
+
+                        }
+                    });
+                   } 
+
+                });
+                $('#phone').on('blur', function() {
+                    if(($('#get_link').val() != 1)|| ($('#get_link_2').val() == '')){
+                        var phone = $(this).val();
+                        $.ajax({
+                            url: "{{ route('frontend.consumer-phone-check') }}",
+                            type: 'get',
+                            data: {
+                                'phone': phone
+                            },
+                            success: function(result) {
+                                if (result.success == true) {
+                                    var property = result.data.providers.name + ', ' + result.data
+                                        .providers.address + ', ' + result.data.providers.city + ', ' +
+                                        result.data.providers.states.name + ', ' + result.data.providers
+                                        .zip_code;
+                                        console.log(property);
+                                    $('#get_link_2').val(1);
+                                    $("#congratulationshow2").css('display', 'block');
+                                    $("#unitaddress2").css('display', 'block');
+                                    $("#propertyText2").css('display', 'block');
+                                    $("#unitText2").css('display', 'block');
+                                    $("#unitText2").text(result.data.building_name);
+                                    $("#propertyText2").text(property);
+                                } else {
+                                    $('#get_link_2').val(0);
+                                    $("#congratulationshow2").css('display', 'none');
+                                    $("#unitaddress2").css('display', 'none');
+                                    $("#propertyText2").css('display', 'none');
+                                    $("#unitText2").css('display', 'none');
+
+                                }
+                            }
+                        });
+                    }
+                    
+                });
+
+                $('#same_apartment').change(function() {
+                    if (this.checked) {
+                        let apartment = $('#consumerPropertyApartment').val();
+                        $('#consumerPropertyManagement').val(apartment);
+                        if (apartment != '') {
+                            $('#consumerPropertyManagement-error').hide();
+                        }
+                    } else {
+                        $('#consumerPropertyManagement').val('');
+                    }
+                });
+                $('#memberLogin').click(function() {
+                    $("#propertyModal").modal('hide');
+                    $('#loginModal').modal('show');
+                });
+                // $("#propertyForm").validate({
+                //     rules: {
+                //         apartment_name: "required",
+                //         city: "required",
+                //         state_id: "required",
+                //     },
+                //     messages: {
+                //         apartment_name: " Please enter your Apartment Name", 
+                //         city: "Please enter your apartment City Name", 
+                //         state_id:  "Please enter your apartment State", 
+                //     }
+                // });
+
+                $("#propertyForm").submit(function(e) {
+                    e.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                   
+                    $.ajax({
+                        url: "{{ route('frontend.add-property') }}",
+                        type: 'POST',
+                        data: {
+                            user_id: $('#consumerPropertyId').val(),
+                            apartment_name: $("#consumerPropertyApartment").val(),
+                            property_management_name: $("#consumerPropertyManagement").val(),
+                            city: $('#consumerPropertyCity').val(),
+                            zip_code: $("#consumerPropertyCode").val(),
+                            state_id: $('#consumerPropertyState').val(),
+                        },
+                        success: function(result) {
+                            console.log(result);
+                            if (result.status == 1) {
+                                $("#propertyModal").modal('hide');
+                                $("#Join-Today").modal('hide');
+                                $("#thanksmodal").modal('show');
+                                $("#thanks_message1").html(result.message1);
+                                $("#thanks_message2").html(result.message2);
+                                //$('#Join-Today').find('form').trigger('reset');
+                                $('#propertyModal').find('form').trigger('reset');
+                            } else if(result.status == 0){
+                                $("#propertyModal").modal('show');
+                            }
+                            else if(result.status == 9){
+                                $("#propertyModal").modal('show');
+                                $("#apartmentError").css('color','red').html('Please enter your Apartment Name with city and state to submit your request. Our team will reach out to your property manager to be added to the Gimmzi Network.');
+                            }
+                        }
+                    });
+
+                })
+            });
+
+            $(document).on('click','.browserProvider',function(){
+                // console.log($(this).children('h4.community_name').text());
+                if($(this).children('h4.community_name').text() == 'Apartment Community'){
+                    $(".provider_logo").attr('src',"{{ asset('frontend_assets/images/logo-apartment.png') }}");
+                    $(".brows-btn").text('Browse for an Apartment');
+                    $(".brows-btn").attr('href',"{{ route('frontend.apartment.list') }}");
+                    $(".provider_title").text('Log in to the property manager portal');
+                }
+                if($(this).children('h4.community_name').text() == 'Travel and Tourism'){
+                    $(".provider_logo").attr('src',"{{ asset('frontend_assets/images/logo-travel-tourism.jpeg') }}");
+                    $(".brows-btn").text('Browse for Travel and Tourism');
+                    $(".brows-btn").attr('href',"{{ route('frontend.travel-tourism.list') }}");
+                    $(".provider_title").text('Travel and Tourism Provider Portal Access');
+                }
+                $("#exampleModal").modal('show');
+            });
+
+            $(document).on('click','.caret_dwn',function(){
+                if($(".provider_type_lstng").css('display') == 'none'){
+                    $(".provider_type_lstng").css('display','block');
+                }
+                else{
+                    $(".provider_type_lstng").css('display','none');
+                }
+                
+            })
+            $(document).on('click','.portalName',function(){
+                 //console.log($(this).text());
+                 $("#provider_user_type").val($(this).text());
+                 $("#nav-home-tab").children('span.tab_ttle').text($(this).text());
+                 $(".provider_type_lstng").css('display','none');
+            });
+        </script>
+    @endpush

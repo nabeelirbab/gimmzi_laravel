@@ -1,0 +1,12 @@
+dev-deployment:
+ variables:
+   GIT_STRATEGY: fetch
+ script:
+   - bash ~/gitlab/deploylaravelproject.sh
+ environment:
+     name: Development
+     url : https://gimmzi-smart.dedicateddevelopers.us
+ tags:
+   - custom-laravel
+ only:
+   - dev 

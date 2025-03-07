@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Gimmzi</title>
+
+    <!-- fabicon -->
+    <link rel="shortcut icon" type="images/x-icon" href="./images/favicon.ico" />     <!-- All CSS -->
+
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="css/all.css" />
+    <link rel="stylesheet" href="css/brands.css" />
+    <link rel="stylesheet" href="css/fontawesome.css" />
+    <link rel="stylesheet" href="css/regular.css" />
+    <link rel="stylesheet" href="css/solid.css" />
+
+    <link rel="stylesheet" href="css/slick.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/custom-style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="rental.css" />
+    <link rel="stylesheet" href="wizard.css" />
+  </head>
+
+  <body>
+    <header class="main-head">
+      <div class="container top-header">
+        <nav class="navbar navbar-expand-lg header-m">
+          <a class="navbar-brand" href="index.html"
+            ><img src="./images/logo-marchant.png"
+          /></a>
+          <button
+            class="navbar-toggler navbar-toggler-main"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <!-- <span class="navbar-toggler-icon"></span> -->
+            <span class="stick"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <button
+              class="navbar-toggler navbar-toggler-main"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <!-- <span class="navbar-toggler-icon"></span> -->
+              <span class="stick"></span>
+            </button>
+            <ul class="navbar-nav ms-auto top-navication">
+              <li class="header_close_btn">
+                <a href="#"> Close</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <button
+        class="navbar-toggler"
+        id="navoverlay"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      ></button>
+    </header>
+    <div class="wizard-body mb-5">
+        <div class="container ">
+            <div class="row">
+              <div class="col-lg-3">
+                <div class="left_step">
+                  <ul>
+                    <li>
+                      <div class="d-flex">
+                        <div class="green_tick green_line grey_circle margin-right">
+                          <img src="images/steptick.svg" alt="img" />
+                        </div>
+                        <div>
+                          <h6>Step One</h6>
+                          <p>Add date span</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="d-flex">
+                        <div class="grey_circle green_tick margin-right">
+                            <img src="images/steptick.svg" alt="img" />
+                        </div>
+                        <div>
+                          <h6>Step Two</h6>
+                          <p>Upload photo to use for deal</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="d-flex">
+                        <div class="grey_circle margin-right"></div>
+                        <div>
+                          <h6>Step Three</h6>
+                          <p>Add deal description and calculate Smart Point value</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="d-flex">
+                        <div class="grey_circle margin-right"></div>
+                        <div>
+                          <h6>Step Four</h6>
+                          <p>
+                            Enter the number of vouchers, add participating locations
+                            & preview deal
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="text-center">
+                    <button class="deal_btn btn">Deal Management</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-9">
+                <div class="right_box_section step-2">
+                  <div class="heading_sec">
+                    <h1>Add deal Description</h1>
+                   
+                        <select>
+                          <option value="0">BUY ONE ENTREE AND GET $5 OFF SECOND ENTREE</option>
+                          <option value="1">1</option>
+                          </select>
+                  </div>
+                  <div class="form-section">
+                    <div >
+                        <span>required*</span>
+                      <textarea class="add-iten-description-textarea">Add item description including the discount and any terms for the discount here. For example, FREE medium fry with purchase of value meal. *
+                      </textarea>
+                        <small class="character">Maximum of 120 characters</small>
+                    </div>
+                 
+                <p class="top-space-one11">Next, we will help you calculate the Smart Rewards point value</p>
+                  <div class="down_part">
+                    <div class="d-flex align-items-center">
+                        <h6>How much is the original sales price of this item? *</h6>
+                        <div class="price_box mx-3">$ 19.95</div>
+                    </div>
+                    <div class="d-flex align-items-center mt-4">
+                        <h6>What kind of discount are you offering on this item? *</h6>
+                        <div class="d-flex mx-3">
+                            <label class="container_radio">
+                              <input type="radio" checked="checked" name="radio1" />
+                              <span class="checkmark"></span>Free
+                            </label>
+                            <label class="container_radio mx-4">
+                              <input type="radio" checked="checked" name="radio1" />
+                              <span class="checkmark"></span>Dolloar ($)
+                            </label>
+                            <label class="container_radio ">
+                                <input type="radio" checked="checked" name="radio1" />
+                                <span class="checkmark"></span>Percentage (%)
+                              </label>
+                          </div>
+                    </div>
+                    <div class="d-flex align-items-center mt-4">
+                        <h6>Enter the discount amount *</h6>
+                        <div class="price_box mx-3">$2.00</div>
+                        <small>For the most attractive deal, we recommend at least half off the orginal sales price.</small>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="btn_section btn_section_two">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center">
+                        <div>
+                            <button class="btn back-button12">Back</button>
+                            <button class="btn next_btn11">Next</button>
+                            <button class="btn preview-deal1" data-bs-toggle="modal" data-bs-target="#exampleModal">Preview deal</button>
+                        </div>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                              <div class="modal-body position-relative">
+                                <button type="button" class="close-button-one11" data-bs-dismiss="modal"><img src="./images/cross-icon.svg" alt="img" /></button>
+                              <div class="preview-deal-modal-main">
+                                <div class="prvw_dl_main_row">
+                                  <div class="row">
+                                    <div class="col-lg-4 prvw_dl_col">
+                                      <div class="prvw_dl_col_inner">
+                                        <h2>Tequila Comida & Cantina</h2>
+                                        <div class="logo_wth_img">
+                                          <figutre class="logo_img">
+                                            <img src="images/11rectangle-img.svg" alt="img">
+                                          </figutre>
+                                          <figure class="lg_bs_img">
+                                            <img src="./images/modal-img1.png" alt="img">
+                                          </figure>
+                                        </div>
+                                        <div class="use_deal_btn_cont">
+                                          <button class="deactive-deal1">USE deal NOW</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-4 prvw_dl_col">
+                                      <div class="prvw_dl_col_inner">
+                                        <div class="prvw_dl_offer_head">
+                                          <h2>Limited Time Offer</h2>
+                                          <p>Buy One Entree and Get <br> $5 off Second Entree</p>
+                                        </div>
+                                        <div class="deal-point-text">
+                                          <h2>Used for deal: <span>200</span> Points</h2>
+                                          <h3>Deal Expires: --------------</h3>
+                                        </div>
+                                        <div class="terms_link">
+                                          <a href="#">Terms and Conditions Deals</a>
+                                        </div>
+                                      </div>
+                                    </div>  
+                                    <div class="col-lg-4 prvw_dl_col">
+                                      <div class="prvw_dl_col_inner">
+                                          <div class="bottom-location-main">
+                                            <p><img src="./images/location-icon44.svg" alt="img" /> 5607 Carolina Beach Road Wilmington, NC 28412</p>
+                                            <p><img src="./images/call-16.svg" alt="img" /> 910-399-1643</p>
+                                            <!-- <button class="get-direction-text1">Get Directions</button> -->
+                                            <button class="get-direction-text1">choose participating location</button>
+                                          </div>
+                                            <button class="use-deal-now1 rmv_frm_wlt_btn">Remove from wallet</button>
+                                        </div>
+                                      </div>   
+                                    </div>
+                                  </div>
+                              <!-- <div class="preview-deal-modal-top d-flex justify-content-space-between modal-space1">
+                                    <div class="preview-deal-modal-top-left">
+                                      <figutre class="figure-img1">
+                                        <img src="images/11rectangle-img.svg" alt="img" />
+                                      </figutre>
+                                    <div>
+                                    <h2>Tequila Comida & Cantina</h2>
+                                    <p>$ 2.00 OFF ALL FAJITAS</p>
+                                  </div> 
+                                    </div>
+                                    <div class="preview-deal-modal-top-right">
+                                      <ul>
+                                        <li> <img src="./images/modal-img1.png" alt="img" /></li>
+                                        <li> <img src="./images/modal-img2.png" alt="img" /></li>
+                                        <li> <img src="./images/modal-img3.png" alt="img" /></li>
+                                      </ul>
+                                    </div>
+                              </div> -->
+                                  <!-- <div class="row modal-space1">
+                                  <div class="col-sm-6 deal-point-text">
+                                    <h2>Used for deal: <span>200</span> Points</h2>
+                                    <h3>Deal Expires: --------------</h3>
+                                  </div>
+                                  <div class="col-sm-6 preiew-modal-bottom1">
+                                  <button class="use-deal-now1">DEACTIVATE deal</button>
+                                  <button class="deactive-deal1">USE deal NOW</button>
+                                  </div>
+                                  </div>
+                                  <div class="bottom-location-main">
+                                  <p><img src="./images/location-icon44.svg" alt="img" /> 5607 Carolina Beach Road Wilmington, NC 28412</p>
+                                  <p><img src="./images/call-16.svg" alt="img" /> Phone: 910-399-1643</p>
+                                  <button class="get-direction-text1">Get Directions</button>
+                                  </div> -->
+                                </div>
+                              </div>
+                             
+                            </div>
+                          </div>
+                          </div>
+                          <h6>Profile Completion :<span>60%</span> </h6>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>  
+    <footer class="footer">© 2022 <a href="#">Gimmzi LLC.</a></footer>
+    <!-- <span id="scroll" style="display: none;"><i class="fas fa-angle-up"></i></span> -->
+
+    <!-- Jquery-->
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/slick.min.js"></script>
+  </body>
+</html>

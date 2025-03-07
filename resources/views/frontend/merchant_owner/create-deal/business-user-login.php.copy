@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>Gimmzi</title>
+	<!-- fabicon -->
+	<link rel="shortcut icon" type="images/x-icon" href="./images/favicon.ico" />
+	<!-- All CSS -->
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="css/all.css" />
+	<link rel="stylesheet" href="css/brands.css" />
+	<link rel="stylesheet" href="css/fontawesome.css" />
+	<link rel="stylesheet" href="css/regular.css" />
+	<link rel="stylesheet" href="css/solid.css" />
+	<link rel="stylesheet" href="css/slick.css" />
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="css/custom-style.css" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="rental.css" />
+	<link rel="stylesheet" href="wizard.css" />
+	<link rel="stylesheet" href="custom.css"> </head>
+
+<body>
+	<header class="main-head">
+		<div class="container top-header">
+			<nav class="navbar navbar-expand-lg header-m">
+				<a class="navbar-brand" href="index.html"><img src="./images/logo-marchant.png" /></a>
+				<button class="navbar-toggler navbar-toggler-main" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<!-- <span class="navbar-toggler-icon"></span> --><span class="stick"></span> </button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<button class="navbar-toggler navbar-toggler-main" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<!-- <span class="navbar-toggler-icon"></span> --><span class="stick"></span> </button>
+					<ul class="navbar-nav ms-auto top-navication">
+						<li class="header_close_btn"> <a href="#"> Close</a> </li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+		<button class="navbar-toggler" id="navoverlay" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"></button>
+	</header>
+	<div class="wizard-body">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="left_step">
+						<ul>
+							<li>
+								<div class="d-flex">
+									<div class="green_tick grey_circle margin-right"> <img src="images/steptick.svg" alt="img" /> </div>
+									<div>
+										<h6>Step One</h6>
+										<p>Create your user login and tell us about your business</p>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="d-flex">
+									<div class="grey_circle margin-right"></div>
+									<div>
+										<h6>Step Two</h6>
+										<p>Upload your company logo and photos so your business can stand out</p>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="d-flex">
+									<div class="grey_circle margin-right"></div>
+									<div>
+										<h6>Step Three</h6>
+										<p>Create first deal using Deal Wizard</p>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="d-flex">
+									<div class="grey_circle margin-right"></div>
+									<div>
+										<h6>Step Four</h6>
+										<p> Access and review features of newly created profile on Business Profile Page </p>
+									</div>
+								</div>
+							</li>
+						</ul>
+						<div class="text-center">
+							<button class="deal_btn btn">My Business Profile Page</button>
+						</div>
+				</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="right_box_section create_user_box_sec">
+						<div class="heading_sec">
+							<h1>Create Your business User Login</h1> 
+							<h4><strong>Your Username:</strong> crown22@crwnsfd.com</h4>
+            </div>
+						<div class="form-section headline-sec">
+							<!-- <h6> Your Contact Details </h6>
+							<p>Tell us how can Smart Rewards Team reach you</p> -->
+							<form>
+								<div class="row">
+									<div class="col-md-12 form_top_crt_acc">
+										<div class="row">
+											<div class="col-md-4 margin-top">
+												<input type="text" placeholder="Enter Validation Code"> 
+											</div>
+											<div class="col-md-4 margin-top">
+												<input type="text" placeholder="New Password"> 
+											</div>
+											<div class="col-md-4 margin-top">
+												<input type="text" placeholder="Confirm Password"> 
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-12 form_mid_crt_acc">
+
+										<div class="row">
+
+											<div class="col-md-4 margin-top">
+												<input type="text" placeholder="First & last name*" /> </div>
+											<div class="col-md-4 margin-top">
+												<input type="text" placeholder="Preferred Email*" /> </div>
+												<div class="col-md-4 margin-top">
+													<select >
+														<option value="1">Select Your Title</option>
+														<option value="2">Owner</option>
+														<option value="3">Part Owner</option>
+														<option value="4">Manager</option>
+														<option value="5">Regional Manager</option>
+													</select> 
+												</div>
+											<div class="col-md-4 margin-top">
+												<input type="text" placeholder="Preferred Phone*" /> 
+										    </div>
+											<div class="col-md-4 margin-top">
+													<input type="text" placeholder="Phone Ext" /> 
+											</div>
+											<div class="col-md-4 margin-top">
+													<input type="text" placeholder="Type Your Official Title Here" /> 
+											</div>
+											<div class="col-md-12">
+												<small>Confirm above that this is the number we can reach you if further verification is needed</small>
+											</div>
+
+										</div>
+
+									</div>
+
+									<div class="col-md-12 form_end_crt_acc">
+										<h5>Business Verification</h5>
+										<p>Upload a copy of documentation that verifies your connection to this company. For example, an employee ID card, business license, or TIN Letter.</p>
+										<input type="file" id="files" name="files" multiple>
+									</div>
+
+									<div class="col-md-12 margin-top">
+										<div class="custom-checkbox">
+											<input type="checkbox" />
+											<p> Yes, I want to receive Gimmzi emails on the latest merchant news, events, and products, I can unsubcribe at any time. </p>
+										</div>
+									</div>
+
+									<div class="col-md-12 margin-top">
+										<div class="custom-checkbox">
+											<input type="checkbox" />
+											<p> <b>I do not have the documentation to verify right now.</b> <br>
+												Verification is required to complete account activation. <br>
+												Pending verification statuses will expire and delete in days.
+											</p>
+										</div>
+									</div>
+									<div class="col-md-12 margin-top">
+										<div class="btn_section btn-box">
+											<div class="d-flex flex-wrap justify-content-between align-items-center">
+												<div>
+													<button class="btn next_btn">Next</button>
+												</div>
+												<h6>Profile Completion :<span>25%</span> </h6> </div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+  </div>
+		<footer class="footer">© 2022 <a href="#">Gimmzi LLC.</a></footer>
+		<!-- <span id="scroll" style="display: none;"><i class="fas fa-angle-up"></i></span> -->
+		<!-- Jquery-->
+		<script src="js/jquery-3.5.1.min.js"></script>
+		<script src="js/bootstrap.bundle.min.js"></script>
+		<script src="js/slick.min.js"></script>
+</body>
+
+</html>

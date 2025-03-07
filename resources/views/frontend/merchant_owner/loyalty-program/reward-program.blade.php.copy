@@ -1,0 +1,925 @@
+<x-layouts.frontend-layout title="Business Owners Create Deal Page">
+    <div class="all-smart-rental-database-main-sec show-filled-units-only corporate-lead-setting-1-main-sec loyality-rewards-program-sec-main purchase-goal-sec-main-new-page">
+
+        <div class="middle-smart-rental-sec">
+            <div class="container">
+                <div class="middle-smart-rental-sec-all">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="all-corporate-lead-seting-1-flex">
+                                <div class="left-sec-home">
+                                    <span>
+                                        <img src="{{ Auth::user()->merchantBusiness->logo_image }}" alt=""
+                                            style="width: 102px;height: 87px;border-radius: 4px;" />
+                                    </span>
+                                </div>
+                                <div class="right-sec-rental">
+                                    <h3>{{ Auth::user()->merchantBusiness->business_name }}</h3>
+                                    <div class="apartments-sec">
+                                        <ul>
+                                            <li>
+                                                <div class="left-apartments-data">
+                                                    <h6>
+                                                        <span class="icon-img-sec-rental"><img
+                                                                src="{{ asset('frontend_assets/images/location-icon-rental-1.svg') }}"
+                                                                alt="" /></span>Address:
+                                                        <span class="points-distributed-txt">5607 Carolina beach Road
+                                                            Wilmington, NC 28412</span>
+                                                    </h6>
+                                                </div>
+                                                <div class="apartment-right-data">
+                                                    <h6>
+                                                        <span class="icon-img-sec-rental"><img
+                                                                src="{{ asset('frontend_assets/images/email-icon-1-rental.svg') }}"
+                                                                alt="" /></span>Mail:<span
+                                                            class="points-distributed-txt">{{ Auth::user()->email }}</span>
+                                                    </h6>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="left-apartments-data">
+                                                    <h6>
+                                                        <span class="icon-img-sec-rental"><img
+                                                                src="{{ asset('frontend_assets/images/call-16.svg') }}"
+                                                                alt="" /></span>Phone:
+                                                        <span class="number-txt">{{ Auth::user()->phone }}</span>
+                                                    </h6>
+                                                </div>
+                                            </li>
+                                            <li><button class="view-active-status-btn">Edit Account Details</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3 top-space-one14">
+                            <div class="right-sec-account-status-lead-setting-1">
+                                <figure><img src="{{ asset('frontend_assets/images/lead-setting-people-icon.svg') }}"
+                                        alt=""></figure>
+                                <h3>Account Status</h3>
+                                @if (Auth::user()->active == 1)
+                                    <p style="color: green;"><i style="background: green;"></i>Active</p>
+                                @else
+                                    <p style="color: red;"><i style="background: red;"></i>Inactive</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p class="to-add-aditional-loyality-txt">To add additional features such as Loyalty Reward
+                                Programs,
+                                upgrade to Merchant Plus <a href="">Here</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="allen-part-tab-one-main loyality-rewards-program-tab-sec">
+                    <nav>
+                        <div class="nav nav-tabs mb-3 nav-cutom-tabs" id="nav-tab" role="tablist">
+
+                            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                                aria-selected="true">Bulid Your <span class="loyality-text">Loyalty Rewards
+                                    Program</span></button>
+                            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
+                                aria-selected="false">Manage Programs
+                            </button>
+                            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact"
+                                aria-selected="false">Program Database
+                            </button>
+
+                        </div>
+                    </nav>
+
+                    <div class="tab-content allen-container-mid" id="nav-tabContent">
+                        <div class="tab-pane fade active show" id="nav-home" role="tabpanel"
+                            aria-labelledby="nav-home-tab">
+
+                            {{ Form::open(['route' => 'frontend.business_owner.loyal_reward_store', 'method' => 'POST', 'class' => 'kt-form parsley-validate', 'style' => 'color:red;', 'files' => true]) }}
+
+                            <div class="build-your-loyality-first-tab-sec">
+                                <div class="first-tab-build-sec">
+                                    <h6>Select the date you would like to start your Loyalty rewards Program.</h6>
+                                    <div class="form-group">
+                                        <input type="date" name="start_on">
+                                        <!-- <p>Start date</p> -->
+                                    </div>
+                                </div>
+                                @if ($errors->has('start_on'))
+                                    <div class="error">{{ $errors->first('start_on') }}</div>
+                                @endif
+                            </div>
+
+                            <div class="loyality-rewards-last-sec">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="left-tab__sec">
+                                            <ul>
+                                                <li>
+                                                    <p>Select the type of <b class="bluetext">Loyalty Rewards
+                                                            Program</b> you would like to bulid.</p>
+                                                </li>
+
+                                                <li>
+                                                    <div class="purchase-goal-sec-new">
+                                                        <p>Purchase Goal (Free)</p>
+                                                        <div class="form-group-custom-radio">
+                                                            <input type="radio" name="purchase_goal" value="free"
+                                                                {{ old('purchase_goal') == 'free' ? 'checked' : '' }}>
+                                                            <label for="">Purchase a certain number of an item
+                                                                and get one for FREE</label>
+                                                            <span class="checkmark"></span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="purchase-goal-sec-new">
+                                                        <p>Purchase Goal (Deal Discount)</p>
+                                                        <div class="form-group-custom-radio">
+                                                            <input type="radio" name="purchase_goal"
+                                                                value="deal_discount">
+                                                            <label for="">Spend a certain dollar amount on
+                                                                certain items and receive a dollar amount deal discount
+                                                            </label>
+                                                            <span class="checkmark"></span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    @if (old('purchase_goal') == 'free')
+                                        <div class="col-md-6 free_goal" style="display:block;">
+                                        @else
+                                        <div class="col-md-6 free_goal" style="display:none;">
+                                            @endif
+                                            <div class="right-tab-sec-purchase-goal">
+                                                <div class="all-field-txt-purchase-goal">
+                                                    <div class="form-group">
+                                                        <label for="">What Item or items would you like to use for
+                                                            this loyalty program?
+                                                        </label>
+                                                        <select class="select-item" name="free_item[]"
+                                                        id="item_id" multiple>
+                                                        <option value="" selected disabled>Select Item Or Items</option>
+                                                        @if ($item)
+                                                            @foreach ($item as $data)
+                                                            <option value="{{ $data->id }}" <?php if (old('free_item') == $data->id) {
+                                                                    echo 'selected';
+                                                                } ?>>
+                                                                {{ $data->item_name }}</option>
+                                                            @endforeach
+                                                            @endif
+                                                        </select>
+                                                        
+                                                    @if ($errors->has('free_item'))
+                                                        <div class="error">{{ $errors->first('free_item') }}</div>
+                                                    @endif
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="">How many of these does your customer have to
+                                                    buy before they earn one free?
+                                                </label>
+                                                <input type="text" name="have_to_buy"
+                                                    placeholder="Enter the  number of the items needed"
+                                                    value="{{ old('have_to_buy') }}">
+                                                @if ($errors->has('have_to_buy'))
+                                                    <div class="error">{{ $errors->first('have_to_buy') }}</div>
+                                                @endif
+                                            </div>
+                                            <div class="customer-last-sec-purchase-goal form-group">
+                                                <p class="customer-get-the">
+                                                    <label class="what-item-one">And the customer get the
+                                                    </label>
+                                                    <label class="what-item-one"> <input type="text"
+                                                            name="free_item_no" placeholder="Enter here"
+                                                            value="{{ old('free_item_no') }}">
+                                                    </label>
+                                                    <label class="what-item-one"> Free </label>
+                                                    @if ($errors->has('free_item_no'))
+                                                        <div class="error">{{ $errors->first('free_item_no') }}</div>
+                                                        @endif
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if (old('purchase_goal') == 'deal_discount')
+                                        <div class="col-md-6 deal_discount_goal" style="display:block;">
+                                            @else
+                                            <div class="col-md-6 deal_discount_goal" style="display:none;">
+                                                @endif
+                                                <div class="right-tab-sec-purchase-goal">
+                                                    <div class="all-field-txt-purchase-goal">
+                                                        <div class="form-group">
+
+                                            <label for="">What Item or items would you like to use for
+                                                this loyalty program?
+                                            </label>
+                                            <select class="select-item" name="discount_item[]" multiple
+                                                id="item_id">
+                                                <option value="" selected disabled>Select Item Or Items</option>
+                                                @if ($item)
+                                                    @foreach ($item as $data)
+                                                        <option value="{{ $data->id }}" <?php if (old('discount_item') == $data->id) {
+                                                            echo 'selected';
+                                                        } ?>>
+                                                            {{ $data->item_name }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            @if ($errors->has('discount_item'))
+                                                <div class="error">{{ $errors->first('discount_item') }}
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">How much (dollar amonut) does your customer
+                                                have to spent before they recieve this deal discount?
+                                            </label>
+                                            <input type="text" name="spend_amount"
+                                                placeholder="Enter the dollar amount needed to spend here"
+                                                value="{{ old('spend_amount') }}">
+                                            @if ($errors->has('spend_amount'))
+                                                <div class="error">{{ $errors->first('spend_amount') }}
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="form-group customer-get-the">
+                                            <span class="what-item-one">And the customer get the</span>
+                                            <span class="what-item-one a-width"> <input type="text"
+                                                    name="discount_amount" placeholder="Enter discount"
+                                                    value="{{ old('discount_amount') }}">
+                                                @if ($errors->has('discount_amount'))
+                                                    <div class="error">
+                                                        {{ $errors->first('discount_amount') }}</div>
+                                                @endif
+                                            </span>
+                                            <span class="what-item-one"> OFF </span>
+                                            <span class="what-item-one new-select1">
+                                                <select class="" id="when" name="when_order"
+                                                    value="{{ old('when_order') }}">
+                                                    <option value="">When?</option>
+                                                    <option value="current">Current</option>
+                                                    <option value="next">Next</option>
+                                                </select>
+                                                @if ($errors->has('when_order'))
+                                                    <div class="error">{{ $errors->first('when_order') }}
+                                                    </div>
+                                                @endif
+                                            </span>
+                                            <span class="what-item-one">order.</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="last-cancel-save-btn-sec-purchase-goal-loyality">
+                                <button class="cancel-btn">CANCEL</button>
+                                <button class="publish-btn publish" type="submit">Publish</button>
+                            </div>
+                            <div class="last-technical-issue-txt-loyality-purchase-goal">
+                                <a href="">Having Technical issues? Submit a Trouble ticket here</a>
+                            </div>
+                         {{ Form::close() }}
+                        </div>
+                    
+
+                        <div class="tab-pane active fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+                                            <!-- manage programs tab-->
+
+                            <div class="manage-program-tab-content-main-sec">
+                                <div class="filter-sec-manage-programs">
+                                    <select name="" id="">
+                                        <option value="">Filter</option>
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                    </select>
+                                </div>
+
+                                                <div class="table-manage-program-sec table-manage-program">
+                                                    <table>
+                                                        <tr>
+                                                            <th>Status</th>
+                                                            <th>Program Type</th>
+                                                            <th>Description of program</th>
+                                                            <th>Start Date</th>
+                                                            <th>End Date</th>
+
+                                            <th colspan="2">Action</th>
+                                        </tr>
+                                        @forelse ($loyalty as $data)
+                                            <tr>
+                                                <td>{{ $data->status == 1 ? 'Active' : 'Inactive' }}</td>
+                                                <td> Purchase Goal
+                                                    ({{ $data->purchase_goal == 'deal_discount' ? 'Deal Discount' : 'Free' }})
+                                                </td>
+                                                <td>{{ $data->program_name }}</td>
+                                                <td>{{ $data->start_on }}</td>
+                                                <td id="endOn{{ $data->id }}">{{ $data->end_on }}</td>
+
+                                                <td id="programBtn{{ $data->id }}">
+                                                    @php
+                                                        $today = date('Y-m-d');
+                                                        // dd($today , $data->start_on);
+                                                    @endphp
+                                                    @if ($data->start_on != $today && $data->end_on == '')
+                                                        @if ($data->start_on < $today)
+                                                            <button class="end-program-btn-sec end_btn{{ $data->id }}"
+                                                                id="end_program" data-id="{{ $data->id }}">End
+                                                                Program</button>
+                                                        @else
+                                                            Not Started yet
+                                                        @endif
+                                                    @elseif ($data->start_on != $today && $data->end_on != '')
+                                                        <button class="restart-program-btn-sec restart_btn{{ $data->id }}"
+                                                            id="restart_program" data-id="{{ $data->id }}">Restart
+                                                            Program</button>
+                                                    @elseif ($data->start_on == $today)
+                                                        Started Today
+                                                    @endif
+                                                </td>
+
+                                            </tr>
+                                        @empty
+                                            </tr>
+                                            <td>No Program available</td>
+                                            </tr>
+                                        @endforelse
+
+
+
+                                    </table>
+                                </div>
+                                <div
+                                    class="last-technical-issue-txt-loyality-purchase-goal new-tab-manage-program-technical-issue-txt">
+                                    <a href="">Having Technical issues? Submit a Trouble ticket here</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                            <!-- Program Database tab content -->
+                            <div class="manage-program-tab-content-main-sec programe-database-main-sec-tab-content">
+                                <div class="filter-sec-manage-programs">
+                                    <button class="add-manage-gifts-btn-sec" data-bs-toggle="modal"
+                                        data-bs-target="#Add-Manage-Gifts">Add/Manage Gifts</button>
+                                    <select name="" id="">
+                                        <option value="">Filter</option>
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                    </select>
+                                    <div class="modal fade" id="Add-Manage-Gifts" tabindex="-1"
+                                        aria-labelledby="Add-Manage-Gifts" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <!-- <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div> -->
+                                                <div class="modal-body white-modal white-modal-scroll text-left">
+                                                    <div class="d-flex justify-content-between">
+                                                        <h1>Gimmzi Gift Manager</h1>
+                                                        <button class="cancel-button" data-bs-dismiss="modal">CANCEL</button>
+                                                    </div>
+                                                    <div class="Gimmzi-Gift-Manager ">
+                                                        <h2>Enter the name of Gift Below</h2>
+                                                        <input type="text" class="Gimmzi-Gift-Manager-input"
+                                                            placeholder="Example: Large Drink" />
+                                                    </div>
+                                                    <div class="row value-of-this-gift">
+                                                        <div class="col-sm-6">
+                                                            <h3>Enter the Value of this Gift</h3>
+                                                            <h4>the amount the customer would normally pay</h4>
+                                                            <div class="customer-input">
+                                                                <label>$</label>
+                                                                <input type="text" class="value-input-text" />
+                                                                <label>.</label>
+                                                                <input type="text" class="value-input-text" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <h3>Notes (Optional)</h3>
+                                                            <textarea class="note-text"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="gift-database-main">
+                                                        <div class="d-flex justify-content-between">
+                                                            <h3>Gift Database</h3>
+                                                            <button>Add To Gift Database</button>
+                                                        </div>
+                                                        <div class="gift-database-table mt-4">
+                                                            <table class="gift-table-main table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>Status</td>
+                                                                        <td>name of Gift</td>
+                                                                        <td>Notes</td>
+                                                                        <td>Value</td>
+                                                                        <td>Action</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>Active</td>
+                                                                        <td>Point Pack( 100 pts)</td>
+                                                                        <td>Gimmzi Default Gift</td>
+                                                                        <td>N/A</td>
+                                                                        <td>N/A</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Active</td>
+                                                                        <td>Medium Soft Drink</td>
+                                                                        <td>&nbsp;</td>
+                                                                        <td><a href="#" class="view-value">View
+                                                                                Value</a></td>
+                                                                        <td><a href="#" class="remove-button">Remove</a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="smart-rewards">
+                                                            <h1>Smart Rewards Family & Friends Gift</h1>
+                                                            <div class="gift-database-table mt-4">
+                                                                <table class="gift-table-main table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <td>Status</td>
+                                                                            <td>name of Gift</td>
+                                                                            <td>Notes</td>
+                                                                            <td>Value</td>
+                                                                            <td>Action</td>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>Active</td>
+                                                                            <td>Free Appetizer</td>
+                                                                            <td>&nbsp;</td>
+                                                                            <td><a href="#" class="view-value">View
+                                                                                    Value</a></td>
+                                                                            <td><a href="#" class="turn-on-one">Turn
+                                                                                    on</a></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-manage-program-sec">
+                                    <table>
+                                        <tr>
+                                            <th class="custom-checkbox-all-product-database bg-color-blue"><input
+                                                    class="form-check-input" type="checkbox" value=""
+                                                    id="flexCheckDefault"></th>
+                                            <th>Member Name</th>
+                                            <th>Participating Program</th>
+                                            <th>Join Date</th>
+                                            <th>Program Progress</th>
+                                            <th>Send a Gimmzi Gift</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr>
+                                            <td class="custom-checkbox-all-product-database"><input class="form-check-input"
+                                                    type="checkbox" value="" id="flexCheckDefault"></td>
+                                            <td>Chris Rogers</td>
+                                            <td>Purchase 10 Tacos, Burritos, or taco salads and get the 11th for free
+                                            </td>
+                                            <td>07/01/2022</td>
+                                            <td>04/10 items (40%)</td>
+                                            <td class="custom-select-box-gift-program-database">
+                                                <select name="" id="">
+                                                    <option value="">Select Gift</option>
+                                                    <option value="">1</option>
+                                                    <option value="">2</option>
+                                                    <option value="">3</option>
+                                                </select>
+                                            </td>
+                                            <td><button class="send-program-btn-sec" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal">Send</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="custom-checkbox-all-product-database"><input class="form-check-input"
+                                                    type="checkbox" value="" id="flexCheckDefault"></td>
+                                            <td>Samantha Leslie</td>
+                                            <td>Purchase $100 or more worth of entrees and receive a $5 Discount</td>
+                                            <td>01/10/2022</td>
+                                            <td>$9.72 (10%)</td>
+                                            <td class="custom-select-box-gift-program-database">
+                                                <select name="" id="">
+                                                    <option value="">Select Gift</option>
+                                                    <option value="">1</option>
+                                                    <option value="">2</option>
+                                                    <option value="">3</option>
+                                                </select>
+                                            </td>
+                                            <td><button class="send-program-btn-sec" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal">Send</button></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class="gift-setting-sec">
+                                    <h4>Automatic Gimmzi Gift Settings</h4>
+                                    <div class="custom-checkbox-send-edit-setting">
+                                        <input class="form-check-input" type="checkbox" value=""
+                                            id="flexCheckDefault">
+                                        <label for="">Auto Send<span>Chips & Salsa</span>to Customers
+                                            with<span>50%</span>program Progress <button class="Edit-Setting-button"
+                                                data-bs-toggle="modal" data-bs-target="#exampleModal4">Edit
+                                                Setting</button></label>
+                                    </div>
+                                    <div class="custom-checkbox-send-edit-setting">
+                                        <input class="form-check-input" type="checkbox" value=""
+                                            id="flexCheckDefault">
+                                        <label for="">Auto Send<span>FREE APPETIZER</span>to Customers Whom Completed
+                                            <span>3</span> Loyalty Reward Programs within a <span>1 Year</span>
+                                            timeframe <a href="">Edit Setting</a></label>
+                                    </div>
+                                    <div class="custom-checkbox-send-edit-setting">
+                                        <input class="form-check-input" type="checkbox" value=""
+                                            id="flexCheckDefault">
+                                        <label for="">Auto Send<span>Chips & Salsa</span>to Customers their
+                                            birthday
+                                            <a href="">Edit Setting</a></label>
+                                    </div>
+                                </div>
+                                <div class="last-technical-issue-txt-loyality-purchase-goal new-tab-manage-program-technical-issue-txt">
+                                    <a href="">Having Technical issues? Submit a Trouble ticket here</a>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ...
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Program Database tab content end-->
+
+
+
+                                </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel4"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-data-sec">
+                    <div class="modal-content">
+
+                        <div class="modal-body white-modal white-modal-scroll text-left">
+                            <div class="d-flex justify-content-between">
+                                <h1>Automatic Gimmzi Gift Settings</h1>
+                                <button class="cancel-button" data-bs-dismiss="modal">CANCEL</button>
+                            </div>
+                            <div class="automatick-gimzi-content-top row">
+                                <div class="col-sm-6 align-items-center d-flex">
+                                    <label class="progrss-incon">Pro gress Incentive</label>
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div
+                                    class="col-sm-6 align-items-center d-flex justify-content-end progrss-status-text">
+                                    Status: <span>oN</span>
+                                </div>
+                            </div>
+                            <div class="p-con-one">
+                                <label>Auto Send </label>
+                                <select class="auto-send-select">
+                                    <option value="">Chips & Salsa</option>
+                                    <option value="">Chips & Salsa 1</option>
+                                </select>
+                                <label>To Customers with </label>
+                                <select class="auto-send-select">
+                                    <option value="">50%</option>
+                                    <option value="">100%</option>
+                                </select>
+                                <label>Program Progress </label>
+                            </div>
+                            <div class="automatick-gimzi-content-top row">
+                                <div class="col-sm-12 align-items-center d-flex justify-content-between">
+                                    
+                                <div><label class="progrss-incon">Program Completion Incentive
+                                        <small> (Smart rewards
+                                        family and friends gift)</small>
+                                    </label>
+                                    <span class="top-44">
+                                    <label class="switch pt-22">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                    </span> 
+                                </div>
+                                    <label class="pl-1 progrss-status-text-off">
+                                    Status: <span>OFF</span>
+                                    </label>
+                                </div>
+                                <div
+                                    class="col-sm-6 align-items-center d-flex justify-content-end ">
+                                    
+                                </div>
+                            </div>
+                            <div class="p-con-one">
+                                <div>
+                                    <label>Auto Send </label>
+                                    <select class="auto-send-select">
+                                        <option value="">Free Appetizer</option>
+                                        <option value="">Free Appetizer 1</option>
+                                    </select>
+                                    <label>to Customers whom have completed</label>
+                                    <select class="auto-send-select">
+                                        <option value="">3</option>
+                                        <option value="">2</option>
+                                    </select>
+                                </div>
+                                <div class="mt-2">
+                                    <label>Loyalty Reward Programs Within </label>
+                                    <select class="auto-send-select">
+                                        <option value="">3</option>
+                                        <option value="">2</option>
+                                    </select>
+                                    <select class="auto-send-select">
+                                        <option value="">Year</option>
+                                        <option value="">2</option>
+                                    </select>
+                                    <label>
+                                        Timeframe.
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="automatick-gimzi-content-top row">
+                                <div class="col-sm-12 align-items-center d-flex justify-content-between">
+                                    
+                                <div><label class="progrss-incon">Birthday Gift Incentive <small>(Customer has to been
+                                        signed up for at least 3 months to receive)</small></label>
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label></div>
+                                    <label class="pl-1 float-right">
+                                        <span class="progrss-status-text"> Status: <span>ON</span>
+                                    </label>
+                                </div>
+                                
+                            </div>
+                            <div class="p-con-one">
+                                <label>Auto Send </label>
+                                <select class="auto-send-select">
+                                    <option value="">Chips & Salsa</option>
+                                    <option value="">Chips & Salsa 1</option>
+                                </select>
+                                <label>To Customers On their birthdays </label>
+                            </div>
+                            <div><button class="update-button1">Update</button></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="Add-Manage-Gifts" tabindex="-1" aria-labelledby="Add-Manage-Gifts"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-body white-modal white-modal-scroll text-left">
+                        <div class="d-flex justify-content-between">
+                            <h1>Gimmzi Gift Manager</h1>
+                            <button class="cancel-button" data-bs-dismiss="modal">CANCEL</button>
+                        </div>
+                        <div class="Gimmzi-Gift-Manager ">
+                            <h2>Enter the name of Gift Below</h2>
+                            <input type="text" class="Gimmzi-Gift-Manager-input"
+                                placeholder="Example: Large Drink" />
+                        </div>
+                        <div class="row value-of-this-gift">
+                            <div class="col-sm-6">
+                                <h3>Enter the Value of this Gift</h3>
+                                <h4>the amount the customer would normally pay</h4>
+                                <div class="customer-input">
+                                    <label>$</label>
+                                    <input type="text" class="value-input-text" />
+                                    <label>.</label>
+                                    <input type="text" class="value-input-text" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <h3>Notes (Optional)</h3>
+                                <textarea class="note-text"></textarea>
+                            </div>
+                        </div>
+                        <div class="gift-database-main">
+                            <div class="d-flex justify-content-between">
+                                <h3>Gift Database</h3>
+                                <button>Add To Gift Database</button>
+                            </div>
+                            <div class="gift-database-table mt-4">
+                                <table class="gift-table-main table">
+                                    <thead>
+                                        <tr>
+                                            <td>Status</td>
+                                            <td>name of Gift</td>
+                                            <td>Notes</td>
+                                            <td>Value</td>
+                                            <td>Action</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Active</td>
+                                            <td>Point Pack( 100 pts)</td>
+                                            <td>Gimmzi Default Gift</td>
+                                            <td>N/A</td>
+                                            <td>N/A</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Active</td>
+                                            <td>Medium Soft Drink</td>
+                                            <td>&nbsp;</td>
+                                            <td><a href="#" class="view-value">View
+                                                    Value</a></td>
+                                            <td><a href="#" class="remove-button">Remove</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="smart-rewards">
+                                <h1>Smart Rewards Family & Friends Gift</h1>
+                                <div class="gift-database-table mt-4">
+                                <div class="table-manage-program-sec">
+                                    <table class="gift-table-main table">
+                                        <thead>
+                                            <tr>
+                                                <td>Status</td>
+                                                <td>name of Gift</td>
+                                                <td>Notes</td>
+                                                <td>Value</td>
+                                                <td>Action</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>Active</td>
+                                                <td>Free Appetizer</td>
+                                                <td>&nbsp;</td>
+                                                <td><a href="#" class="view-value">View
+                                                        Value</a></td>
+                                                <td><a href="#" class="turn-on-one">Turn
+                                                        on</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+                @push('scripts')
+                <script>
+                // alert($.cookie("tabid"));
+                // if($.cookie("tabid") == 'nav-profile-tab1'){
+                //     $('.nav-link').removeClass('active');
+                //     $('#nav-profile-tab1').addClass('active');
+                // }
+                // else{
+                //     $('.nav-link').removeClass('active');
+                //     $('#nav-home-tab').addClass('active');
+                // }
+                // if($.cookie("divid") == 'nav-profile'){
+                //     $('.tab-pane fade').removeClass('active');
+                //     $('.tab-pane fade').removeClass('show');
+                //     $('#nav-profile').addClass('active');
+                //     $('#nav-profile').addClass('show');
+                // }
+
+            $('input[type=radio]').on('click', function() {
+
+                // console.log($("input:radio:checked").val());
+                if ($("input:radio:checked").val() == 'free') {
+                    $(".free_goal").css('display', 'block');
+                } else {
+                    $(".free_goal").css('display', 'none');
+                }
+                if ($("input:radio:checked").val() == 'deal_discount') {
+                    $(".deal_discount_goal").css('display', 'block');
+                } else {
+                    $(".deal_discount_goal").css('display', 'none');
+                }
+
+            });
+
+                $(document).ready(function() {
+                    $("#end_program").on('click', function() {
+                        // console.log('true');
+                        var end_Id = $(this).data('id');
+                        // console.log(end_Id);
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: '{{ route('loyalty.end.program') }}',
+                            type: 'post',
+                            data: {
+                                'end_Id': end_Id
+                            },
+                            success: function(response) {
+                                if (response.success == 1)
+                                    //     $("#endOn" + end_Id).html(response.data);
+                                    // $(".end_btn" + end_Id).hide();
+                                    // $(".restart_btn" + end_Id).show();
+                                    // $.cookie("tabid", 'nav-profile-tab1');
+                                    // $.cookie("divid", 'nav-profile');
+                                    location.reload();
+                                // $("#nav-home-tab").removeClass('active');
+                                // $("#nav-profile-tab1").addClass('active');
+
+                        }
+                    });
+                });
+            });
+
+
+                $(document).ready(function() {
+                    $("#restart_program").on('click', function() {
+                        // console.log('true');
+                        var restart_Id = $(this).data('id');
+                        // console.log(end_Id);
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: '{{ route('loyalty.restart.program') }}',
+                            type: 'post',
+                            data: {
+                                'restart_Id': restart_Id
+                            },
+                            success: function(response) {
+                                // alert('saved');
+                                if (response.success == 1)
+                                    //     $("#restartOn" + restart_Id).html(response.data);
+                                    // $(".restart_btn" + restart_Id).hide();
+                                    // $(".end_btn" + restart_Id).show();
+                                    location.reload();
+                                // $("#nav-home-tab").removeClass('active');
+                                // $("#nav-profile-tab1").addClass('active');
+
+
+                            }
+                        });
+                    });
+                });
+                </script>
+                @endpush
+</x-layouts.frontend-layout>

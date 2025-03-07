@@ -1,0 +1,2492 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Gimmzi",
+        "description": "https://gimmzi-smart.dedicateddevelopers.us/api/documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Auth Management"
+                ],
+                "summary": "User Login",
+                "description": "Login User Here",
+                "operationId": "authLogin",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": ""
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Login Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/consumer-register": {
+            "post": {
+                "tags": [
+                    "Auth Management"
+                ],
+                "summary": "consumer Register",
+                "description": "Register consumer Here",
+                "operationId": "authRegister",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "phone",
+                                    "email",
+                                    "dob",
+                                    "zip_code",
+                                    "city",
+                                    "state",
+                                    "consumer_password",
+                                    "consumer_confirm_password"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": ""
+                                    },
+                                    "dob": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "zip_code": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "consumer_password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": ""
+                                    },
+                                    "consumer_confirm_password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "First Register Done",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/consumer-forget-password": {
+            "post": {
+                "tags": [
+                    "Auth Management"
+                ],
+                "summary": "Forget Password",
+                "description": "Forget Password",
+                "operationId": "Consumerforgetpassword",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Reset Email Sent",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Email Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/exist-email-check": {
+            "post": {
+                "tags": [
+                    "Auth Management"
+                ],
+                "summary": "Check Exist Email",
+                "description": "Check Exist Email",
+                "operationId": "Check Exist Email",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Reset Email Sent",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Email Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "get": {
+                "tags": [
+                    "Auth Management"
+                ],
+                "summary": "User Profile logout",
+                "description": "logout User Profile",
+                "operationId": "User logout",
+                "responses": {
+                    "200": {
+                        "description": "Profile logout",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No api found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/cms-page/{slug}": {
+            "get": {
+                "tags": [
+                    "Cms Management"
+                ],
+                "summary": "Cms Page Content",
+                "description": "Get Cms Page Content",
+                "operationId": "Cms Page Content",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug must be privacy_policy_page/terms_and_condition_page",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cms Page Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                }
+            }
+        },
+        "/api/community-list": {
+            "get": {
+                "tags": [
+                    "Community Partner Management"
+                ],
+                "summary": "Community Partner list",
+                "description": "Get Community Partner list",
+                "operationId": "Community Partner list",
+                "responses": {
+                    "200": {
+                        "description": "Fetched Community Partner list",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/all-provider-type": {
+            "get": {
+                "tags": [
+                    "Community Partner Management"
+                ],
+                "summary": "Provider Type list",
+                "description": "Get Provider Type list",
+                "operationId": "Provider Type list",
+                "responses": {
+                    "200": {
+                        "description": "Fetched Provider Type list",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/filter-community": {
+            "post": {
+                "tags": [
+                    "Community Partner Management"
+                ],
+                "summary": "Filter community partner",
+                "description": "Filter community partner",
+                "operationId": "Filter community partner",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "filter_by_type": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "filter_by_bed": {
+                                        "type": "string",
+                                        "example": "1/2/3/4"
+                                    },
+                                    "filter_by_bath": {
+                                        "type": "string",
+                                        "example": "1/2/3/4"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Filter community partner",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/community-details/{id}": {
+            "get": {
+                "tags": [
+                    "Community Partner Management"
+                ],
+                "summary": "Community partner fetch",
+                "description": "Get Community partner",
+                "operationId": "Community partner",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of community partner",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Single busniess profile Fetch done",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/add-favourite-community": {
+            "post": {
+                "tags": [
+                    "Community Partner Management"
+                ],
+                "summary": "Add favourite community partner",
+                "description": "Add favourite community partner",
+                "operationId": "Add favourite community partner",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "community_id"
+                                ],
+                                "properties": {
+                                    "community_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Add favourite community partner",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/search-community-by-name": {
+            "post": {
+                "tags": [
+                    "Community Partner Management"
+                ],
+                "summary": "Search community by name",
+                "description": "Search community by name",
+                "operationId": "Search community by name",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Search community by name",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/scan-gimmzi-point": {
+            "post": {
+                "tags": [
+                    "Community Partner Management"
+                ],
+                "summary": "Scan gimmzi point",
+                "description": "Scan gimmzi point",
+                "operationId": "Scan gimmzi point",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "zip_code"
+                                ],
+                                "properties": {
+                                    "zip_code": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Scan gimmzi point",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/my-wallet-list": {
+            "post": {
+                "tags": [
+                    "Consumer Wallet Management"
+                ],
+                "summary": "My wallet List",
+                "description": "My wallet List",
+                "operationId": "My wallet List",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "example": "gimmziDeals/loyaltyRewards/walletBadges"
+                                    },
+                                    "filter_by": {
+                                        "type": "string",
+                                        "example": "is_expired/is_redeemed/is_active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "My wallet List",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/redeem-program": {
+            "post": {
+                "tags": [
+                    "Consumer Wallet Management"
+                ],
+                "summary": "Redeem Program",
+                "description": "Redeem Program",
+                "operationId": "Redeem Program",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "deal_id",
+                                    "loyalty_id",
+                                    "program_process",
+                                    "location_id",
+                                    "gimmzi_id"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "example": "gimmziDeals/loyaltyRewards"
+                                    },
+                                    "deal_id": {
+                                        "type": "integer"
+                                    },
+                                    "loyalty_id": {
+                                        "type": "integer"
+                                    },
+                                    "program_process": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "location_id": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "receipt_no": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "gimmzi_id": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Redeem Program",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/remove-from-wallet": {
+            "post": {
+                "tags": [
+                    "Consumer Wallet Management"
+                ],
+                "summary": "Remove from wallet",
+                "description": "Remove from wallet",
+                "operationId": "Remove from wallet",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "wallet_id",
+                                    "deal_id",
+                                    "loyalty_id"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "example": "gimmziDeals"
+                                    },
+                                    "wallet_id": {
+                                        "type": "integer",
+                                        "example": ""
+                                    },
+                                    "deal_id": {
+                                        "type": "integer",
+                                        "example": ""
+                                    },
+                                    "loyalty_id": {
+                                        "type": "integer",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Remove from wallet",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/earned-loyalty-points": {
+            "get": {
+                "tags": [
+                    "Consumer Wallet Management"
+                ],
+                "summary": "Earned Loaylty points",
+                "description": "Get Earned Loaylty points",
+                "operationId": "Earned Loaylty points",
+                "responses": {
+                    "200": {
+                        "description": "Fetched Earned Loaylty points",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                }
+            }
+        },
+        "/api/previous-remaining-balance": {
+            "get": {
+                "tags": [
+                    "Consumer Wallet Management"
+                ],
+                "summary": "Previous Remaining balance",
+                "description": "Get Previous Remaining balance",
+                "operationId": "Previous Remaining balance",
+                "responses": {
+                    "200": {
+                        "description": "Fetched Previous Remaining balance",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                }
+            }
+        },
+        "/api/last-redeemed-loyalty": {
+            "get": {
+                "tags": [
+                    "Consumer Wallet Management"
+                ],
+                "summary": "Last Redeemed Loyalty",
+                "description": "Get Last Redeemed Loyalty",
+                "operationId": "Last Redeemed Loyalty",
+                "responses": {
+                    "200": {
+                        "description": "Fetched Last Redeemed Loyalty",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                }
+            }
+        },
+        "/api/updated-earned-point": {
+            "get": {
+                "tags": [
+                    "Consumer Wallet Management"
+                ],
+                "summary": "Updated Earned points",
+                "description": "Get Updated Earned points",
+                "operationId": "Updated Earned points",
+                "responses": {
+                    "200": {
+                        "description": "Fetched Updated Earned points",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                }
+            }
+        },
+        "/api/all-category": {
+            "get": {
+                "tags": [
+                    "Market Universe Management"
+                ],
+                "summary": "Category list",
+                "description": "Get Category list",
+                "operationId": "Category list",
+                "responses": {
+                    "200": {
+                        "description": "Fetched Category list",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                }
+            }
+        },
+        "/api/all-types": {
+            "get": {
+                "tags": [
+                    "Market Universe Management"
+                ],
+                "summary": "Type list",
+                "description": "Get Type list",
+                "operationId": "Type list",
+                "responses": {
+                    "200": {
+                        "description": "Fetched Type list",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                }
+            }
+        },
+        "/api/all-distance": {
+            "get": {
+                "tags": [
+                    "Market Universe Management"
+                ],
+                "summary": "Distance list",
+                "description": "Get Distance list",
+                "operationId": "Distance list",
+                "responses": {
+                    "200": {
+                        "description": "Fetched Distance list",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                }
+            }
+        },
+        "/api/universe-business-profile": {
+            "post": {
+                "tags": [
+                    "Market Universe Management"
+                ],
+                "summary": "Business Profile List",
+                "description": "Get Business Profile list",
+                "operationId": "Business Profile",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "category_id": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "gimmziDeals/loyaltyRewards"
+                                    },
+                                    "distance_range": {
+                                        "type": "string",
+                                        "example": "5.0/10.0/20.0/50.0/100.0/250.0"
+                                    },
+                                    "lat": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "long": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get Business Profile list",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/business-profile-details-by-location": {
+            "post": {
+                "tags": [
+                    "Market Universe Management"
+                ],
+                "summary": "Business Profile by location ",
+                "description": "Get Business Profile by location ",
+                "operationId": "Business Profile by location",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "business_id",
+                                    "location_id"
+                                ],
+                                "properties": {
+                                    "business_id": {
+                                        "type": "integer",
+                                        "example": ""
+                                    },
+                                    "location_id": {
+                                        "type": "integer",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get Business Profile by location ",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/profile-add-favourite": {
+            "post": {
+                "tags": [
+                    "Market Universe Management"
+                ],
+                "summary": "Profile add to favourite",
+                "description": "Profile add to favourite",
+                "operationId": "profile add to favourite",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "business_id"
+                                ],
+                                "properties": {
+                                    "business_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profile add to favourite",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/deal-loyalty-add-favourite": {
+            "post": {
+                "tags": [
+                    "Market Universe Management"
+                ],
+                "summary": "Deal/loyalty add to favourite",
+                "description": "Deal/loyalty add to favourite",
+                "operationId": "Deal or loyalty add to favourite",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "deal_id",
+                                    "loyalty_id"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "example": "gimmziDeals/loyaltyRewards"
+                                    },
+                                    "deal_id": {
+                                        "type": "integer"
+                                    },
+                                    "loyalty_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Deal/loyalty add to favourite",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/add-to-my-wallet": {
+            "post": {
+                "tags": [
+                    "Market Universe Management"
+                ],
+                "summary": "Add to my wallet",
+                "description": "Add to my wallet",
+                "operationId": "Add to my wallet",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "business_id",
+                                    "type",
+                                    "deal_id",
+                                    "loyalty_id"
+                                ],
+                                "properties": {
+                                    "business_id": {
+                                        "type": "integer"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "gimmziDeals/loyaltyRewards"
+                                    },
+                                    "deal_id": {
+                                        "type": "integer"
+                                    },
+                                    "loyalty_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Add to my wallet",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/deal-loyalty-details": {
+            "post": {
+                "tags": [
+                    "Market Universe Management"
+                ],
+                "summary": "Get Deal or LOyalty Details",
+                "description": "Get Deal or LOyalty Details",
+                "operationId": "Get Deal or LOyalty Details",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "deal_id",
+                                    "loyalty_id"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "example": "gimmziDeals/loyaltyRewards"
+                                    },
+                                    "deal_id": {
+                                        "type": "integer"
+                                    },
+                                    "loyalty_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get Deal or LOyalty Details",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/search-business-profile": {
+            "post": {
+                "tags": [
+                    "Market Universe Management"
+                ],
+                "summary": "Search business profile",
+                "description": "Search business profile",
+                "operationId": "Search business profile",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "lat": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "long": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Search business profile",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/type-list": {
+            "get": {
+                "tags": [
+                    "Travel Tourism Management"
+                ],
+                "summary": "Type of listing list",
+                "description": "Get Type of listing list",
+                "operationId": "Type of listing list",
+                "responses": {
+                    "200": {
+                        "description": "Fetched Type of listing list",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/distination-list": {
+            "get": {
+                "tags": [
+                    "Travel Tourism Management"
+                ],
+                "summary": "Destionation list",
+                "description": "Get Destionation list",
+                "operationId": "Destionation list",
+                "responses": {
+                    "200": {
+                        "description": "Fetched Destionation list",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/travel-tourism-list": {
+            "post": {
+                "tags": [
+                    "Travel Tourism Management"
+                ],
+                "summary": "Travel tourism List",
+                "description": "Get Travel tourism list",
+                "operationId": "Travel tourism list",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "type_id": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "location_id": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get Travel tourism list",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/short-term-details/{id}": {
+            "get": {
+                "tags": [
+                    "Travel Tourism Management"
+                ],
+                "summary": "Short term listing details fetch",
+                "description": "Get Short term listing details",
+                "operationId": "Short term listing details",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of short term listing",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Short term listing details Fetch done",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/hotel-resort-details/{id}": {
+            "get": {
+                "tags": [
+                    "Travel Tourism Management"
+                ],
+                "summary": "Hotel Resort details fetch",
+                "description": "Get Hotel Resort details",
+                "operationId": "Hotel Resort details",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of hotel-resort",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Hotel Resort details Fetch done",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/more-properties/{id}": {
+            "get": {
+                "tags": [
+                    "Travel Tourism Management"
+                ],
+                "summary": "More properties of short term fetch",
+                "description": "Get More properties of short term",
+                "operationId": "More properties of short term",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of short term",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "More properties of short term Fetch done",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/submit-request-info": {
+            "post": {
+                "tags": [
+                    "Travel Tourism Management"
+                ],
+                "summary": "Submit register info of listing",
+                "description": "Submit register info of listing Here",
+                "operationId": "submit register info of listing",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "short_term_id",
+                                    "listing_id",
+                                    "guest_name",
+                                    "guest_email",
+                                    "guest_phone",
+                                    "arrive_date",
+                                    "departure_date",
+                                    "adult",
+                                    "children",
+                                    "comment"
+                                ],
+                                "properties": {
+                                    "short_term_id": {
+                                        "type": "integer",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "listing_id": {
+                                        "type": "integer",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "guest_name": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "guest_email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": ""
+                                    },
+                                    "guest_phone": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "arrive_date": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "departure_date": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "adult": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "children": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": ""
+                                    },
+                                    "comment": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "First Register Done",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/add-favourite-travel-tourism": {
+            "post": {
+                "tags": [
+                    "Travel Tourism Management"
+                ],
+                "summary": "Add favourite travel tourism",
+                "description": "Add favourite travel tourism Here",
+                "operationId": "Add favourite travel tourism",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "listing_id",
+                                    "hotel_id"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "shortTerm/hotelResort"
+                                    },
+                                    "listing_id": {
+                                        "type": "integer",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "hotel_id": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Added favourite travel tourism",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/add-favourite-short-term": {
+            "post": {
+                "tags": [
+                    "Travel Tourism Management"
+                ],
+                "summary": "Add favourite Short Term",
+                "description": "Add favourite Short Term Here",
+                "operationId": "Add favourite Short Term",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "short_term_id"
+                                ],
+                                "properties": {
+                                    "short_term_id": {
+                                        "type": "integer",
+                                        "format": "text",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Added favourite Short Term",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/check-short-term-availability": {
+            "post": {
+                "tags": [
+                    "Travel Tourism Management"
+                ],
+                "summary": "Check short-term availability",
+                "description": "Check short-term availability Here",
+                "operationId": "Check short-term availability",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "location": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "type_id": {
+                                        "type": "integer",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "guest_no": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Check short-term availability",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/my-profile": {
+            "get": {
+                "tags": [
+                    "User Management"
+                ],
+                "summary": "User Profile",
+                "description": "Get User Profile",
+                "operationId": "Profile",
+                "responses": {
+                    "200": {
+                        "description": "Fetched profile",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                }
+            }
+        },
+        "/api/edit-my-profile": {
+            "post": {
+                "tags": [
+                    "User Management"
+                ],
+                "summary": "User Profile Update",
+                "description": "Update User Profile",
+                "operationId": "Profile Update",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "dob": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "zip_code": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "user_photo": {
+                                        "type": "file",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "old_password": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "new_password": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Fetched profile",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/my-favourite-list": {
+            "get": {
+                "tags": [
+                    "User Management"
+                ],
+                "summary": "Favourite List",
+                "description": "Get Favourite List",
+                "operationId": "Get Favourite List",
+                "responses": {
+                    "200": {
+                        "description": "Fetched Favourite List",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                }
+            }
+        },
+        "/api/save-preferences": {
+            "post": {
+                "tags": [
+                    "User Management"
+                ],
+                "summary": "User save Preference",
+                "description": "Update User Preference",
+                "operationId": "save Preference",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "communication_settings": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "email_and_text/email_only/text_only"
+                                    },
+                                    "newsletter": {
+                                        "type": "boolean",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "gimmzi_update": {
+                                        "type": "boolean",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "special_promotion_offer": {
+                                        "type": "boolean",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "gimmzi_upcoming_event": {
+                                        "type": "boolean",
+                                        "format": "text",
+                                        "example": ""
+                                    },
+                                    "unsubscribe_from_all": {
+                                        "type": "boolean",
+                                        "format": "text",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Save user preference",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/currect-location": {
+            "post": {
+                "tags": [
+                    "User Management"
+                ],
+                "summary": "Check Current Location",
+                "description": "Check Current Location",
+                "operationId": "Check Current Location",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "current_lat",
+                                    "current_long"
+                                ],
+                                "properties": {
+                                    "current_lat": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": ""
+                                    },
+                                    "current_long": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Reset Email Sent",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Email Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/add-wallet-count": {
+            "get": {
+                "tags": [
+                    "User Management"
+                ],
+                "summary": "Wallet count",
+                "description": "Add wallet count",
+                "operationId": "Add wallet count",
+                "responses": {
+                    "200": {
+                        "description": "Add wallet count",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No page found"
+                    }
+                }
+            }
+        },
+        "/api/delete-consumer": {
+            "post": {
+                "tags": [
+                    "User Management"
+                ],
+                "summary": "Delete Consumer Account",
+                "description": "Deletes the authenticated consumer's account",
+                "operationId": "DeleteConsumer",
+                "responses": {
+                    "200": {
+                        "description": "Account deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Your account has been deleted successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Server Error!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth Management",
+            "description": "Auth Management"
+        },
+        {
+            "name": "Cms Management",
+            "description": "Cms Management"
+        },
+        {
+            "name": "Community Partner Management",
+            "description": "Community Partner Management"
+        },
+        {
+            "name": "Consumer Wallet Management",
+            "description": "Consumer Wallet Management"
+        },
+        {
+            "name": "Market Universe Management",
+            "description": "Market Universe Management"
+        },
+        {
+            "name": "Travel Tourism Management",
+            "description": "Travel Tourism Management"
+        },
+        {
+            "name": "User Management",
+            "description": "User Management"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}

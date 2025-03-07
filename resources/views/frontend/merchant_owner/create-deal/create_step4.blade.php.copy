@@ -1,0 +1,515 @@
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+        <script>
+        $(document).ready(function() {
+            $("#participating_location_id").select2({
+                    tags: true,
+                    tokenSeparators: [',', ' '],
+                    allowClear: true
+            });
+        });
+            $('#unlimitedCheck').on('click', function() {
+                if ($(this).prop("checked") == true) {
+                    $("#voucherNo").val('');
+                    $("#voucherNo").attr('readonly', true);
+                } else {
+                    $("#voucherNo").attr('readonly', false);
+                }
+            })
+
+            $(".previewmodal").on('click', function() {
+                $('#exampleModal').show();
+            });
+
+            $(document).ready(function() {
+                $('.physical_location').on('keyup', function() {
+                    var arrCount = [];
+                    if ($("#participating_id tr").length > 0) {
+                        $("#participating_id tr").each(function() {
+                            var currentRow = $(this);
+                            if (currentRow.find("td:eq(1)").text() == 'Yes') {
+                                arrCount.push(currentRow.find("td:eq(1)").text());
+                            }
+
+                        });
+                        $('#added_location').val('');
+                        $("#added_location").val(arrCount.length + ' of ' + $('.physical_location').val() +
+                            ' ' + 'locations');
+                    } else {
+                        $('#added_location').val('');
+                        $("#added_location").val('0 of ' + $('.physical_location').val() + ' ' + 'locations');
+                    }
+
+                    
+
+                });
+
+                $("#zip_code").on('keyup', function() {
+                    var zipcode = $(this).val();
+                    if (zipcode.length == 5) {
+                        $.ajax({
+                            url: '{{ route('frontend.ajax.get_city') }}',
+                            type: 'get',
+                            data: {
+                                'zipcode': zipcode
+                            },
+                            success: function(result) {
+                                //console.log(result.data);
+                                if (result.success == 1) {
+                                    $("#city").val(result.data.City);
+                                    $("#ziperror").html('');
+                                    $("#state").val(result.state_name);
+
+                                } else {
+                                    $("#ziperror").html(result.data[0]);
+                                    $("#ziperror").css('color', 'red');
+                                }
+
+                            }
+                        });
+                    } else {
+                        //$("#profilecity").val('');
+                    }
+
+                });
+
+                $("input[name='is_check']").click(function() {
+
+                    if ($("input:radio:checked").val() == 'yes') {
+
+                        var location_id = $(this).data('id');
+                        var deal_id = $('#deal_id').data('id');
+                        // console.log(deal_id);
+                        $.ajax({
+                            url: '{{ route('frontend.business_owner.deal_redeem') }}',
+                            type: 'GET',
+                            data: {
+                                'location_id': location_id,
+                                'deal_id': deal_id
+                            },
+                            success: function(response) {
+                                // alert('saved');
+                                if (response.status == 1) {
+                                    // console.log(response.data);
+                                    $('.participating_location').css('display', 'block');
+                                    $('.yes_no_redeem_part').css('display', 'none');
+                                    if (response.data.status == 1) {
+                                        var status = 'Yes';
+                                    } else {
+                                        var status = 'No';
+                                    }
+                                    var participatedata = '<tr>' +
+                                        '<td id="">' + response.data.location.location_name +
+                                        '</td>' +
+                                        '<td id="">' + status + '</td>' +
+                                        '<td><a href="#url" id="">Edit Location</a></td>' +
+                                        '</tr>';
+                                    $("#participating_id").html(participatedata);
+                                    $('#non_participating_edit').html('');
+                                    $('#add_more_location_text').html(
+                                        'You can add more locations using the add button below or you can add later in your Business profile page'
+                                    );
+
+                                    $('#added_location').val('');
+                                    console.log($("#participating_id tr").length);
+                                    $("#added_location").val($("#participating_id tr").length +
+                                        ' of ' + $('.physical_location').val() + ' ' +
+                                        'locations');
+                                    if ($("#participating_id tr").length == parseInt($(
+                                                '.physical_location')
+                                            .val())) {
+                                        $("#add_location_modal").attr('disabled', true);
+                                    }
+                                }
+
+                            }
+                        });
+                    } else if ($("input:radio:checked").val() == 'no') {
+                        var location_id = $(this).data('id');
+                        $.ajax({
+                            url: '{{ route('frontend.business_owner.no_deal_redeem') }}',
+                            type: 'GET',
+                            data: {
+                                'location_id': location_id
+                            },
+                            success: function(response) {
+                                // alert('saved');
+                                if (response.status == 1) {
+
+                                    $('#nonParticipating').modal('show');
+                                    $('#locationName').html(response.data
+                                        .location_name);
+                                    $('#locationid').val(response.data.id);
+                                }
+                            }
+                        });
+
+                    }
+
+
+                    $("#yesNonParticipating").on('click', function() {
+                        var location_id = $('#locationid').val();
+                        var deal_id = $('#deal_id').data('id');
+                        // console.log(location_id);
+                        $.ajax({
+                            url: '{{ route('frontend.business_owner.yes_non_participating_location') }}',
+                            type: 'GET',
+                            data: {
+                                'location_id': location_id,
+                                'deal_id': deal_id
+                            },
+                            success: function(response) {
+                                // alert('saved');
+                                if (response.status == 1) {
+                                    $('#nonParticipating').modal('hide');
+                                    $('.participating_location').css('display', 'block');
+                                    $('.yes_no_redeem_part').css('display', 'none');
+                                    $('#participating_id').html('');
+                                    var nonparticipatedata = '<tr>' +
+                                        '<td id="">' + response.data.location
+                                        .location_name + '</td>' +
+                                        '<td><a href="Url" id="">edit location</a></td>' +
+                                        +'</tr>';
+                                    $("#non_participating_id").html(nonparticipatedata);
+                                    $('#add_more_location_text').html(
+                                        'At least one Participating Location for this deal is required to complete this deal creation.'
+                                    );
+                                }
+
+                            }
+                        });
+                    });
+
+                    $("#noNonParticipating").on('click', function() {
+                        var location_id = $('#locationid').val();
+                        var deal_id = $('#deal_id').data('id');
+                        // console.log(deal_id);
+                        $.ajax({
+                            url: '{{ route('frontend.business_owner.no_non_participating_location') }}',
+                            type: 'GET',
+                            data: {
+                                'location_id': location_id,
+                                'deal_id': deal_id
+                            },
+                            success: function(response) {
+                                // alert('saved');
+                                if (response.status == 1) {
+                                    $('.participating_location').css('display', 'block');
+                                    $('.yes_no_redeem_part').css('display', 'none');
+                                    if (response.data.status == 0) {
+                                        var status = 'No';
+                                    } else {
+                                        var status = 'Yes';
+                                    }
+                                    var participatedata = '<tr>' +
+                                        '<td id="">' + response.data.location
+                                        .location_name + '</td>' +
+                                        '<td id="">' + status + '</td>' +
+                                        '<td><a href="#url" id="">Edit Location</a></td>' +
+                                        '</tr>';
+                                    $("#participating_id").html(participatedata);
+                                    $('#non_participating_edit').html('');
+                                    $('#add_more_location_text').html(
+                                        'At least one Participating Location for this deal is required to complete this deal creation.'
+                                    );
+                                }
+
+                            }
+                        });
+                    })
+                });
+
+                var addvalidator = $("#add_participating_location").validate({
+                    rules: {
+
+                        location_name: "required",
+                        location_phone: {
+                            required: true,
+                            digits: true,
+                        },
+                        location_email: {
+                            email: true,
+                        },
+                        address: {
+                            required: true,
+                        },
+                        zip_code: {
+                            required: true,
+                        },
+                        city: {
+                            required: true,
+                        },
+                        state_id: {
+                            required: true,
+                        },
+
+                    },
+                    messages: {
+
+                        location_name: "Please enter location name",
+                        location_phone: {
+                            required: "Please enter location phone number ",
+                            digits: "Phone number must be a number"
+
+                        },
+                        location_email: {
+                            email: "Please enter a valid email address",
+                        },
+                        address: {
+                            required: "Please enter location address ",
+
+                        },
+                        zip_code: {
+                            required: "Please enter location zip code",
+
+                        },
+                        city: {
+                            required: "Please enter location city"
+                        },
+                        state_id: {
+                            required: "Please enter location state",
+                        }
+                    },
+                    errorPlacement: function(label, element) {
+                        label.addClass('errorMsq');
+                        element.parent().append(label);
+                    },
+                });
+                $("#add_location_modal").on('click', function() {
+                    $('#add_participating_location_modal').find('form').trigger('reset');
+                    $('#add_participating_location_modal').modal('show');
+                    $('#add_deal_id').val($(this).data('id'));
+
+                });
+                $('input[name=check_location]').on('click', function() {
+                    if ($(this).val() == 'no_participate') {
+                        $('.yes_check_box').prop('checked', false);
+                    } else {
+                        $('.no_check_box').prop('checked', false);
+                    }
+                });
+
+                $(".close_modal").click(function() {
+
+                    $('#locationnameerror').html('');
+                    $('#phoneerror').html('');
+                    $('#faxerror').html('');
+                    $('#emailerror').html('');
+                    $('#addresserror').html('');
+                    $('#ziperror').html('');
+                    $('#cityerror').html('');
+                    $('#stateerror').html('');
+                    addvalidator.resetForm();
+
+                    $('#add_participating_location_modal').modal('hide');
+                    $('#add_participating_location_modal').find('form').trigger('reset');
+                });
+
+                $("#add_participating_location").submit(function(e) {
+
+                    e.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    var form = $('#add_participating_location')[0];
+                    var formdata = new FormData(form);
+
+                    $.ajax({
+                        url: "{{ route('frontend.business_owner.add_more_participating_location') }}",
+                        type: 'POST',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: formdata,
+                        success: function(result) {
+                            console.log(result);
+                            if (result.status == 10) {
+                                console.log(result.data);
+                                $("#add_participating_location_modal").modal('hide');
+
+                                toastr.success(
+                                    'The participating location has been added successfully');
+
+                                if (result.data.length > 0) {
+                                    $("#participating_id").html('');
+                                    $("#non_participating_id").html('');
+                                    for (var x = 0; x < result.data.length; x++) {
+                                        var location = result.data[x];
+                                        if (location.status == 1) {
+                                            var status = 'Yes';
+                                        } else {
+                                            var status = 'No';
+                                        }
+                                        if (location.participating_type == 'Participating') {
+
+                                            var participatedata = '<tr>' +
+                                                '<td id="">' + location.location.location_name +
+                                                '</td>' +
+                                                '<td id="">' + status + '</td>' +
+                                                '<td><a href="#url" id="">Edit Location</a></td>' +
+                                                '</tr>';
+                                            $("#participating_id").append(participatedata);
+                                            $('#add_more_location_text').html(
+                                                'You can add more locations using the add button below or you can add later in your Business profile page'
+                                            );
+                                        } else {
+
+                                            var nonparticipatedata = '<tr>' +
+                                                '<td id="">' + location.location.location_name +
+                                                '</td>' +
+                                                '<td><a href="#url" id="">Edit Location</a></td>' +
+                                                '</tr>';
+                                            $("#non_participating_id").append(nonparticipatedata);
+                                        }
+                                    }
+
+                                    var arrCount = [];
+                                    $("#participating_id tr").each(function() {
+                                        var currentRow = $(this);
+                                        if (currentRow.find("td:eq(1)").text() == 'Yes') {
+                                            arrCount.push(currentRow.find("td:eq(1)")
+                                                .text());
+                                        }
+
+                                    });
+                                    if ($('.physical_location').val() != '') {
+                                        $('#added_location').val('');
+                                        $("#added_location").val(arrCount.length + ' of ' + $(
+                                            '.physical_location').val() + ' ' + 'locations');
+                                    }
+
+                                    if (arrCount.length == parseInt($('.physical_location')
+                                            .val())) {
+                                        $("#add_location_modal").attr('disabled', true);
+                                    }
+
+
+
+                                }
+
+                            } else if (result.status == 8) {
+
+                                $('#locationnameerror').html('');
+                                $('#phoneerror').html('');
+                                $('#faxerror').html('');
+                                $('#emailerror').html('');
+                                $('#addresserror').html('');
+                                $('#ziperror').html('');
+                                $('#cityerror').html('');
+                                $('#stateerror').html('');
+                                // $('#locationnameerror').html('Location name field is required').css(
+                                //     'color', 'red');
+
+                            } else if (result.status == 7) {
+
+                                $('#locationnameerror').html('');
+                                $('#phoneerror').html('');
+                                $('#faxerror').html('');
+                                $('#emailerror').html('');
+                                $('#addresserror').html('');
+                                $('#ziperror').html('');
+                                $('#cityerror').html('');
+                                $('#stateerror').html('');
+                                // $('#phoneerror').html('Location phone field is required').css(
+                                //     'color', 'red');
+
+                            } else if (result.status == 0) {
+
+
+                                $('#locationnameerror').html('');
+                                $('#addresserror').html('');
+                                $('#faxerror').html('');
+                                $('#phoneerror').html('');
+                                $('#emailerror').html('');
+                                $('#ziperror').html('');
+                                $('#cityerror').html('');
+                                $('#stateerror').html('');
+                                $('#phoneerror').html(result.validation_errors).css('color', 'red');
+
+                            } else if (result.status == 2) {
+
+                                $('#locationnameerror').html('');
+                                $('#addresserror').html('');
+                                $('#emailerror').html('');
+                                $('#faxerror').html('');
+                                $('#phoneerror').html('');
+                                $('#ziperror').html('');
+                                $('#cityerror').html('');
+                                $('#stateerror').html('');
+                                $('#emailerror').html(result.validation_errors).css('color', 'red');
+                            } else if (result.status == 1) {
+
+                                $('#locationnameerror').html('');
+                                $('#addresserror').html('');
+                                $('#emailerror').html('');
+                                $('#phoneerror').html('');
+                                $('#ziperror').html('');
+                                $('#cityerror').html('');
+                                $('#stateerror').html('');
+                                $('#faxerror').html(result.validation_errors).css('color', 'red');
+                            } else if (result.status == 6) {
+
+                                $('#locationnameerror').html('');
+                                $('#addresserror').html('');
+                                $('#phoneerror').html('');
+                                $('#faxerror').html('');
+                                $('#emailerror').html('');
+                                $('#ziperror').html('');
+                                $('#cityerror').html('');
+                                $('#stateerror').html('');
+                                // $('#addresserror').html('Location address field is required').css(
+                                //     'color', 'red');
+
+                            } else if (result.status == 5) {
+
+                                $('#locationnameerror').html('');
+                                $('#phoneerror').html('');
+                                $('#faxerror').html('');
+                                $('#emailerror').html('');
+                                $('#addresserror').html('');
+                                $('#ziperror').html('');
+                                $('#cityerror').html('');
+                                $('#stateerror').html('');
+                                // $('#ziperror').html('Location zip code field is required').css(
+                                //     'color', 'red');
+
+                            } else if (result.status == 4) {
+
+                                $('#locationnameerror').html('');
+                                $('#phoneerror').html('');
+                                $('#faxerror').html('');
+                                $('#emailerror').html('');
+                                $('#addresserror').html('');
+                                $('#ziperror').html('');
+                                $('#cityerror').html('');
+                                $('#stateerror').html('');
+                                // $('#cityerror').html('Location city field is required').css('color',
+                                //     'red');
+
+                            } else if (result.status == 3) {
+
+                                $('#locationnameerror').html('');
+                                $('#phoneerror').html('');
+                                $('#faxerror').html('');
+                                $('#emailerror').html('');
+                                $('#addresserror').html('');
+                                $('#ziperror').html('');
+                                $('#cityerror').html('');
+                                $('#stateerror').html('');
+                                // $('#stateerror').html('Location state field is required').css(
+                                //     'color', 'red');
+
+                            } else if (result.status == 11) {
+                                $("#success_modal").modal('show');
+                                $("#successmsg").html('Business Location not saved.');
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    @endpush

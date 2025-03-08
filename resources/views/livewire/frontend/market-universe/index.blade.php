@@ -408,6 +408,72 @@
             </div>
         </div>
     </div>
+
+    <!-- Share social Modal -->
+    <div class="modal fade" id="shareSocialModal" tabindex="-1" aria-labelledby="shareModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header with Close Button -->
+                <button type="button" class="btn-close position-absolute"
+                    style="top: 10px; right: 10px; z-index: 1050;" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+                <!-- Modal Body with Form -->
+                <div class="modal-body">
+                    <div class="text-center">
+                        <span class="d-block">Share this Listing.</span>
+                        <small class="d-block">Share this Listing on any device.</small>
+                    </div>
+                    <hr class="mt-3">
+                    <form>
+                        <div class="row mb-3">
+                            <!-- Name Field -->
+                            <div class="col-md-6">
+                                <label for="yourName" class="form-label">Your name*</label>
+                                <input type="text" class="form-control" id="yourName"
+                                    placeholder="Enter your name" required>
+                            </div>
+
+                            <!-- Email Field -->
+                            <div class="col-md-6">
+                                <label for="yourEmail" class="form-label">Your Email*</label>
+                                <input type="email" class="form-control" id="yourEmail"
+                                    placeholder="Write your email" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="recipientEmail" class="form-label">Recipient Email(s)*</label>
+                            <input type="email" class="form-control" id="recipientEmail"
+                                placeholder="Write your recipient email" required>
+                            <small class="form-text" style="color:red">Enter one or more recipient email addresses
+                                separated
+                                by commas or space.</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" rows="2" placeholder="Enter your message or notes here"></textarea>
+                            <small class="form-text" style="color:red">Enter your message or notes here to
+                                include in the
+                                email.</small>
+                        </div>
+                        <small style="color: #667085">
+                            By clicking Share Now, I confirm I am permitted to send this email
+                            The recipient's email address will only be used to send this email to
+                            them and will not be collected or be available to anyone else.
+                        </small>
+                        <div class="text-center">
+                            <button type="submit" class="btn w-100"
+                                style="background-color: #26a1d6;color:white;margin-top:0px;">Share
+                                Now</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @push('scripts')
         <script src="https://maps.google.com/maps/api/js?sensor=true&key={{ env('GOOGLE_GEOCODE_API_KEY') }}&libraries=places"
             type="text/javascript"></script>
@@ -447,6 +513,14 @@
             } else {
                 // Geolocation is not supported
                 console.log("Geolocation is not supported by this browser.");
+            }
+
+            function copyToClipboard(url) {
+                navigator.clipboard.writeText(url).then(function() {
+                    alert('URL copied to clipboard');
+                }).catch(function(err) {
+                    console.error('Could not copy text: ', err);
+                });
             }
         </script>
 

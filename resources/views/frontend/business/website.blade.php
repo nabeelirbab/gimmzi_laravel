@@ -226,6 +226,7 @@
 
         .social-share-small {
             font-size: 16px;
+            color: #000;
         }
 
         .small-text {

@@ -29,7 +29,9 @@
                         <span class="stick"></span>
                     </button>
                     <ul class="navbar-nav m-auto">
-                        <li class="menu-item-has-children"><a href="javascript:void(0)">Gimmzi Universe</a></li>
+                        <li class="menu-item-has-children">
+                            <a href="{{ route('frontend.market-universe') }}">Gimmzi Universe</a>
+                        </li>
                         <li class="menu-item-has-children">
                             <a href="javascript:void(0)">Loyalty Rewards</a>
                             <div class="hdr-submenu sub-menu">
@@ -75,15 +77,18 @@
                                                 <li>
                                                     {{-- <a target="_blank" href="{{ route('frontend.travel-tourism.list') }}">Browse All
                                                         Travel & Tourism Listings</a> --}}
-                                                       <a style="mouse-pointer:none">Browse All Travel & Tourism Listings <span style="color:rgb(238, 77, 77)">(Coming soon)</span> </a>
+                                                    <a style="mouse-pointer:none">Browse All Travel & Tourism Listings
+                                                        <span style="color:rgb(238, 77, 77)">(Coming soon)</span> </a>
 
                                                 </li>
-                                                <li><a>Browse Vacation Homes<span style="color:rgb(238, 77, 77)">(Coming soon)</span> </a></li>
+                                                <li><a>Browse Vacation Homes<span style="color:rgb(238, 77, 77)">(Coming
+                                                            soon)</span> </a></li>
                                                 <li>
                                                     {{-- <a target="_blank" href="{{ route('frontend.travel-tourism.list') }}">Browse Hotels
                                                         and Resorts</a> --}}
-                                                        <a>Browse Hotels and Resorts <span style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
-                                                    </li>
+                                                    <a>Browse Hotels and Resorts <span
+                                                            style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -92,25 +97,30 @@
                                             <div class="hdr-sub-head">Join a Community Partner</div>
                                             <ul class="submenu-list2">
                                                 <li>
-                                                    <a>Browse All Community Listings <span style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
+                                                    <a>Browse All Community Listings <span
+                                                            style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
                                                 </li>
                                                 <li>
                                                     {{-- <a target="_blank" href="{{ route('frontend.apartment.list') }}">Browse Apartment
                                                         Communities <span style="color:rgb(238, 77, 77)">(Coming soon)</span></a> --}}
-                                                        <a>Browse Apartment
-                                                            Communities <span style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
+                                                    <a>Browse Apartment
+                                                        Communities <span style="color:rgb(238, 77, 77)">(Coming
+                                                            soon)</span></a>
                                                 </li>
                                                 <li>
-                                                    <a>Browse Student Housing Communities <span style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
+                                                    <a>Browse Student Housing Communities <span
+                                                            style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
                                                 </li>
                                                 <li>
                                                     <a>Check to see if my Apartment Community
                                                         is
-                                                        in the Gimmzi Network <span style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
+                                                        in the Gimmzi Network <span
+                                                            style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
                                                 </li>
                                                 <li>
                                                     <a>Check to see if my COA or HOA is in the
-                                                        Gimmzi Network <span style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
+                                                        Gimmzi Network <span style="color:rgb(238, 77, 77)">(Coming
+                                                            soon)</span></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -122,22 +132,22 @@
                             <a href="javascript:void(0)">Become a Partner</a>
                             <div class="hdr-submenu2 sub-menu">
                                 {{-- <div class="row rowspan"> --}}
-                                    <div class="col-lg-12">
-                                        <div class="hdr-submenu-blk-lft">
-                                            <div class="hdr-sub-head">Small Business Partner</div>
-                                            <ul class="submenu-list2">
-                                                <li><a href="javascript:void(0)">Pricing</a></li>
-                                                <li><a href="javascript:void(0)">Schedule a Demo</a></li>
-                                            </ul>
-                                            <div class="log-blk">
-                                                <p>Existing Small Business Partner? <a class="login-button"
-                                                        data-bs-toggle="modal" data-bs-target="#loginModal"
-                                                        href="javascript:void(0)">Log in</a></p>
-                                            </div>
+                                <div class="col-lg-12">
+                                    <div class="hdr-submenu-blk-lft">
+                                        <div class="hdr-sub-head">Small Business Partner</div>
+                                        <ul class="submenu-list2">
+                                            <li><a href="javascript:void(0)">Pricing</a></li>
+                                            <li><a href="javascript:void(0)">Schedule a Demo</a></li>
+                                        </ul>
+                                        <div class="log-blk">
+                                            <p>Existing Small Business Partner? <a class="login-button"
+                                                    data-bs-toggle="modal" data-bs-target="#loginModal"
+                                                    href="javascript:void(0)">Log in</a></p>
                                         </div>
                                     </div>
-                                
-                                    {{-- <div class="col-lg-4">
+                                </div>
+
+                                {{-- <div class="col-lg-4">
                                         <div class="hdr-submenu-blk-lft">
                                             <div class="hdr-sub-head">Travel & Tourism Partner</div>
                                             <ul class="submenu-list2">
@@ -190,8 +200,8 @@
                             </form>
                         </div>
                         <a href="javascript:void(0)" class="search-btn">
-                            <img loading="lazy" src="{{ asset('frontend_assets/images/srch.svg') }}"
-                                alt="search icon" class="search-icon">
+                            <img loading="lazy" src="{{ asset('frontend_assets/images/srch.svg') }}" alt="search icon"
+                                class="search-icon">
                         </a>
                     </div>
                     <ul class="hdr-ul">

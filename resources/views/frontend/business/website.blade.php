@@ -194,6 +194,48 @@
             right: -30px;
             /* Adjust this value to move it more or less outside */
         }
+
+        #shareModal .modal-content {
+            border-radius: 24px;
+            /* Adjust this value (e.g., 20px, 25px) for more rounding */
+            overflow: hidden;
+            /* Ensures content respects the rounded corners */
+        }
+
+        .business_name {
+            font-size: 32px;
+            font-weight: 700;
+            color: #000;
+            line-height: 42px;
+        }
+
+        .social-modal-header {
+            right: 32px;
+            bottom: 32px;
+            left: 32px;
+            margin: 0px 0px 32px 0px;
+
+        }
+
+        .business_address {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+            margin-top: 6px;
+        }
+
+        .social-share-small {
+            font-size: 16px;
+        }
+
+        .small-text {
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .social-share-margin {
+            margin-bottom: 40px;
+        }
     </style>
     <div class="allen-park-apartments-main-sec">
         <div class="allen-part-apartments-sec">
@@ -219,13 +261,12 @@
             <div class="middle-park-main-middle-sec">
                 <div class="container">
                     <div class="row p-4">
-
                         <!-- Left Section: Image -->
                         <div class="col-md-6 col-12 mb-4 mb-md-0 ps-0"> <!-- Change here for mobile-first approach -->
                             <div class="d-flex flex-column">
                                 <h2>{{ $business->business_name }}</h2>
                                 @if ($business->street_address != '')
-                                    <p>
+                                    <p style="margin-top: 10px;">
                                         <img src="{{ asset('frontend_assets/images/location.svg') }}" alt="icon">
                                         {{ $business->street_address }}, {{ $business->city }},
                                         {{ $business->states->name }}, {{ $business->zip_code }}
@@ -243,8 +284,9 @@
                         <!-- Social Sharing Modal -->
                         <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel"
                             aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered custom-modal">
-                                <div class="modal-content">
+                            <div class="modal-dialog modal-dialog-centered custom-modal"
+                                style="max-width: 900px; width: 90%;">
+                                <div class="container modal-content">
                                     <!-- Close Button at Top-Right -->
                                     <button type="button" class="btn-close position-absolute"
                                         style="top: 10px; right: 10px; z-index: 1050;" data-bs-dismiss="modal"
@@ -253,30 +295,44 @@
                                     </button>
 
                                     <div class="modal-body text-center">
-                                        <span>{{ $business->business_name }}</span><br>
-                                        <span>
-                                            @if ($business->street_address != '')
-                                                {{ $business->street_address }}, {{ $business->city }},
-                                                {{ $business->states->name }}, {{ $business->zip_code }}
-                                            @endif
-                                        </span><br>
-                                        <span>{{ $business->business_phone }}</span>
-
+                                        <div class="row align-items-center social-modal-header">
+                                            <div class="col-3">
+                                                <img src="{{ asset('frontend_assets/images/modal_logo.png') }}"
+                                                    alt="" class="img-fluid" style="width: 60px;height: 60px;">
+                                            </div>
+                                            <div class="col-6 text-center">
+                                                <div class="business_name">{{ $business->business_name }}</div>
+                                                <div class="business_address">
+                                                    @if ($business->street_address != '')
+                                                        {{ $business->street_address }}, {{ $business->city }},
+                                                        {{ $business->states->name }}, {{ $business->zip_code }}
+                                                    @endif
+                                                </div>
+                                                <div style="margin-top: 8px">{{ $business->business_phone }}</div>
+                                            </div>
+                                            <div class="col-3"></div>
+                                        </div>
                                         <hr>
-                                        <small>Share this business, earn points!</small>
-                                        Start Earning Points and make every share count!
-                                        <div class="row align-items-center">
+                                        <small class="social-share-small">Share this business, earn points!</small>
+                                        <p class="small-text">Start Earning Points and make every share countl</p>
+                                        <div class="row align-items-stretch d-flex">
                                             <!-- Left Side - Image -->
-                                            <div class="col-md-5 text-center">
-                                                <img src="{{ asset($business->main_image) }}" alt="Jiffy Lube"
-                                                    class="img-fluid rounded">
+                                            <div
+                                                class="col-md-5 text-center d-flex align-items-center justify-content-center h-100">
+                                                @foreach ($business_photos as $index => $photo)
+                                                    @if ($index == 0)
+                                                        <img src="{{ asset($photo->getUrl()) }}" alt="Jiffy Lube"
+                                                            class="img-fluid rounded">
+                                                    @endif
+                                                @endforeach
                                             </div>
                                             <!-- Right Side - Text and Share Buttons -->
-                                            <div class="col-md-7">
+                                            <div class="col-md-7 d-flex flex-column justify-content-center h-100 mt-1">
                                                 <!-- Share Buttons -->
-                                                <div class="row text-center my-3">
-                                                    <!-- Facebook -->
-                                                    <div class="col-6 mb-3">
+                                                <div class="row text-center flex-grow-1 d-flex align-items-center">
+                                                    <!-- Row 1 -->
+                                                    <div class="col-6 social-share-margin">
+                                                        <!-- Facebook -->
                                                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}"
                                                             target="_blank"
                                                             class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
@@ -285,8 +341,8 @@
                                                             <span>Facebook</span>
                                                         </a>
                                                     </div>
-                                                    <!-- X (Example: Custom Social Network or Function) -->
-                                                    <div class="col-6 mb-3">
+                                                    <div class="col-6 social-share-margin">
+                                                        <!-- X -->
                                                         <a href="https://x.com/intent/tweet?text={{ urlencode(url()->current()) }}"
                                                             target="_blank"
                                                             class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
@@ -295,8 +351,10 @@
                                                             <span>X</span>
                                                         </a>
                                                     </div>
-                                                    <!-- LinkedIn -->
-                                                    <div class="col-6 mb-3">
+
+                                                    <!-- Row 2 -->
+                                                    <div class="col-6 social-share-margin">
+                                                        <!-- LinkedIn -->
                                                         <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url()->current()) }}&title=YourPageTitle&summary=YourSummaryHere"
                                                             target="_blank"
                                                             class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
@@ -305,8 +363,8 @@
                                                             <span>LinkedIn</span>
                                                         </a>
                                                     </div>
-                                                    <!-- WhatsApp -->
-                                                    <div class="col-6 mb-3">
+                                                    <div class="col-6 social-share-margin">
+                                                        <!-- WhatsApp -->
                                                         <a href="https://api.whatsapp.com/send?text={{ urlencode(url()->current()) }}"
                                                             target="_blank"
                                                             class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
@@ -315,8 +373,10 @@
                                                             <span>WhatsApp</span>
                                                         </a>
                                                     </div>
-                                                    <!-- Email -->
-                                                    <div class="col-6 mb-3">
+
+                                                    <!-- Row 3 -->
+                                                    <div class="col-6 social-share-margin">
+                                                        <!-- Email -->
                                                         <a href="#" data-bs-toggle="modal"
                                                             data-bs-target="#shareSocialModal"
                                                             class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
@@ -325,8 +385,8 @@
                                                             <span>Email</span>
                                                         </a>
                                                     </div>
-                                                    <!-- Copy Link -->
-                                                    <div class="col-6 mb-3">
+                                                    <div class="col-6 social-share-margin">
+                                                        <!-- Copy Link -->
                                                         <a href="#"
                                                             onclick="copyToClipboard('{{ url()->current() }}'); return false;"
                                                             class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
@@ -337,13 +397,15 @@
                                                         </a>
                                                     </div>
                                                 </div>
-                                            </div>
 
+                                            </div>
                                         </div>
-                                        <p class="mt-3" style="background-color: #f2f4f7">Earn 1 point for each
-                                            listing you share on
-                                            Facebook, X
-                                            (formerly Twitter), and LinkedIn (10 point limit per day).</p>
+
+                                        <div
+                                            style="background-color: #f2f4f7; white-space: nowrap;font-size: 14px;padding: 6px;">
+                                            Earn
+                                            1 point for each listing you share on Facebook, X (formerly Twitter), and
+                                            LinkedIn (10 point limit per day).</div>
                                     </div>
                                 </div>
                             </div>
@@ -364,7 +426,7 @@
                                 <div class="d-flex align-items-center rounded-2"
                                     style="background-color: #F2F4F7; padding: 10px;">
                                     <img src="{{ asset('frontend_assets/images/global.svg') }}" alt="">
-                                    <p style="margin-left: 7px;">visit website</p> 
+                                    <p style="margin-left: 7px;">visit website</p>
                                 </div>
 
                                 <div class="d-flex align-items-center" style="cursor: pointer;"

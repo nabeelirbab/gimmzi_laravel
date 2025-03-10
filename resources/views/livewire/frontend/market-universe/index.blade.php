@@ -150,7 +150,7 @@
                                                     <span>Save</span>
                                                 </div>
                                                 <div class="purchase-wishlst share-blkss" data-bs-toggle="modal"
-                                                    data-bs-target="#shareModal">
+                                                    data-bs-target="#shareModal{{ $business->id }}">
                                                     <a href="javascript:void(0)" class="cmn-purchase">
                                                         <img loading="lazy"
                                                             src="{{ asset('frontend_assets/images/shrss.svg') }}"
@@ -255,8 +255,8 @@
                                         </div>
                                     </div>
                                     <!-- Social Sharing Modal -->
-                                    <div class="modal fade" id="shareModal" tabindex="-1"
-                                        aria-labelledby="shareModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="shareModal{{ $business->id }}" tabindex="-1"
+                                        aria-labelledby="shareModalLabel{{ $business->id }}" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered custom-modal">
                                             <div class="modal-content">
                                                 <!-- Close Button at Top-Right -->

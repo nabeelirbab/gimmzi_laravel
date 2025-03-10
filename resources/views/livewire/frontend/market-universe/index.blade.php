@@ -316,7 +316,7 @@
                                                                 </div>
                                                                 <!-- LinkedIn -->
                                                                 <div class="col-6 mb-3">
-                                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url()->current()) }}&title=YourPageTitle&summary=YourSummaryHere"
+                                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(route('frontend.merchant.website', $business->id)) }}&title=YourPageTitle&summary=YourSummaryHere"
                                                                         target="_blank"
                                                                         class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
                                                                         <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"

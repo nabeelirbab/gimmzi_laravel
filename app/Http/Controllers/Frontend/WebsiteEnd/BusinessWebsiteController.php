@@ -6,11 +6,13 @@ namespace App\Http\Controllers\Frontend\WebsiteEnd;
 use Illuminate\Http\Request;
 use App\Models\BusinessProfile;
 use App\Models\ProviderSubType;
-use App\Http\Controllers\Controller;
 use App\Models\BusinessLocation;
+use App\Http\Controllers\Controller;
 use App\Models\MerchantDisplayBoard;
 use Spatie\MediaLibrary\Models\Media;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class BusinessWebsiteController extends Controller
 {
@@ -26,4 +28,102 @@ class BusinessWebsiteController extends Controller
         $businesses = BusinessProfile::where('id', '<>', $id)->withCount('deals')->with('states')->whereHas('deals')->where('status', 1)->get();
         return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses'));
     }
+
+    public function searchBusinessProfile(Request $request){
+        
+        $validator = Validator::make($request->all(), [
+            'search' => 'required',
+            'lat' => Auth::check() ? 'nullable' : 'required|numeric|between:-90,90',
+            'long' => Auth::check() ? 'nullable' : 'required|numeric|between:-180,180',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        //dd($request->all());
+        $search = $request->search;
+
+        try {
+            if ($search != null) {
+                $today = date('Y-m-d');
+                // dd($today);
+                $business_profiles = BusinessProfile::where('business_name', 'like', '%' . trim($search) . '%')->where(function ($query) use ($today) {
+                    $query->whereHas('deals', function ($query) use ($today) {
+                        $query->where('status', 1)
+                            ->whereDate('end_Date', '>', $today)->orWhereNull('end_Date');
+                    })->orWhereHas('loyalty', function ($query) use ($today) {
+                        $query->where('status', 1)
+                            ->whereDate('end_on', '>', $today)->orWhereNull('end_on');
+                    });
+                })->where('status', 1)->select('id', 'business_name')->get()->makeHidden(['locations', 'multiple_images', 'story_image_url', 'formatted_location']);
+                dd($business_profiles,'business_profiles');
+                $distances = [];
+                foreach ($business_profiles as $business) {
+                    $latitude = Auth::check() ? Auth::user()->lat : $request->lat;
+                    $longitude = Auth::check() ? Auth::user()->long : $request->long;
+                    $validLocation = $business->locations
+                        ? $business->locations->where('status', 1)->where('participating_type', 'Participating')->first()
+                        : null;
+                    if ($validLocation !== null && $validLocation->latitude !== null && $validLocation->longitude !== null) {
+                        $distance = $this->haversineDistance2($latitude, $longitude, $validLocation->latitude, $validLocation->longitude);
+                        // dd($distance);
+                        $distances[$business->id] = $distance;
+                    } else {
+                        $distances[$business->id] = null;
+                    }
+                }
+
+                $filtered_profiles = [];
+                foreach ($business_profiles as $profile) {
+                    if (isset($distances[$profile->id]) && $distances[$profile->id] !== null) {
+                        $profile->distance = $distances[$profile->id];
+                        // $filtered_profiles[] = $profile;
+                        if (!$request->has('distance_range') || $profile->distance < (float)$request->distance_range) {
+                            $filtered_profiles[] = $profile;
+                        }
+                    }
+                }
+                dd($filtered_profiles);
+                if (count($filtered_profiles) > 0) {
+                    return redirect()->route('frontend.market-universe')
+                        ->with('success', 'Business Profile Fetched')
+                        ->with('profiles', $filtered_profiles);
+                } else {
+                    return redirect()->route('frontend.market-universe')
+                        ->with('error', 'No data found');
+                }
+            }
+        } catch (\Throwable $th) {
+            Log::error(" :: EXCEPTION :: " . $th->getMessage() . "\n" . $th->getTraceAsString());
+            return redirect()->route('frontend.market-universe')
+            ->with('error', 'Server Error! Please try again later.');
+        }
+
+        
+    }
+
+    private function haversineDistance2($lat1, $lon1, $lat2, $lon2)
+        {
+            $earth_radius = 3959; // Radius of the earth in miles
+
+            // Ensure all inputs are floats and trimmed
+            $lat1 = floatval(trim($lat1));
+            $lon1 = floatval(trim($lon1));
+            $lat2 = floatval(trim($lat2));
+            $lon2 = floatval(trim($lon2));
+
+            $dLat = deg2rad($lat2 - $lat1);
+            $dLon = deg2rad($lon2 - $lon1);
+
+            $a = sin($dLat / 2) * sin($dLat / 2) +
+                cos(deg2rad($lat1)) * cos(deg2rad($lat2)) *
+                sin($dLon / 2) * sin($dLon / 2);
+            $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+            $distance = $earth_radius * $c; // Distance in miles
+
+
+            return round($distance, 2); // Rounded to 2 decimal places
+        }
 }

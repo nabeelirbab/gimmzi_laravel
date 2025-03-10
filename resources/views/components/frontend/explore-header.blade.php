@@ -188,11 +188,15 @@
                     </ul>
                 </div>
 
+
+
                 <div class="hdr-rit">
                     <div class="hdr-frm">
                         <form action="{{ route('search.business.profile') }}" type="get">
                             <div class="hdr-frm-innr">
-                                <input type="text" name="search" placeholder="Find on Gimmzi..">
+                                <input type="text" class="form-control" placeholder="Search businesses..."
+                                    wire:model.debounce="search">
+                                {{-- <input type="text" name="search" placeholder="Find on Gimmzi..."> --}}
                                 <input type="submit" value="">
                             </div>
                             <a href="javascript:void(0)" class="search-btn"

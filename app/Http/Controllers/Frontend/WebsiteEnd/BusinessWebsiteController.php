@@ -27,11 +27,11 @@ class BusinessWebsiteController extends Controller
         $business_photos = Media::where(['model_id' => $id, 'collection_name' => 'businessProfilePhoto'])->get();
         $businesses = BusinessProfile::where('id', '<>', $id)->withCount('deals')->with('states')->whereHas('deals')->where('status', 1)->get();
         return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses'));
-    }
+    } 
 
     public function searchBusinessProfile(Request $request){
         
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [ 
             'search' => 'required',
             'lat' => Auth::check() ? 'nullable' : 'required|numeric|between:-90,90',
             'long' => Auth::check() ? 'nullable' : 'required|numeric|between:-180,180',
@@ -58,7 +58,7 @@ class BusinessWebsiteController extends Controller
                             ->whereDate('end_on', '>', $today)->orWhereNull('end_on');
                     });
                 })->where('status', 1)->select('id', 'business_name')->get()->makeHidden(['locations', 'multiple_images', 'story_image_url', 'formatted_location']);
-                dd($business_profiles,'business_profiles');
+                //dd($business_profiles,'business_profiles');
                 $distances = [];
                 foreach ($business_profiles as $business) {
                     $latitude = Auth::check() ? Auth::user()->lat : $request->lat;
@@ -85,7 +85,7 @@ class BusinessWebsiteController extends Controller
                         }
                     }
                 }
-                dd($filtered_profiles);
+                //dd($filtered_profiles);
                 if (count($filtered_profiles) > 0) {
                     return redirect()->route('frontend.market-universe')
                         ->with('success', 'Business Profile Fetched')

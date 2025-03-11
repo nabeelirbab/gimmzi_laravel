@@ -79,8 +79,9 @@ Route::get('save-merchant-plan', [BusinessOwnerController::class, 'savePlan'])->
 Route::get('get-merchant-plan-add-ons', [BusinessOwnerController::class, 'getPlanAddOn'])->name('frontend.business_owner.get_merchant_plan_add_ons');
 Route::get('payment-info', [BusinessOwnerController::class, 'paymentInfo'])->name('frontend.business_owner.payment_info');
 
-//merchant website page preview
+//merchant website page preview 
 Route::get('merchant/{id}', [BusinessWebsiteController::class, 'index'])->name('frontend.merchant.website');
+Route::get('search/business-profile', [BusinessWebsiteController::class, 'searchBusinessProfile'])->name('search.business.profile');
 
 Route::group(['middleware' => 'merchantAuth'], function () {
     Route::get('merchant-logout', [BusinessOwnerController::class, 'merchantLogout'])->name('frontend.business_owner.logout');

@@ -1113,7 +1113,7 @@ class MarketUniverseController extends BaseController
                 if (count($filtered_profiles) > 0) {
                     return $this->sendResponse($filtered_profiles, 'Business Profile Fetched', 201);
                 } else {
-                    return $this->sendError('No data found', [], 404);
+                    return $this->sendError('No data found', [], 404); 
                 }
             }
         } catch (\Throwable $th) {

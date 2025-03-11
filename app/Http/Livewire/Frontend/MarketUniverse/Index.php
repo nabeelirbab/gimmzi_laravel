@@ -12,6 +12,7 @@ class Index extends Component
     public $category_lists = [], $category = [], $deals = [];
     public $allCategory = false, $allType = false;
     public $current_lat, $current_long;
+    public $search = '';
 
     public function mount()
     {
@@ -116,12 +117,24 @@ class Index extends Component
         }
     }
 
+    public function updatedSearch()
+    {
+        $this->render(); 
+        dd($this->search); // This will stop execution and show the search text
+    }
+
     public function render()
     {
         $business_profiles = BusinessProfile::query();
+
+        if (!empty($this->search)) {
+            $business_profiles = $business_profiles->where('business_name', 'LIKE', '%' . $this->search . '%');
+        }
+
         if ($this->category) {
             $business_profiles = $business_profiles->whereIn('business_category_id', $this->category);
         }
+
         if (array_key_exists('loyaltyRewards', $this->deals) && $this->deals['loyaltyRewards'] && array_key_exists('gimmziDeals', $this->deals) && $this->deals['gimmziDeals']) {
             $business_profiles = $business_profiles;
         } elseif ($this->deals && array_key_exists('loyaltyRewards', $this->deals) && $this->deals['loyaltyRewards']) {

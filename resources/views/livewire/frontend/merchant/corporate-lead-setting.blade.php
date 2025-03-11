@@ -205,14 +205,18 @@
                 <div class="modal-body">
                     <div class="property-site-setting-website">
                         <div class="row">
-                            <div class="col-md-4 field-blk">
+                          <div class="col-md-4 field-blk">
                                 <label>Business Overview</label>
-                                <textarea class="form-control" rows="5" wire:model.defer='business_overview' id="business_overview"></textarea>
-                            </div> 
+                                <div wire:ignore>
+                                    <textarea class="form-control summernote" id="business_overview"></textarea>
+                                </div>
+                            </div>
 
                             <div class="col-md-4 field-blk">
                                 <label>Our Story</label>
-                                <textarea class="form-control" rows="5" wire:model.defer='business_story' id="business_story"></textarea>
+                                <div wire:ignore>
+                                    <textarea class="form-control summernote" id="business_story"></textarea>
+                                </div>
                             </div>
 
                             <div class="col-md-4 field-blk">
@@ -683,106 +687,124 @@
         src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_GEOCODE_API_KEY') }}&libraries=places"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
-    <script>
-        document.addEventListener('livewire:load', function (event) {
-            
-            window.livewire.on('pageSettingsModal', function() {
-                $('#merchant_site_setting_modal').modal('show');
-                // console.log('12xyz3');
-                $('#merchant_message').summernote({height: 300,}).summernote('code', @this.get('message_one'));
-                $('#merchant_message2').summernote({height: 300,}).summernote('code', @this.get('message_two'));
+   <script>
+    document.addEventListener('livewire:load', function () {
 
-                $('#business_story').summernote({height: 300,}).summernote('code', @this.get('business_story'));
-                $('#business_overview').summernote({height: 300,}).summernote('code', @this.get('business_overview'));
+        function initializeSummernote(id, model) {
+            $('#' + id).summernote({
+                height: 300,
+                callbacks: {
+                    onChange: function(contents) {
+                        @this.set(model, contents);
+                    }
+                }
             });
 
-            window.livewire.on('clear_message', () => {           
-                $('#merchant_message').summernote('code', ''); // Clear the content in Summernote
-                $('#merchant_message').summernote('reset'); // Ensure placeholder appears
-                document.getElementById('board_one').value = '';
-            });
-            window.livewire.on('clear_message2', () => {
-             
-                $('#merchant_message2').summernote('code',''); // Clear the content in Summernote
-                $('#merchant_message2').summernote('reset'); // Ensure placeholder appears
-                document.getElementById('board_two').value = '';
-            });
+            // Set initial value from Livewire
+            let content = @this.get(model);
+            $('#' + id).summernote('code', content);
+        }
 
-           
-
+        // Handle Modal Opening and Initialize Editors
+        window.livewire.on('pageSettingsModal', function() {
+            $('#merchant_site_setting_modal').modal('show');
         });
 
-            window.livewire.on('successModal', data => {
-                $('#confirm_modal').modal('hide');
-                $('#message_modal').modal('show');
-                $('#textmsg').text(data.text);
-            });
-            window.livewire.on('confirmModal', data => {
-                $('#message_modal').modal('hide');
-                $('#confirm_modal').modal('show');
-                $('#confirmmsg').text(data.text);
-            });
+        // Ensure Summernote initializes properly when the modal is fully opened
+        $('#merchant_site_setting_modal').on('shown.bs.modal', function () {
+            initializeSummernote('business_story', 'business_story');
+            initializeSummernote('business_overview', 'business_overview');
+            initializeSummernote('merchant_message', 'message_one');
+            initializeSummernote('merchant_message2', 'message_two');
+        });
 
-            $(".closeModal").on('click', function() {
-                $('#confirm_modal').modal('hide');
-                $('#message_modal').modal('hide');
-                $('#textmsg').text('');
-            })
+        // Ensure Summernote destroys and reinitializes when the modal is closed and reopened
+        $('#merchant_site_setting_modal').on('hidden.bs.modal', function () {
+            $('.summernote').summernote('destroy'); // Destroy all Summernote instances
+            window.livewire.emit('modalClosed'); // Emit event to Livewire
+        });
 
-            // window.livewire.on('autoCompleteAddress', function() {
-            //     console.log(true);
-            // })
+        // Clear Messages in Summernote
+        window.livewire.on('clear_message', () => {           
+            $('#merchant_message').summernote('code', ''); 
+            $('#merchant_message').summernote('reset');
+            @this.set('message_one', '');
+        });
 
+        window.livewire.on('clear_message2', () => {
+            $('#merchant_message2').summernote('code','');
+            $('#merchant_message2').summernote('reset');
+            @this.set('message_two', '');
+        });
 
-            $("#autocomplete1").on('keyup', function() {
-                    var input = document.getElementById('autocomplete1');
-                    var autocomplete = new google.maps.places.Autocomplete(input);
-                    autocomplete.setComponentRestrictions({
-                        'country': ['us']
-                    });
-                    console.log(autocomplete);
-                    google.maps.event.addListener(autocomplete, "place_changed", function(d) {
-                    var place = autocomplete.getPlace();
-                    console.log(place);
-                    
-                    $('#latitude').val(place.geometry['location'].lat());
-                    $('#longitude').val(place.geometry['location'].lng());
-                    @this.set('lat', place.geometry['location'].lat());
-                    @this.set('long', place.geometry['location'].lng());
-                    @this.set('participating_address', place.formatted_address);
-      
+        // Refresh Summernote Content on Livewire Update
+        window.livewire.on('refreshSummernote', function () {
+            initializeSummernote('business_story', 'business_story');
+            initializeSummernote('business_overview', 'business_overview');
+            initializeSummernote('merchant_message', 'message_one');
+            initializeSummernote('merchant_message2', 'message_two');
+            $('#message_modal').modal('hide');
+        });
 
-                    for(var i = 0; i < place.address_components.length; i++){
-                        console.log(place.address_components[i]);
-                        for (var j = 0; j < place.address_components[i].types.length; j++) {
-                            if (place.address_components[i].types[j] == "postal_code") {
-                            
-                                $("#zipcode").val(place.address_components[i].long_name);
-                                @this.set('participating_zipcode', place.address_components[i].long_name);
-                            }
-                            if (place.address_components[i].types[j] == "administrative_area_level_1") {
-                                window.livewire.emit('checkState',[place.address_components[i].long_name]);
-                               
-                                $("#state").val(place.address_components[i].long_name);
-                                @this.set('participating_state', place.address_components[i].long_name);
-                                
-                                
-                            }
-                            if (place.address_components[i].types[j] == "locality") {
-                                
-                                $("#city").val(place.address_components[i].long_name);
-                                @this.set('participating_city', place.address_components[i].long_name);
-                            }
+        // Handle Success Modal Popup
+        window.livewire.on('successModal', data => {
+            $('#confirm_modal').modal('hide');
+            $('#message_modal').modal('show');
+            $('#textmsg').text(data.text);
+        });
 
-                        }
+        // Handle Confirm Modal Popup
+        window.livewire.on('confirmModal', data => {
+            $('#message_modal').modal('hide');
+            $('#confirm_modal').modal('show');
+            $('#confirmmsg').text(data.text);
+        });
 
+        // Close modal when clicking the OK button
+        $(".closeModal").on('click', function() {
+            $('#confirm_modal').modal('hide');
+            $('#message_modal').modal('hide');
+            $('#textmsg').text('');
+        });
+
+        // AutoComplete Address Handling for Location Input
+        $("#autocomplete1").on('keyup', function() {
+            var input = document.getElementById('autocomplete1');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.setComponentRestrictions({ 'country': ['us'] });
+
+            google.maps.event.addListener(autocomplete, "place_changed", function() {
+                var place = autocomplete.getPlace();
+
+                $('#latitude').val(place.geometry['location'].lat());
+                $('#longitude').val(place.geometry['location'].lng());
+                @this.set('lat', place.geometry['location'].lat());
+                @this.set('long', place.geometry['location'].lng());
+                @this.set('participating_address', place.formatted_address);
+
+                place.address_components.forEach(component => {
+                    let types = component.types;
+                    if (types.includes("postal_code")) {
+                        $("#zipcode").val(component.long_name);
+                        @this.set('participating_zipcode', component.long_name);
+                    }
+                    if (types.includes("administrative_area_level_1")) {
+                        window.livewire.emit('checkState', [component.long_name]);
+                        $("#state").val(component.long_name);
+                        @this.set('participating_state', component.long_name);
+                    }
+                    if (types.includes("locality")) {
+                        $("#city").val(component.long_name);
+                        @this.set('participating_city', component.long_name);
                     }
                 });
             });
-         
-   
-        
-    </script>
+        });
+
+    });
+</script>
+
+
     @endpush
 
 </div>

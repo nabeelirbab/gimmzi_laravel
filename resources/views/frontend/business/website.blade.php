@@ -568,7 +568,13 @@
                                 </div>
 
                                 <div class="d-flex align-items-center">
-                                    <img src="{{ asset('frontend_assets/images/wishlist.svg') }}" alt="wishlist-icon" style="width: 24px;height: 24px;">
+                                    @if ($alreadyFav)
+                                        <img src="{{ asset('frontend_assets/images/wishlist-filled.svg') }}"
+                                            alt="wishlist-icon" style="width: 24px;height: 24px;">
+                                    @else
+                                        <img src="{{ asset('frontend_assets/images/wishlist.svg') }}"
+                                            alt="wishlist-icon" style="width: 24px;height: 24px;">
+                                    @endif
                                     <p class="save-favourite" data-business-id="{{ $business->id }}"
                                         style="margin-left: 7px; text-decoration: underline; cursor: pointer;">Save
                                     </p>
@@ -603,7 +609,7 @@
                                                         "{{ asset('frontend_assets/images/wishlist.svg') }}") {
                                                         heartIcon.attr("src",
                                                             "{{ asset('frontend_assets/images/wishlist-filled.svg') }}"
-                                                            );
+                                                        );
                                                     } else {
                                                         heartIcon.attr("src",
                                                             "{{ asset('frontend_assets/images/wishlist.svg') }}");

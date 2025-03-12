@@ -639,7 +639,7 @@
                             <div class="tab-content mt-3" id="myTabContent">
                                 <div class="tab-pane fade show active" id="home" role="tabpanel"
                                     aria-labelledby="home-tab">
-                                    <p class="color:#475467;">{{ $business->business_overview }}</p>
+                                    <p class="color:#475467;">{!! $business->business_overview !!}</p>
                                 </div>
                                 <div class="tab-pane fade" id="profile" role="tabpanel"
                                     aria-labelledby="profile-tab">
@@ -647,7 +647,7 @@
                                 </div>
                                 <div class="tab-pane fade" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
-                                    <p id="contactContent">{{ $business->business_story }}</p>
+                                    <p id="contactContent">{!! $business->business_story !!}</p>
                                 </div>
                             </div>
                         </div>

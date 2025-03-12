@@ -71,7 +71,7 @@ class BusinessOwnerAccountController extends Controller
                  ->get();
         // dd($active_event[0]->states);
 
-        // dd($is_mobile_business);
+        // dd($is_mobile_business); 
 
        
         return view('frontend.merchant_owner.account', compact('dealManage', 'item', 'itemGet', 'getmanager', 'getuser', 'stateList', 'merchant_location','loyaltyManage', 'business_locations', 'is_mobile_business','active_event'));

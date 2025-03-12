@@ -1,3 +1,9 @@
+<style>
+    .navbar-brand {
+        margin-right: 160px;
+        /* Adjust the space as needed */
+    }
+</style>
 <header class="new-main-head inner-headers">
     <div class="top-hdr">
         <div class="top-hdr-wraps">

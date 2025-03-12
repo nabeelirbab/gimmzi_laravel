@@ -568,9 +568,67 @@
                                 </div>
 
                                 <div class="d-flex align-items-center">
-                                    <img src="{{ asset('frontend_assets/images/wishlist.svg') }}" alt="">
-                                    <p style="margin-left: 7px; text-decoration: underline">save</p>
+                                    @if ($alreadyFav)
+                                        <img src="{{ asset('frontend_assets/images/wishlist-filled.svg') }}"
+                                            alt="wishlist-icon" style="width: 24px;height: 24px;">
+                                    @else
+                                        <img src="{{ asset('frontend_assets/images/wishlist.svg') }}"
+                                            alt="wishlist-icon" style="width: 24px;height: 24px;">
+                                    @endif
+                                    <p class="save-favourite" data-business-id="{{ $business->id }}"
+                                        style="margin-left: 7px; text-decoration: underline; cursor: pointer;">Save
+                                    </p>
                                 </div>
+
+                                <!-- Include jQuery -->
+                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+                                <script>
+                                    $(document).ready(function() {
+                                        $(".save-favourite").click(function() {
+                                            var businessId = $(this).data("business-id");
+                                            var heartIcon = $(this).closest('.d-flex').find('img');
+                                            console.log('businessId:', businessId);
+
+                                            $.ajax({
+                                                url: "{{ route('wishlist.save') }}", // Ensure route exists in web.php
+                                                type: "POST",
+                                                data: {
+                                                    business_id: businessId,
+                                                    _token: "{{ csrf_token() }}"
+                                                },
+                                                success: function(response) {
+                                                    if (response.status) { // Check if the response status is true
+                                                        toastr.success(response
+                                                            .message); // Show success message from response
+                                                    } else {
+                                                        toastr.warning(response.message); // Show warning message if needed
+                                                    }
+                                                    // Toggle the heart icon color
+                                                    if (heartIcon.attr("src") ===
+                                                        "{{ asset('frontend_assets/images/wishlist.svg') }}") {
+                                                        heartIcon.attr("src",
+                                                            "{{ asset('frontend_assets/images/wishlist-filled.svg') }}"
+                                                        );
+                                                    } else {
+                                                        heartIcon.attr("src",
+                                                            "{{ asset('frontend_assets/images/wishlist.svg') }}");
+                                                    }
+                                                },
+                                                error: function(xhr) {
+                                                    let errorMessage =
+                                                        'Something went wrong! Please try again.'; // Default error message
+                                                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                                                        errorMessage = xhr.responseJSON
+                                                            .message; // Use server-provided error message
+                                                    }
+                                                    toastr.error(errorMessage);
+                                                }
+                                            });
+                                        });
+                                    });
+                                </script>
+
                             </div>
                         </div>
                     </div>

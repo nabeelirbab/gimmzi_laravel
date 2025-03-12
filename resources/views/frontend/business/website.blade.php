@@ -426,7 +426,7 @@
                             </div>
                         </div> --}}
                         <!-- Social Sharing Modal -->
-                        <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel"
+                        {{-- <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered custom-modal"
                                 style="max-width: 900px; width: 90%;">
@@ -547,7 +547,216 @@
                                     </div>
                                 </div>
                             </div>
+                        </div> --}}
+                        <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered custom-modal"
+                                style="max-width: 900px; width: 90%;">
+                                <div class="modal-content container-fluid position-relative">
+                                    <!-- Close Button -->
+                                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3"
+                                        data-bs-dismiss="modal" aria-label="Close">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </button>
+
+                                    <div class="modal-body text-center">
+                                        <!-- Business Info -->
+                                        <div
+                                            class="row align-items-center social-modal-header text-center text-md-start">
+                                            <div class="col-12 col-md-3 text-center mb-2 mb-md-0">
+                                                <img src="{{ asset('frontend_assets/images/modal_logo.png') }}"
+                                                    alt="Business Logo" class="img-fluid"
+                                                    style="max-width: 60px; height: auto;">
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="business_name fw-bold">{{ $business->business_name }}</div>
+                                                <div class="business_address">
+                                                    @if (!empty($business->street_address))
+                                                        {{ $business->street_address }}, {{ $business->city }},
+                                                        {{ $business->states->name }}, {{ $business->zip_code }}
+                                                    @endif
+                                                </div>
+                                                <div class="mt-2">{{ $business->business_phone }}</div>
+                                            </div>
+                                        </div>
+
+                                        <hr>
+
+                                        <small class="social-share-small text-muted">Share this business, earn
+                                            points!</small>
+                                        <p class="small-text text-secondary">Start Earning Points and make every share
+                                            count!</p>
+
+                                        <!-- Social Sharing Content -->
+                                        <div class="row g-0">
+                                            <!-- Business Image -->
+                                            <div
+                                                class="col-12 col-md-5 d-flex align-items-center justify-content-center p-2 bg-light">
+                                                @foreach ($business_photos as $index => $photo)
+                                                    @if ($index == 0)
+                                                        <img src="{{ asset($photo->getUrl()) }}" alt="Business Image"
+                                                            class="img-fluid rounded w-100" style="max-height: 250px;">
+                                                    @endif
+                                                @endforeach
+                                            </div>
+
+                                            <!-- Social Media Share Buttons -->
+                                            <div class="col-12 col-md-7 d-flex flex-column social-container p-3">
+                                                <!-- Top Row -->
+                                                <div class="social-row">
+                                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}"
+                                                        target="_blank" class="social-btn">
+                                                        <img src="{{ asset('frontend_assets/images/facebook.svg') }}"
+                                                            alt="Facebook" class="icon-img">
+                                                        <span>Facebook</span>
+                                                    </a>
+                                                    <a href="https://x.com/intent/tweet?text={{ urlencode(url()->current()) }}"
+                                                        target="_blank" class="social-btn">
+                                                        <img src="{{ asset('frontend_assets/images/X.svg') }}"
+                                                            alt="X" class="icon-img">
+                                                        <span>X</span>
+                                                    </a>
+                                                </div>
+
+                                                <!-- Middle Row -->
+                                                <div class="social-row">
+                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url()->current()) }}"
+                                                        target="_blank" class="social-btn">
+                                                        <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
+                                                            alt="LinkedIn" class="icon-img">
+                                                        <span>LinkedIn</span>
+                                                    </a>
+                                                    <a href="https://api.whatsapp.com/send?text={{ urlencode(url()->current()) }}"
+                                                        target="_blank" class="social-btn">
+                                                        <img src="{{ asset('frontend_assets/images/whatsapp.svg') }}"
+                                                            alt="WhatsApp" class="icon-img">
+                                                        <span>WhatsApp</span>
+                                                    </a>
+                                                </div>
+
+                                                <!-- Bottom Row -->
+                                                <div class="social-row">
+                                                    <a href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#shareSocialModal" class="social-btn">
+                                                        <img src="{{ asset('frontend_assets/images/email.svg') }}"
+                                                            alt="Email" class="icon-img">
+                                                        <span>Email</span>
+                                                    </a>
+                                                    <a href="#"
+                                                        onclick="copyToClipboard('{{ url()->current() }}'); return false;"
+                                                        class="social-btn">
+                                                        <img src="{{ asset('frontend_assets/images/copy.svg') }}"
+                                                            alt="Copy Link" class="icon-img">
+                                                        <span>Copy Link</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Points Information -->
+                                        <div class="bg-light text-secondary text-center py-2 mt-3 rounded">
+                                            Earn 1 point for each listing you share on Facebook, X (formerly Twitter),
+                                            and LinkedIn (10 point limit per day).
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        <style>
+                            .social-btn {
+                                display: flex;
+                                align-items: center;
+                                justify-content: flex-start;
+                                /* Align items properly */
+                                text-decoration: none;
+                                color: #333;
+                                padding: 10px;
+                                border-radius: 8px;
+
+                                width: 100%;
+                                gap: 10px;
+                                /* Adds spacing between icon and text */
+                            }
+
+                            .social-btn:hover {
+                                background: rgba(0, 0, 0, 0.05);
+                                color: #000;
+                            }
+
+                            .icon-img {
+                                width: 40px;
+                                /* Ensure proper icon size */
+                                height: 40px;
+                            }
+
+                            @media (max-width: 768px) {
+                                .social-btn {
+                                    justify-content: flex-start;
+                                    /* Ensure alignment remains left */
+                                    text-align: left;
+                                }
+
+                                .icon-img {
+                                    width: 24px;
+                                    /* Slightly smaller icons on mobile */
+                                    height: 24px;
+                                }
+                            }
+
+                            .social-container {
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: space-between;
+                                /* Distributes rows evenly */
+                                height: 100%;
+                                /* Match the height of the image */
+                            }
+
+                            .social-row {
+                                display: flex;
+                                justify-content: space-between;
+                                /* Ensures spacing between icons */
+                                align-items: center;
+                                width: 100%;
+                                flex-grow: 1;
+                                /* Ensures equal spacing */
+                            }
+
+                            /* Individual row alignment */
+                            .social-row:first-child {
+                                align-self: flex-start;
+                                /* Align top */
+                            }
+
+                            .social-row:nth-child(2) {
+                                align-self: center;
+                                margin-top: 40px;
+                                /* Align middle */
+                            }
+
+                            .social-row:last-child {
+                                align-self: flex-end;
+                                margin-top: 40px;
+                                /* Align bottom */
+                            }
+
+                            .social-btn {
+                                display: flex;
+                                align-items: center;
+                                text-decoration: none;
+                                color: #333;
+                                gap: 8px;
+                                font-size: 14px;
+                            }
+
+                            .icon-img {
+                                width: 28px;
+                                height: 28px;
+                            }
+                        </style>
+
 
 
                         <!-- Right Section: Buttons -->

@@ -655,7 +655,7 @@
 
 
                                         <!-- Points Information -->
-                                        <div class="bg-light text-secondary text-center py-2 mt-3 rounded">
+                                        <div class="bg-light text-secondary text-center py-2 mt-3 rounded footer-text">
                                             Earn 1 point for each listing you share on Facebook, X (formerly Twitter),
                                             and LinkedIn (10 point limit per day).
                                         </div>
@@ -754,6 +754,35 @@
                             .icon-img {
                                 width: 28px;
                                 height: 28px;
+                            }
+
+                            @media (max-width: 768px) {
+                                .business_name {
+                                    font-size: 16px;
+                                    /* Reduce business name font size */
+                                }
+
+                                .business_address,
+                                .small-text,
+                                .social-share-small {
+                                    font-size: 12px;
+                                    /* Reduce other text sizes */
+                                }
+
+                                .social-btn span {
+                                    font-size: 12px;
+                                    /* Reduce button text size */
+                                }
+
+                                .icon-img {
+                                    width: 24px;
+                                    /* Reduce icon size */
+                                    height: 24px;
+                                }
+
+                                .footer-text {
+                                    font-size: 12px;
+                                }
                             }
                         </style>
 

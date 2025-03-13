@@ -1,3 +1,9 @@
+<style>
+    .navbar-brand {
+        margin-right: 160px;
+        /* Adjust the space as needed */
+    }
+</style>
 <header class="new-main-head inner-headers">
     <div class="top-hdr">
         <div class="top-hdr-wraps">
@@ -206,7 +212,7 @@
                     </div>
                     <ul class="hdr-ul">
                         <li class="hdr-li">
-                            <a href="javascript:void(0)" class="hdr-ul-anchor">
+                            <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor">
                                 <img loading="lazy" src="{{ asset('frontend_assets/images/user.svg') }}"
                                     alt="user icon">
                             </a>
@@ -218,13 +224,52 @@
                             </a>
                         </li>
                         <li class="hdr-li">
-                            <a href="javascript:void(0)" class="hdr-ul-anchor">
+                            <a href="javascript:void(0)" class="hdr-ul-anchor add-to-wallet" data-business-id="2"
+                                data-type="loyaltyRewards" data-deal-id="10">
                                 <img loading="lazy" src="{{ asset('frontend_assets/images/wallet.svg') }}"
                                     alt="wallet icon">
                             </a>
                         </li>
-
                     </ul>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script>
+                        $(document).ready(function() {
+                            $('.add-to-wallet').click(function() {
+                                let businessId = $(this).data('business-id');
+                                let type = $(this).data('type');
+                                let dealId = $(this).data('deal-id');
+
+                                $.ajax({
+                                    url: "{{ route('wallet.add') }}", // Laravel route
+                                    type: "POST",
+                                    data: {
+                                        _token: "{{ csrf_token() }}", // Laravel CSRF token
+                                        business_id: businessId,
+                                        type: type,
+                                        deal_id: dealId
+                                    },
+                                    success: function(response) {
+                                        if (response.status) { // Check if the response status is true
+                                            toastr.success(response
+                                                .message); // Show success message from response
+                                        } else {
+                                            toastr.warning(response.message); // Show warning message if needed
+                                        }
+                                    },
+                                    error: function(xhr) {
+                                        let errorMessage =
+                                            'Something went wrong! Please try again.'; // Default error message
+                                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                                            errorMessage = xhr.responseJSON
+                                                .message; // Use server-provided error message
+                                        }
+                                        toastr.error(errorMessage);
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+
                 </div>
 
             </nav>

@@ -1,49 +1,51 @@
 <?php
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 //admin
 
 
-use App\Http\Controllers\Frontend\CmsController as FrontendCmsController;
+use App\Http\Controllers\WalletController;
 //frontend
+use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\Frontend\PropertyManager\AuthController;
 use App\Http\Controllers\Frontend\WebsiteEnd\ApartmentController;
-use App\Http\Controllers\Frontend\WebsiteEnd\BusinessWebsiteController;
-use App\Http\Controllers\Frontend\WebsiteEnd\TravelTourismController;
 
 //merchant-business
-use App\Http\Controllers\Frontend\MerchantBusiness\BusinessOwnerController;
-use App\Http\Controllers\Frontend\MerchantBusiness\BusinessOwnerAccountController;
+use App\Http\Controllers\Frontend\Consumer\AuthConsumerController;
+use App\Http\Controllers\Frontend\Consumer\RegistrationController;
+use App\Http\Controllers\Frontend\WebsiteEnd\TravelTourismController;
+use App\Http\Controllers\Frontend\WebsiteEnd\BusinessWebsiteController;
+use App\Http\Controllers\Frontend\PropertyManager\SmartRentalController;
+use App\Http\Controllers\Frontend\CmsController as FrontendCmsController;
 use App\Http\Controllers\Frontend\MerchantBusiness\MerchantDealController;
-use App\Http\Controllers\Frontend\MerchantBusiness\BusinessOwnerLoyaltyController;
-use App\Http\Controllers\Frontend\MerchantBusiness\MerchantSettingsController;
-use App\Http\Controllers\Frontend\MerchantBusiness\BillingManagementController;
-use App\Http\Controllers\Frontend\MerchantBusiness\MerchantAccountDetailsController;
-use App\Http\Controllers\Frontend\MerchantBusiness\MerchantAccountSettingController;
-use App\Http\Controllers\Frontend\MerchantBusiness\MerchantMessageBoardController;
 use App\Http\Controllers\Frontend\MerchantBusiness\MerchantPlanController;
-use App\Http\Controllers\Frontend\MerchantBusiness\UserProfileSettingController;
+use App\Http\Controllers\Frontend\MerchantBusiness\BusinessOwnerController;
+use App\Http\Controllers\Frontend\PropertyManager\LowPointMemberController;
 use App\Http\Controllers\Frontend\MerchantBusiness\UserManagementController;
+use App\Http\Controllers\Frontend\PropertyManager\ProfileSettingsController;
 
 
 //property
-use App\Http\Controllers\Frontend\PropertyManager\AuthController;
-use App\Http\Controllers\Frontend\PropertyManager\SmartRentalController;
-use App\Http\Controllers\Frontend\PropertyManager\MessageboardController as FrontendMessageBoard;
-use App\Http\Controllers\Frontend\PropertyManager\ConsumerController as propertyconsumercontroller;
-use App\Http\Controllers\Frontend\PropertyManager\ProviderTenantRecognitionController;
 use App\Http\Controllers\Frontend\PropertyManager\PropertySettingsController;
-use App\Http\Controllers\Frontend\PropertyManager\ProfileSettingsController;
+use App\Http\Controllers\Frontend\MerchantBusiness\MerchantSettingsController;
 use App\Http\Controllers\Frontend\PropertyManager\SmartRentalAccessManagement;
-use App\Http\Controllers\Frontend\PropertyManager\LowPointMemberController;
+use App\Http\Controllers\Frontend\MerchantBusiness\BillingManagementController;
+use App\Http\Controllers\Frontend\MerchantBusiness\UserProfileSettingController;
+use App\Http\Controllers\Frontend\MerchantBusiness\BusinessOwnerAccountController;
+use App\Http\Controllers\Frontend\MerchantBusiness\BusinessOwnerLoyaltyController;
+use App\Http\Controllers\Frontend\MerchantBusiness\MerchantMessageBoardController;
+use App\Http\Controllers\Frontend\MerchantBusiness\MerchantAccountDetailsController;
 
 //consumer
-use App\Http\Controllers\Frontend\Consumer\AuthConsumerController;
-use App\Http\Controllers\Frontend\Consumer\RegistrationController;
+use App\Http\Controllers\Frontend\MerchantBusiness\MerchantAccountSettingController;
+use App\Http\Controllers\Frontend\PropertyManager\ProviderTenantRecognitionController;
 
 //Traveltourism
 use App\Http\Controllers\Frontend\TravelTourism\ProfileController as TravelTourismProfile;
+use App\Http\Controllers\Frontend\PropertyManager\MessageboardController as FrontendMessageBoard;
+use App\Http\Controllers\Frontend\PropertyManager\ConsumerController as propertyconsumercontroller;
 
 
 // use App\Models\ProviderTenantRecognition;
@@ -263,7 +265,8 @@ Route::get('get-merchant-report', [IndexController::class, 'getmerchantreport'])
 Route::get('get-apartment-report', [IndexController::class, 'getapartmentreport']);
 Route::get('get-short-term-report', [IndexController::class, 'getshorttermreport']);
 
-
+Route::post('/wishlist/save', [WishlistController::class, 'save'])->name('wishlist.save');
+Route::post('/add-to-wallet', [WalletController::class, 'addToMyWalletWeb'])->name('wallet.add');
 
 Route::get('clear', function () {
     Artisan::call('optimize:clear');

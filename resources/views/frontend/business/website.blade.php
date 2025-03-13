@@ -260,6 +260,126 @@
         .equal-height-container>div {
             flex: 1;
         }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            /* Align items properly */
+            text-decoration: none;
+            color: #333;
+            padding: 10px;
+            border-radius: 8px;
+
+            width: 100%;
+            gap: 10px;
+            /* Adds spacing between icon and text */
+        }
+
+        .social-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: #000;
+        }
+
+        .icon-img {
+            width: 40px;
+            /* Ensure proper icon size */
+            height: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .social-btn {
+                justify-content: flex-start;
+                /* Ensure alignment remains left */
+                text-align: left;
+            }
+
+            .icon-img {
+                width: 24px;
+                /* Slightly smaller icons on mobile */
+                height: 24px;
+            }
+        }
+
+        .social-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* Distributes rows evenly */
+            height: 100%;
+            /* Match the height of the image */
+        }
+
+        .social-row {
+            display: flex;
+            justify-content: space-between;
+            /* Ensures spacing between icons */
+            align-items: center;
+            width: 100%;
+            flex-grow: 1;
+            /* Ensures equal spacing */
+        }
+
+        /* Individual row alignment */
+        .social-row:first-child {
+            align-self: flex-start;
+            /* Align top */
+        }
+
+        .social-row:nth-child(2) {
+            align-self: center;
+            margin-top: 40px;
+            /* Align middle */
+        }
+
+        .social-row:last-child {
+            align-self: flex-end;
+            margin-top: 40px;
+            /* Align bottom */
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .icon-img {
+            width: 28px;
+            height: 28px;
+        }
+
+        @media (max-width: 768px) {
+            .business_name {
+                font-size: 16px;
+                /* Reduce business name font size */
+            }
+
+            .business_address,
+            .small-text,
+            .social-share-small {
+                font-size: 12px;
+                /* Reduce other text sizes */
+            }
+
+            .social-btn span {
+                font-size: 12px;
+                /* Reduce button text size */
+            }
+
+            .icon-img {
+                width: 24px;
+                /* Reduce icon size */
+                height: 24px;
+            }
+
+            .footer-text {
+                font-size: 12px;
+            }
+        }
     </style>
     <div class="allen-park-apartments-main-sec">
         <div class="allen-part-apartments-sec">
@@ -306,132 +426,13 @@
                             </div>
                         </div>
                         <!-- Social Sharing Modal -->
-                        {{-- <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered custom-modal"
-                                style="max-width: 900px; width: 90%;">
-                                <div class="container modal-content">
-                                    <!-- Close Button at Top-Right -->
-                                    <button type="button" class="btn-close position-absolute"
-                                        style="top: 10px; right: 10px; z-index: 1050;" data-bs-dismiss="modal"
-                                        aria-label="Close">
-                                        <i class="fa fa-times" aria-hidden="true"></i>
-                                    </button>
 
-                                    <div class="modal-body text-center">
-                                        <div class="row align-items-center social-modal-header">
-                                            <div class="col-3">
-                                                <img src="{{ asset('frontend_assets/images/modal_logo.png') }}"
-                                                    alt="" class="img-fluid" style="width: 60px;height: 60px;">
-                                            </div>
-                                            <div class="col-6 text-center">
-                                                <div class="business_name">{{ $business->business_name }}</div>
-                                                <div class="business_address">
-                                                    @if ($business->street_address != '')
-                                                        {{ $business->street_address }}, {{ $business->city }},
-                                                        {{ $business->states->name }}, {{ $business->zip_code }}
-                                                    @endif
-                                                </div>
-                                                <div style="margin-top: 8px">{{ $business->business_phone }}</div>
-                                            </div>
-                                            <div class="col-3"></div>
-                                        </div>
-                                        <hr>
-                                        <small class="social-share-small">Share this business, earn points!</small>
-                                        <p class="small-text">Start Earning Points and make every share countl</p>
-                                        <div class="row equal-height-container border">
-                                            <!-- Left Side - Image -->
-                                            <div
-                                                class="col-md-5 text-center d-flex align-items-center justify-content-center img-equal border">
-                                                @foreach ($business_photos as $index => $photo)
-                                                    @if ($index == 0)
-                                                        <img src="{{ asset($photo->getUrl()) }}" alt="Business Image"
-                                                            class="img-fluid rounded d-block mx-auto w-100 h-auto"
-                                                            style="max-height: 250px;">
-                                                    @endif
-                                                @endforeach
-                                            </div>
-
-                                            <!-- Right Side - Social Share Buttons -->
-                                            <div class="col-md-7 d-flex flex-column justify-content-center">
-                                                <div class="row text-center flex-grow-1 d-flex align-items-center"
-                                                    style="max-height: 250px;">
-                                                    <div class="col-6 social-share-margin">
-                                                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}"
-                                                            target="_blank"
-                                                            class="text-decoration-none text-dark d-flex align-items-center">
-                                                            <img src="{{ asset('frontend_assets/images/facebook.svg') }}"
-                                                                alt="Facebook" class="icon-img">
-                                                            <span>Facebook</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col-6 social-share-margin">
-                                                        <a href="https://x.com/intent/tweet?text={{ urlencode(url()->current()) }}"
-                                                            target="_blank"
-                                                            class="text-decoration-none text-dark d-flex align-items-center">
-                                                            <img src="{{ asset('frontend_assets/images/X.svg') }}"
-                                                                alt="X" class="icon-img">
-                                                            <span>X</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col-6 social-share-margin">
-                                                        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url()->current()) }}"
-                                                            target="_blank"
-                                                            class="text-decoration-none text-dark d-flex align-items-center">
-                                                            <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
-                                                                alt="LinkedIn" class="icon-img">
-                                                            <span>LinkedIn</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col-6 social-share-margin">
-                                                        <a href="https://api.whatsapp.com/send?text={{ urlencode(url()->current()) }}"
-                                                            target="_blank"
-                                                            class="text-decoration-none text-dark d-flex align-items-center">
-                                                            <img src="{{ asset('frontend_assets/images/whatsapp.svg') }}"
-                                                                alt="WhatsApp" class="icon-img">
-                                                            <span>WhatsApp</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col-6 social-share-margin">
-                                                        <a href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#shareSocialModal"
-                                                            class="text-decoration-none text-dark d-flex align-items-center">
-                                                            <img src="{{ asset('frontend_assets/images/email.svg') }}"
-                                                                alt="Email" class="icon-img">
-                                                            <span>Email</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col-6 social-share-margin">
-                                                        <a href="#"
-                                                            onclick="copyToClipboard('{{ url()->current() }}'); return false;"
-                                                            class="text-decoration-none text-dark d-flex align-items-center">
-                                                            <img src="{{ asset('frontend_assets/images/copy.svg') }}"
-                                                                alt="Copy Link" class="icon-img">
-                                                            <span>Copy Link</span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-
-                                        <div
-                                            style="background-color: #f2f4f7; white-space: nowrap;font-size: 14px;padding: 6px;margin-top:20px !important;">
-                                            Earn
-                                            1 point for each listing you share on Facebook, X (formerly Twitter), and
-                                            LinkedIn (10 point limit per day).</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-                        <!-- Social Sharing Modal -->
                         <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered custom-modal"
                                 style="max-width: 900px; width: 90%;">
-                                <div class="modal-content container position-relative">
-                                    <!-- Close Button at Top-Right -->
+                                <div class="modal-content container-fluid position-relative">
+                                    <!-- Close Button -->
                                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3"
                                         data-bs-dismiss="modal" aria-label="Close">
                                         <i class="fa fa-times" aria-hidden="true"></i>
@@ -439,13 +440,14 @@
 
                                     <div class="modal-body text-center">
                                         <!-- Business Info -->
-                                        <div class="row align-items-center social-modal-header">
-                                            <div class="col-3 text-center">
+                                        <div
+                                            class="row align-items-center social-modal-header text-center text-md-start">
+                                            <div class="col-12 col-md-3 text-center mb-2 mb-md-0">
                                                 <img src="{{ asset('frontend_assets/images/modal_logo.png') }}"
                                                     alt="Business Logo" class="img-fluid"
-                                                    style="width: 60px; height: 60px;">
+                                                    style="max-width: 60px; height: auto;">
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-12 col-md-6">
                                                 <div class="business_name fw-bold">{{ $business->business_name }}</div>
                                                 <div class="business_address">
                                                     @if (!empty($business->street_address))
@@ -455,7 +457,6 @@
                                                 </div>
                                                 <div class="mt-2">{{ $business->business_phone }}</div>
                                             </div>
-                                            <div class="col-3"></div>
                                         </div>
 
                                         <hr>
@@ -466,10 +467,10 @@
                                             count!</p>
 
                                         <!-- Social Sharing Content -->
-                                        <div class="row g-0 overflow-hidden">
-                                            <!-- Left Side - Business Image -->
+                                        <div class="row g-0">
+                                            <!-- Business Image -->
                                             <div
-                                                class="col-md-5 d-flex align-items-center justify-content-center p-2 bg-light">
+                                                class="col-12 col-md-5 d-flex align-items-center justify-content-center p-2 bg-light">
                                                 @foreach ($business_photos as $index => $photo)
                                                     @if ($index == 0)
                                                         <img src="{{ asset($photo->getUrl()) }}" alt="Business Image"
@@ -478,69 +479,62 @@
                                                 @endforeach
                                             </div>
 
-                                            <!-- Right Side - Social Share Buttons -->
-                                            <div class="col-md-7 d-flex flex-column justify-content-start p-3">
-                                                <div class="row text-center">
-                                                    <div class="col-6 my-2">
-                                                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}"
-                                                            target="_blank"
-                                                            class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
-                                                            <img src="{{ asset('frontend_assets/images/facebook.svg') }}"
-                                                                alt="Facebook" class="icon-img me-2">
-                                                            <span>Facebook</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col-6 my-2">
-                                                        <a href="https://x.com/intent/tweet?text={{ urlencode(url()->current()) }}"
-                                                            target="_blank"
-                                                            class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
-                                                            <img src="{{ asset('frontend_assets/images/X.svg') }}"
-                                                                alt="X" class="icon-img me-2">
-                                                            <span>X</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col-6 my-2">
-                                                        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url()->current()) }}"
-                                                            target="_blank"
-                                                            class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
-                                                            <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
-                                                                alt="LinkedIn" class="icon-img me-2">
-                                                            <span>LinkedIn</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col-6 my-2">
-                                                        <a href="https://api.whatsapp.com/send?text={{ urlencode(url()->current()) }}"
-                                                            target="_blank"
-                                                            class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
-                                                            <img src="{{ asset('frontend_assets/images/whatsapp.svg') }}"
-                                                                alt="WhatsApp" class="icon-img me-2">
-                                                            <span>WhatsApp</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col-6 my-2">
-                                                        <a href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#shareSocialModal"
-                                                            class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
-                                                            <img src="{{ asset('frontend_assets/images/email.svg') }}"
-                                                                alt="Email" class="icon-img me-2">
-                                                            <span>Email</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col-6 my-2">
-                                                        <a href="#"
-                                                            onclick="copyToClipboard('{{ url()->current() }}'); return false;"
-                                                            class="text-decoration-none text-dark d-flex align-items-center justify-content-start">
-                                                            <img src="{{ asset('frontend_assets/images/copy.svg') }}"
-                                                                alt="Copy Link" class="icon-img me-2">
-                                                            <span>Copy Link</span>
-                                                        </a>
-                                                    </div>
+                                            <!-- Social Media Share Buttons -->
+                                            <div class="col-12 col-md-7 d-flex flex-column social-container p-3">
+                                                <!-- Top Row -->
+                                                <div class="social-row">
+                                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}"
+                                                        target="_blank" class="social-btn">
+                                                        <img src="{{ asset('frontend_assets/images/facebook.svg') }}"
+                                                            alt="Facebook" class="icon-img">
+                                                        <span>Facebook</span>
+                                                    </a>
+                                                    <a href="https://x.com/intent/tweet?text={{ urlencode(url()->current()) }}"
+                                                        target="_blank" class="social-btn">
+                                                        <img src="{{ asset('frontend_assets/images/X.svg') }}"
+                                                            alt="X" class="icon-img">
+                                                        <span>X</span>
+                                                    </a>
+                                                </div>
+
+                                                <!-- Middle Row -->
+                                                <div class="social-row">
+                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url()->current()) }}"
+                                                        target="_blank" class="social-btn">
+                                                        <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
+                                                            alt="LinkedIn" class="icon-img">
+                                                        <span>LinkedIn</span>
+                                                    </a>
+                                                    <a href="https://api.whatsapp.com/send?text={{ urlencode(url()->current()) }}"
+                                                        target="_blank" class="social-btn">
+                                                        <img src="{{ asset('frontend_assets/images/whatsapp.svg') }}"
+                                                            alt="WhatsApp" class="icon-img">
+                                                        <span>WhatsApp</span>
+                                                    </a>
+                                                </div>
+
+                                                <!-- Bottom Row -->
+                                                <div class="social-row">
+                                                    <a href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#shareSocialModal" class="social-btn">
+                                                        <img src="{{ asset('frontend_assets/images/email.svg') }}"
+                                                            alt="Email" class="icon-img">
+                                                        <span>Email</span>
+                                                    </a>
+                                                    <a href="#"
+                                                        onclick="copyToClipboard('{{ url()->current() }}'); return false;"
+                                                        class="social-btn">
+                                                        <img src="{{ asset('frontend_assets/images/copy.svg') }}"
+                                                            alt="Copy Link" class="icon-img">
+                                                        <span>Copy Link</span>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
 
+
                                         <!-- Points Information -->
-                                        <div class="bg-light text-secondary text-center py-2 mt-3 rounded">
+                                        <div class="bg-light text-secondary text-center py-2 mt-3 rounded footer-text">
                                             Earn 1 point for each listing you share on Facebook, X (formerly Twitter),
                                             and LinkedIn (10 point limit per day).
                                         </div>
@@ -548,7 +542,6 @@
                                 </div>
                             </div>
                         </div>
-
 
                         <!-- Right Section: Buttons -->
                         <div class="col-md-6 col-12">
@@ -575,9 +568,67 @@
                                 </div>
 
                                 <div class="d-flex align-items-center">
-                                    <img src="{{ asset('frontend_assets/images/wishlist.svg') }}" alt="">
-                                    <p style="margin-left: 7px; text-decoration: underline">save</p>
+                                    @if ($alreadyFav)
+                                        <img src="{{ asset('frontend_assets/images/wishlist-filled.svg') }}"
+                                            alt="wishlist-icon" style="width: 24px;height: 24px;">
+                                    @else
+                                        <img src="{{ asset('frontend_assets/images/wishlist.svg') }}"
+                                            alt="wishlist-icon" style="width: 24px;height: 24px;">
+                                    @endif
+                                    <p class="save-favourite" data-business-id="{{ $business->id }}"
+                                        style="margin-left: 7px; text-decoration: underline; cursor: pointer;">Save
+                                    </p>
                                 </div>
+
+                                <!-- Include jQuery -->
+                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+                                <script>
+                                    $(document).ready(function() {
+                                        $(".save-favourite").click(function() {
+                                            var businessId = $(this).data("business-id");
+                                            var heartIcon = $(this).closest('.d-flex').find('img');
+                                            console.log('businessId:', businessId);
+
+                                            $.ajax({
+                                                url: "{{ route('wishlist.save') }}", // Ensure route exists in web.php
+                                                type: "POST",
+                                                data: {
+                                                    business_id: businessId,
+                                                    _token: "{{ csrf_token() }}"
+                                                },
+                                                success: function(response) {
+                                                    if (response.status) { // Check if the response status is true
+                                                        toastr.success(response
+                                                            .message); // Show success message from response
+                                                    } else {
+                                                        toastr.warning(response.message); // Show warning message if needed
+                                                    }
+                                                    // Toggle the heart icon color
+                                                    if (heartIcon.attr("src") ===
+                                                        "{{ asset('frontend_assets/images/wishlist.svg') }}") {
+                                                        heartIcon.attr("src",
+                                                            "{{ asset('frontend_assets/images/wishlist-filled.svg') }}"
+                                                        );
+                                                    } else {
+                                                        heartIcon.attr("src",
+                                                            "{{ asset('frontend_assets/images/wishlist.svg') }}");
+                                                    }
+                                                },
+                                                error: function(xhr) {
+                                                    let errorMessage =
+                                                        'Something went wrong! Please try again.'; // Default error message
+                                                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                                                        errorMessage = xhr.responseJSON
+                                                            .message; // Use server-provided error message
+                                                    }
+                                                    toastr.error(errorMessage);
+                                                }
+                                            });
+                                        });
+                                    });
+                                </script>
+
                             </div>
                         </div>
                     </div>
@@ -786,6 +837,8 @@
                                 <div class="tab-pane fade" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
                                     <p id="contactContent">{!! $business->business_story !!}</p>
+                                   // <p id="contactContent" style="color: #000">{{ $business->business_story }}</p>
+
                                 </div>
                             </div>
                         </div>
@@ -1093,9 +1146,9 @@
 
         function copyToClipboard(url) {
             navigator.clipboard.writeText(url).then(function() {
-                alert('URL copied to clipboard');
+                toastr.success('URL copied to clipboard');
             }).catch(function(err) {
-                console.error('Could not copy text: ', err);
+                toastr.error('Could not copy text: ', err);
             });
         }
 

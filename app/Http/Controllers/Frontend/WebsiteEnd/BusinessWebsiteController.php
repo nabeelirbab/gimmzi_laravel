@@ -7,26 +7,29 @@ use Illuminate\Http\Request;
 use App\Models\BusinessProfile;
 use App\Models\ProviderSubType;
 use App\Models\BusinessLocation;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\MerchantDisplayBoard;
-use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Facades\Validator;
+use App\Models\ConsumerFavouriteTravelTourism;
 
 class BusinessWebsiteController extends Controller
 {
     public function index($id)
     {
         $business = BusinessProfile::find($id);
-        //dd($business->category);
+        // dd($business->id);
         $message_board = MerchantDisplayBoard::where('business_id', $id)->first();
         $providerType = ProviderSubType::get();
         $businessLocation = BusinessLocation::where('business_profile_id', $id)->first();
         $message_board = MerchantDisplayBoard::with('boardone', 'boardtwo')->where('location_id', 10)->first();
         $business_photos = Media::where(['model_id' => $id, 'collection_name' => 'businessProfilePhoto'])->get();
         $businesses = BusinessProfile::where('id', '<>', $id)->withCount('deals')->with('states')->whereHas('deals')->where('status', 1)->get();
-        return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses'));
+        $alreadyFav = ConsumerFavouriteTravelTourism::where('business_id',$business->id)->first();
+        // dd($business,$providerType,$business_photos,$businesses,$message_board,$businessLocation);
+        return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses','alreadyFav'));
     } 
 
     public function searchBusinessProfile(Request $request){

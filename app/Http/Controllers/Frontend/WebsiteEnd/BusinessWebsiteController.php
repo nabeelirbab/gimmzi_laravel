@@ -28,7 +28,7 @@ class BusinessWebsiteController extends Controller
         $business_photos = Media::where(['model_id' => $id, 'collection_name' => 'businessProfilePhoto'])->get();
         $businesses = BusinessProfile::where('id', '<>', $id)->withCount('deals')->with('states')->whereHas('deals')->where('status', 1)->get();
         $alreadyFav = ConsumerFavouriteTravelTourism::where('business_id',$business->id)->first();
-        
+        // dd($business,$providerType,$business_photos,$businesses,$message_board,$businessLocation);
         return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses','alreadyFav'));
     } 
 

@@ -53,13 +53,9 @@
         .equal-height-container {
             display: flex;
             align-items: stretch;
-            /* Ensures equal height */
             height: 250px;
-            /* Reduced height */
             max-width: 700px;
-            /* Adjust width for a compact design */
             margin: auto;
-            /* Center alignment */
         }
 
         .equal-height-container>div {
@@ -70,15 +66,12 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            /* Align items properly */
             text-decoration: none;
             color: #333;
             padding: 10px;
             border-radius: 8px;
-
             width: 100%;
             gap: 10px;
-            /* Adds spacing between icon and text */
         }
 
         .social-btn:hover {
@@ -88,20 +81,17 @@
 
         .icon-img {
             width: 40px;
-            /* Ensure proper icon size */
             height: 40px;
         }
 
         @media (max-width: 768px) {
             .social-btn {
                 justify-content: flex-start;
-                /* Ensure alignment remains left */
                 text-align: left;
             }
 
             .icon-img {
                 width: 24px;
-                /* Slightly smaller icons on mobile */
                 height: 24px;
             }
         }
@@ -110,37 +100,29 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            /* Distributes rows evenly */
             height: 100%;
-            /* Match the height of the image */
         }
 
         .social-row {
             display: flex;
             justify-content: space-between;
-            /* Ensures spacing between icons */
             align-items: center;
             width: 100%;
             flex-grow: 1;
-            /* Ensures equal spacing */
         }
 
-        /* Individual row alignment */
         .social-row:first-child {
             align-self: flex-start;
-            /* Align top */
         }
 
         .social-row:nth-child(2) {
             align-self: center;
             margin-top: 40px;
-            /* Align middle */
         }
 
         .social-row:last-child {
             align-self: flex-end;
             margin-top: 40px;
-            /* Align bottom */
         }
 
         .social-btn {
@@ -160,24 +142,20 @@
         @media (max-width: 768px) {
             .business_name {
                 font-size: 16px;
-                /* Reduce business name font size */
             }
 
             .business_address,
             .small-text,
             .social-share-small {
                 font-size: 12px;
-                /* Reduce other text sizes */
             }
 
             .social-btn span {
                 font-size: 12px;
-                /* Reduce button text size */
             }
 
             .icon-img {
                 width: 24px;
-                /* Reduce icon size */
                 height: 24px;
             }
 
@@ -361,7 +339,7 @@
                                                     <div class="universe-top-btm-head">
                                                         @if ($business->formatted_location)
                                                             <p>{{ $business->formatted_location }}</p>
-                                                            @if ($business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->latitude ?? '')
+                                                            @if ($business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->latitude)
                                                                 @php
                                                                     $lat_long_array[] = [
                                                                         $business->locations
@@ -710,9 +688,9 @@
 
             function copyToClipboard(url) {
                 navigator.clipboard.writeText(url).then(function() {
-                    alert('URL copied to clipboard');
+                    toastr.success('URL copied to clipboard');
                 }).catch(function(err) {
-                    console.error('Could not copy text: ', err);
+                    toastr.error('Could not copy text');
                 });
             }
         </script>

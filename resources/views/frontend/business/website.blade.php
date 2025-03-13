@@ -836,7 +836,7 @@
                                 </div>
                                 <div class="tab-pane fade" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
-                                    <p id="contactContent">{{ $business->business_story }}</p>
+                                    <p id="contactContent" style="color: #000">{{ $business->business_story }}</p>
                                 </div>
                             </div>
                         </div>
@@ -1144,9 +1144,9 @@
 
         function copyToClipboard(url) {
             navigator.clipboard.writeText(url).then(function() {
-                alert('URL copied to clipboard');
+                toastr.success('URL copied to clipboard');
             }).catch(function(err) {
-                console.error('Could not copy text: ', err);
+                toastr.error('Could not copy text: ', err);
             });
         }
 

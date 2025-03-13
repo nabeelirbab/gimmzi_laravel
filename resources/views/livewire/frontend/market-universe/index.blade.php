@@ -339,7 +339,7 @@
                                                     <div class="universe-top-btm-head">
                                                         @if ($business->formatted_location)
                                                             <p>{{ $business->formatted_location }}</p>
-                                                            @if ($business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->latitude)
+                                                            @if (optional($business->locations->where('location_type', 'Headquarters')->where('status', 1)->first())->latitude)
                                                                 @php
                                                                     $lat_long_array[] = [
                                                                         $business->locations

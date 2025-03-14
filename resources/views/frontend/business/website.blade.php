@@ -505,7 +505,7 @@
                                                             alt="LinkedIn" class="icon-img">
                                                         <span>LinkedIn</span>
                                                     </a> --}}
-                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(request()->fullUrl()) }}&title={{ urlencode('Your Article Title') }}&summary={{ urlencode('Short description of the content') }}&source={{ urlencode(config('app.name')) }}"
+                                                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(request()->fullUrl()) }}"
                                                         target="_blank" class="social-btn">
                                                         <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
                                                             alt="LinkedIn" class="icon-img">

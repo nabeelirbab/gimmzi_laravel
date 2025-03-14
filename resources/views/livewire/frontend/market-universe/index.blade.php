@@ -497,13 +497,13 @@
 
                                                             <!-- Middle Row -->
                                                             <div class="social-row">
-                                                                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url()->current()) }}"
+                                                                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url('merchant/'.$business->id)) }}" 
                                                                     target="_blank" class="social-btn">
-                                                                    <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
-                                                                        alt="LinkedIn" class="icon-img">
+                                                                    <img src="{{ asset('frontend_assets/images/linkedin.svg') }}" alt="LinkedIn" class="icon-img">
                                                                     <span>LinkedIn</span>
                                                                 </a>
-                                                                <a href="https://api.whatsapp.com/send?text={{ urlencode(url()->current()) }}"
+
+                                                                <a href="https://api.whatsapp.com/send?text={{ urlencode(url('merchant/'.$business->id)) }}"
                                                                     target="_blank" class="social-btn">
                                                                     <img src="{{ asset('frontend_assets/images/whatsapp.svg') }}"
                                                                         alt="WhatsApp" class="icon-img">
@@ -521,7 +521,7 @@
                                                                     <span>Email</span>
                                                                 </a>
                                                                 <a href="#"
-                                                                    onclick="copyToClipboard('{{ url()->current() }}'); return false;"
+                                                                    onclick="copyToClipboard('{{ url('merchant/'.$business->id) }}'); return false;"
                                                                     class="social-btn">
                                                                     <img src="{{ asset('frontend_assets/images/copy.svg') }}"
                                                                         alt="Copy Link" class="icon-img">

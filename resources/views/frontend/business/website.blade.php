@@ -499,7 +499,9 @@
 
                                                 <!-- Middle Row -->
                                                 <div class="social-row">
-                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(request()->fullUrl()) }}"
+                                                    {{-- <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(request()->fullUrl()) }}"
+                                                        target="_blank" class="social-btn"> --}}
+                                                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode($shareUrl) }}"
                                                         target="_blank" class="social-btn">
                                                         <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
                                                             alt="LinkedIn" class="icon-img">

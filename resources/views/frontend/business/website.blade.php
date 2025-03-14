@@ -499,7 +499,7 @@
 
                                                 <!-- Middle Row -->
                                                 <div class="social-row">
-                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url('merchant/' . $business->id)) }}"
+                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url('explore')) }}"
                                                         target="_blank" class="social-btn">
                                                         <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
                                                             alt="LinkedIn" class="icon-img">

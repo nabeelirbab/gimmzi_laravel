@@ -17,7 +17,7 @@ class WalletController extends Controller
     {
         // dd($request->all());
         $businesses = BusinessProfile::where('id',$request->business_id)->with('deals')->with('states')->first();
-    // dd($businesses->deals);
+        dd($businesses->deals);
         if (Auth::check()) { // For web authentication
             $validator = Validator::make($request->all(), [
                 'business_id' => "required",

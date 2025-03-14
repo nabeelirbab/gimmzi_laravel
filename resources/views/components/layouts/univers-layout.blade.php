@@ -7,12 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Gimmzi - {{ $title }}</title>
-    <meta property="og:title" content="Your Page Title">
-    <meta property="og:description" content="Your page description goes here.">
-    <meta property="og:image" content="{{ asset('frontend_assets/images/linkedin-preview.jpg') }}">
-    <meta property="og:url" content="{{ request()->fullUrl() }}">
-    <meta property="og:type" content="website">
-
 
     <!-- fabicon -->
     <link rel="shortcut icon" type="images/x-icon" href="{{ asset('frontend_assets/images/favicon.ico') }}" />
@@ -2066,6 +2060,7 @@
         $("#nav-home-tab").children('span.tab_ttle').text($(this).text());
         $(".provider_type_lstng").css('display', 'none');
     });
+
 </script>
 @stack('scripts')
 </body>

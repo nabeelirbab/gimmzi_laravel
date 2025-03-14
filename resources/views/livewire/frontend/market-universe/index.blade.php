@@ -514,13 +514,13 @@
 
                                                             <!-- Bottom Row -->
                                                             <div class="social-row">
-                                                                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=&su=Check%20out%20this%20Gimmzi%20page&body={{ urlencode(request()->fullUrl()) }}"
+                                                                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=&su=Check%20out%20this%20Gimmzi%20page&body={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
                                                                     target="_blank" class="social-btn">
                                                                     <img src="{{ asset('frontend_assets/images/email.svg') }}"
-                                                                         alt="Email" class="icon-img">
+                                                                        alt="Email" class="icon-img">
                                                                     <span>Email</span>
-                                                                 </a>
-                                                                 
+                                                                </a>
+
                                                                 <a href="#"
                                                                     onclick="copyToClipboard('{{ url('merchant/' . $business->id) }}'); return false;"
                                                                     class="social-btn">

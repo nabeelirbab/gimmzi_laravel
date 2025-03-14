@@ -13,7 +13,7 @@ class CmsController extends Controller
     {
         $cms = Cms::where('slug', 'privacy_policy_page')->first();
         $policy = PrivacyPolicy::where('cms_id', $cms->id)->first();
-
+        // dd($policy);
         return view('frontend.policy', compact('policy'));
     }
 

@@ -483,13 +483,13 @@
                                             <div class="col-12 col-md-7 d-flex flex-column social-container p-3">
                                                 <!-- Top Row -->
                                                 <div class="social-row">
-                                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}"
+                                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
                                                         target="_blank" class="social-btn">
                                                         <img src="{{ asset('frontend_assets/images/facebook.svg') }}"
                                                             alt="Facebook" class="icon-img">
                                                         <span>Facebook</span>
                                                     </a>
-                                                    <a href="https://x.com/intent/tweet?text={{ urlencode(url()->current()) }}"
+                                                    <a href="https://x.com/intent/tweet?text={{ urlencode(request()->fullUrl()) }}"
                                                         target="_blank" class="social-btn">
                                                         <img src="{{ asset('frontend_assets/images/X.svg') }}"
                                                             alt="X" class="icon-img">
@@ -499,13 +499,13 @@
 
                                                 <!-- Middle Row -->
                                                 <div class="social-row">
-                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url()->current()) }}"
+                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(request()->fullUrl()) }}"
                                                         target="_blank" class="social-btn">
                                                         <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
                                                             alt="LinkedIn" class="icon-img">
                                                         <span>LinkedIn</span>
                                                     </a>
-                                                    <a href="https://api.whatsapp.com/send?text={{ urlencode(url()->current()) }}"
+                                                    <a href="https://api.whatsapp.com/send?text={{ urlencode(request()->fullUrl()) }}"
                                                         target="_blank" class="social-btn">
                                                         <img src="{{ asset('frontend_assets/images/whatsapp.svg') }}"
                                                             alt="WhatsApp" class="icon-img">

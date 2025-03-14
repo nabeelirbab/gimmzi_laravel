@@ -499,12 +499,19 @@
 
                                                 <!-- Middle Row -->
                                                 <div class="social-row">
-                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(request()->fullUrl()) }}"
+                                                    {{-- <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(request()->fullUrl()) }}"
+                                                        target="_blank" class="social-btn">
+                                                        <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
+                                                            alt="LinkedIn" class="icon-img">
+                                                        <span>LinkedIn</span>
+                                                    </a> --}}
+                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(request()->fullUrl()) }}&title={{ urlencode('Your Article Title') }}&summary={{ urlencode('Short description of the content') }}&source={{ urlencode(config('app.name')) }}"
                                                         target="_blank" class="social-btn">
                                                         <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
                                                             alt="LinkedIn" class="icon-img">
                                                         <span>LinkedIn</span>
                                                     </a>
+
                                                     <a href="https://api.whatsapp.com/send?text={{ urlencode(request()->fullUrl()) }}"
                                                         target="_blank" class="social-btn">
                                                         <img src="{{ asset('frontend_assets/images/whatsapp.svg') }}"

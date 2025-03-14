@@ -16,7 +16,7 @@ class WalletController extends Controller
     public function addToMyWalletWeb(Request $request)
     {
         // dd($request->all());
-        $businesses = BusinessProfile::where('id',$request->business_id)->with('deals')->with('states')->first();
+        $businesses = BusinessProfile::where('id',$request->business_id)->with('deals')->first();
         dd($businesses->deals);
         if (Auth::check()) { // For web authentication
             $validator = Validator::make($request->all(), [

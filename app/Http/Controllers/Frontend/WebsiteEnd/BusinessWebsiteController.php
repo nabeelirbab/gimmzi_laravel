@@ -19,7 +19,7 @@ class BusinessWebsiteController extends Controller
 {
     public function index($id)
     {
-        $business = BusinessProfile::find($id);
+        $business = BusinessProfile::find($id); 
         // dd($business->id);
         $message_board = MerchantDisplayBoard::where('business_id', $id)->first();
         $providerType = ProviderSubType::get();

@@ -382,8 +382,8 @@
         }
 
         .email-sharing-modal {
-                border-radius: 24px !important;
-            }
+            border-radius: 24px !important;
+        }
     </style>
     <div class="allen-park-apartments-main-sec">
         <div class="allen-part-apartments-sec">
@@ -1069,34 +1069,41 @@
                         <small class="d-block">Share this Listing on any device.</small>
                     </div>
                     <hr class="mt-3">
-                    <form>
+                    <form action="{{ route('share-business.email') }}" method="POST">
+                        @csrf
                         <div class="row mb-3">
                             <!-- Name Field -->
                             <div class="col-md-6">
                                 <label for="yourName" class="form-label">Your name*</label>
-                                <input type="text" class="form-control" id="yourName"
+                                <input type="text" name="yourName" class="form-control" id="yourName"
                                     placeholder="Enter your name" required>
                             </div>
 
                             <!-- Email Field -->
                             <div class="col-md-6">
                                 <label for="yourEmail" class="form-label">Your Email*</label>
-                                <input type="email" class="form-control" id="yourEmail"
+                                <input type="email" name="yourEmail" class="form-control" id="yourEmail"
                                     placeholder="Write your email" required>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label for="recipientEmail" class="form-label">Recipient Email(s)*</label>
-                            <input type="email" class="form-control" id="recipientEmail"
+                            <input type="text" name="recipientEmail" class="form-control" id="recipientEmail"
                                 placeholder="Write your recipient email" required>
                             <small class="form-text" style="color:red">Enter one or more recipient email addresses
                                 separated
                                 by commas or space.</small>
                         </div>
                         <div class="mb-3">
+                            <label for="emailSubject" class="form-label">Email Subject</label>
+                            <input type="text" name="emailSubject" class="form-control" id="emailSubject"
+                                required>
+                        </div>
+                        <div class="mb-3">
                             <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" rows="2" placeholder="Enter your message or notes here"></textarea>
+                            <textarea class="form-control" name="message" id="message" rows="2"
+                                placeholder="Enter your message or notes here"></textarea>
                             <small class="form-text" style="color:red">Enter your message or notes here to
                                 include in the
                                 email.</small>
@@ -1128,8 +1135,8 @@
                         modalInstance.hide();
                     });
                     // Set the default message with subject and link
-                    document.getElementById("message").value = "Check out this Gimmzi Page:\n" +
-                        pageLink;
+                    document.getElementById("emailSubject").value = "Check out this Gimmzi Pages";
+                    document.getElementById("message").value = pageLink;
                 });
             });
         </script>

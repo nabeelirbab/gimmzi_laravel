@@ -5,14 +5,15 @@ use Illuminate\Support\Facades\Artisan;
 //admin
 
 
-use App\Http\Controllers\WalletController;
+use App\Http\Controllers\ShareController;
 //frontend
+use App\Http\Controllers\WalletController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\PropertyManager\AuthController;
-use App\Http\Controllers\Frontend\WebsiteEnd\ApartmentController;
 
 //merchant-business
+use App\Http\Controllers\Frontend\WebsiteEnd\ApartmentController;
 use App\Http\Controllers\Frontend\Consumer\AuthConsumerController;
 use App\Http\Controllers\Frontend\Consumer\RegistrationController;
 use App\Http\Controllers\Frontend\WebsiteEnd\TravelTourismController;
@@ -24,10 +25,10 @@ use App\Http\Controllers\Frontend\MerchantBusiness\MerchantPlanController;
 use App\Http\Controllers\Frontend\MerchantBusiness\BusinessOwnerController;
 use App\Http\Controllers\Frontend\PropertyManager\LowPointMemberController;
 use App\Http\Controllers\Frontend\MerchantBusiness\UserManagementController;
-use App\Http\Controllers\Frontend\PropertyManager\ProfileSettingsController;
 
 
 //property
+use App\Http\Controllers\Frontend\PropertyManager\ProfileSettingsController;
 use App\Http\Controllers\Frontend\PropertyManager\PropertySettingsController;
 use App\Http\Controllers\Frontend\MerchantBusiness\MerchantSettingsController;
 use App\Http\Controllers\Frontend\PropertyManager\SmartRentalAccessManagement;
@@ -36,13 +37,13 @@ use App\Http\Controllers\Frontend\MerchantBusiness\UserProfileSettingController;
 use App\Http\Controllers\Frontend\MerchantBusiness\BusinessOwnerAccountController;
 use App\Http\Controllers\Frontend\MerchantBusiness\BusinessOwnerLoyaltyController;
 use App\Http\Controllers\Frontend\MerchantBusiness\MerchantMessageBoardController;
-use App\Http\Controllers\Frontend\MerchantBusiness\MerchantAccountDetailsController;
 
 //consumer
+use App\Http\Controllers\Frontend\MerchantBusiness\MerchantAccountDetailsController;
 use App\Http\Controllers\Frontend\MerchantBusiness\MerchantAccountSettingController;
-use App\Http\Controllers\Frontend\PropertyManager\ProviderTenantRecognitionController;
 
 //Traveltourism
+use App\Http\Controllers\Frontend\PropertyManager\ProviderTenantRecognitionController;
 use App\Http\Controllers\Frontend\TravelTourism\ProfileController as TravelTourismProfile;
 use App\Http\Controllers\Frontend\PropertyManager\MessageboardController as FrontendMessageBoard;
 use App\Http\Controllers\Frontend\PropertyManager\ConsumerController as propertyconsumercontroller;
@@ -258,7 +259,7 @@ Route::get('hotel-resorts/{hotel_unit_id}', [TravelTourismProfile::class, 'searc
 
 Route::get('explore', [IndexController::class, 'explore'])->name('frontend.explore');
 Route::get('market-universe', [IndexController::class, 'marketUniverse'])->name('frontend.market-universe');
-
+Route::post('send-email', [ShareController::class, 'sendEmail'])->name('share-business.email');
 
 ///report
 Route::get('get-merchant-report', [IndexController::class, 'getmerchantreport']);

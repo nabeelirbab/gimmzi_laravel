@@ -508,255 +508,256 @@ class MarketUniverseController extends BaseController
     // }
    
     public function businessProfile(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'category_id' => "nullable|exists:business_categories,id",
-            'type' => "nullable|in:gimmziDeals,loyaltyRewards",
-            'distance_range' => "nullable",
-            'lat' => Auth::guard('api')->check() ? "nullable" : "required|numeric|between:-90,90",
-            'long' => Auth::guard('api')->check() ? "nullable" : "required|numeric|between:-180,180",
-        ]);
+{
+    // Validation remains unchanged
+    $validator = Validator::make($request->all(), [
+        'category_id' => "nullable|exists:business_categories,id",
+        'type' => "nullable|in:gimmziDeals,loyaltyRewards",
+        'distance_range' => "nullable",
+        'lat' => Auth::guard('api')->check() ? "nullable" : "required|numeric|between:-90,90",
+        'long' => Auth::guard('api')->check() ? "nullable" : "required|numeric|between:-180,180",
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json(["status" => false, "code" => 550, "message" => $validator->errors()->first()], 550);
-        }
+    if ($validator->fails()) {
+        return response()->json(["status" => false, "code" => 550, "message" => $validator->errors()->first()], 550);
+    }
 
-        try {
-            $authUserId = Auth::guard('api')->check() ? Auth::guard('api')->user()->id : null;
-            $today = date('Y-m-d');
-            $latitude = Auth::guard('api')->check() ? Auth::guard('api')->user()->lat : $request->lat;
-            $longitude = Auth::guard('api')->check() ? Auth::guard('api')->user()->long : $request->long;
-            $radius = 50;
+    try {
+        $authUserId = Auth::guard('api')->check() ? Auth::guard('api')->user()->id : null;
+        $today = date('Y-m-d');
+        $latitude = Auth::guard('api')->check() ? Auth::guard('api')->user()->lat : $request->lat;
+        $longitude = Auth::guard('api')->check() ? Auth::guard('api')->user()->long : $request->long;
+        $radius = 50;
 
-            $dealsWithinRadius = Deal::where('status', 1)
-                ->with('dealLoyalty')
-                ->whereHas('dealLocation.location', function ($query) use ($latitude, $longitude, $radius) {
+        // Deals within radius query remains unchanged
+        $dealsWithinRadius = Deal::where('status', 1)
+            ->with('dealLoyalty')
+            ->whereHas('dealLocation.location', function ($query) use ($latitude, $longitude, $radius) {
+                $query->where('status', 1)
+                    ->whereNotNull('latitude')
+                    ->whereNotNull('longitude')
+                    ->where('location_type', '!=', 'Headquarters') // Added filter here
+                    ->whereRaw(
+                        "(3959 * acos(cos(radians(?)) 
+                        * cos(radians(latitude)) 
+                        * cos(radians(longitude) - radians(?)) 
+                        + sin(radians(?)) 
+                        * sin(radians(latitude)))) <= ?",
+                        [$latitude, $longitude, $latitude, $radius]
+                    );
+            })
+            // Rest of the deals query remains unchanged
+            ->where(function ($query) use ($authUserId) {
+                $query->whereNull('consumer_id')
+                    ->when($authUserId, function ($q) use ($authUserId) {
+                        $q->orWhere('consumer_id', $authUserId);
+                    });
+
+                if ($authUserId) {
+                    $query->whereDoesntHave('consumerWallet', function ($subQuery) use ($authUserId) {
+                        $subQuery->where('consumer_id', $authUserId)
+                            ->where('is_redeemed', 1);
+                    });
+                }
+            })
+            ->pluck('id');
+
+        // Loyalty within radius query with headquarters filter
+        $loyaltyWithinRadius = MerchantLoyaltyProgram::where('status', 1)
+            ->whereHas('loyaltylocations.locations', function ($query) use ($today, $latitude, $longitude, $radius) {
+                $query->where('status', 1)
+                    ->whereNotNull('latitude')
+                    ->whereNotNull('longitude')
+                    ->where('location_type', '!=', 'Headquarters') // Added filter here
+                    ->whereRaw(
+                        "(3959 * acos(cos(radians(?)) 
+                        * cos(radians(latitude)) 
+                        * cos(radians(longitude) - radians(?)) 
+                        + sin(radians(?)) 
+                        * sin(radians(latitude)))) <= ?",
+                        [$latitude, $longitude, $latitude, $radius]
+                    );
+            })
+            ->pluck('id');
+
+        // Main business profiles query with enhanced filtering
+        $business_profiles = BusinessProfile::where(function ($query) use ($today, $dealsWithinRadius, $loyaltyWithinRadius) {
+            $query->whereHas('deals', function ($q1) use ($today, $dealsWithinRadius) {
+                $q1->where('status', 1)
+                    ->where(function ($q2) use ($today) {
+                        $q2->whereDate('end_Date', '>', $today)
+                            ->orWhereNull('end_Date');
+                        if (Auth::guard('api')->check()) {
+                            $q2->orWhere('consumer_id', Auth::guard('api')->user()->id);
+                        }
+                    })
+                    ->whereIn('id', $dealsWithinRadius);
+            })->orWhereHas('loyalty', function ($query) use ($today, $loyaltyWithinRadius) {
+                $query->where('status', 1)
+                    ->where(function ($q2) use ($today) {
+                        $q2->whereDate('end_on', '>', $today)
+                            ->orWhereNull('end_on');
+                    })->whereIn('id', $loyaltyWithinRadius);
+            });
+        })
+        ->with([
+            'deals' => function ($query) use ($today, $dealsWithinRadius) {
+                $query->where('status', 1)
+                    ->where(function ($q2) use ($today) {
+                        $q2->whereDate('end_Date', '>', $today)
+                            ->orWhereNull('end_Date');
+                        if (Auth::guard('api')->check()) {
+                            $q2->orWhere('consumer_id', Auth::guard('api')->user()->id);
+                        }
+                    })
+                    ->whereIn('id', $dealsWithinRadius);
+            },
+            'loyalty' => function ($query) use ($today, $loyaltyWithinRadius) {
+                $query->where('status', 1)
+                    ->where(function ($q2) use ($today) {
+                        $q2->whereDate('end_on', '>', $today)
+                            ->orWhereNull('end_on');
+                    })->whereIn('id', $loyaltyWithinRadius);
+            },
+            'locations' => function ($query) {
+                $query->where('location_type', '!=', 'Headquarters')
+                    ->whereNotNull('latitude')
+                    ->whereNotNull('longitude')
+                    ->where('status', 1);
+            }
+        ])
+        ->withCount([
+            'deals as deals_count' => function ($query) use ($today, $dealsWithinRadius) {
+                $query->where('status', 1)
+                    ->where(function ($q2) use ($today) {
+                        $q2->whereDate('end_Date', '>', $today)
+                            ->orWhereNull('end_Date');
+                        if (Auth::guard('api')->check()) {
+                            $q2->orWhere('consumer_id', Auth::guard('api')->user()->id);
+                        }
+                    })
+                    ->whereIn('id', $dealsWithinRadius);
+            },
+            'loyalty as loyalty_count' => function ($query) use ($today, $loyaltyWithinRadius) {
+                $query->where('status', 1)
+                    ->where(function ($q2) use ($today) {
+                        $q2->whereDate('end_on', '>', $today)
+                            ->orWhereNull('end_on');
+                    })->whereIn('id', $loyaltyWithinRadius);
+            }
+        ])
+        ->whereHas('locations', function ($subq) {
+            $subq->whereNotNull('latitude')
+                ->whereNotNull('longitude')
+                ->where('location_type', '!=', 'Headquarters')
+                ->where('status', 1);
+        })
+        ->where('status', 1)
+        ->get();
+
+        // Type filtering with headquarters exclusion
+        if ($request->type != null) {
+            $query = BusinessProfile::query();
+
+            if ($request->type == 'gimmziDeals') {
+                if ($request->category_id != null) {
+                    $categoryIds = is_array($request->category_id) ? $request->category_id : explode(',', $request->category_id);
+                    $query->whereIn('business_category_id', $categoryIds);
+                }
+
+                $query->with(['deals' => function ($query) use ($today, $dealsWithinRadius) {
                     $query->where('status', 1)
-                        ->whereNotNull('latitude')
-                        ->whereNotNull('longitude')
-                        ->whereRaw(
-                            "(3959 * acos(cos(radians(?)) 
-                            * cos(radians(latitude)) 
-                            * cos(radians(longitude) - radians(?)) 
-                            + sin(radians(?)) 
-                            * sin(radians(latitude)))) <= ?",
-                            [$latitude, $longitude, $latitude, $radius]
-                        );
-                })
-                ->where(function ($query) use ($authUserId) {
-                    $query->whereNull('consumer_id')
-                        ->when($authUserId, function ($q) use ($authUserId) {
-                            $q->orWhere('consumer_id', $authUserId);
-                        });
-
-                    if ($authUserId) {
-                        $query->whereDoesntHave('consumerWallet', function ($subQuery) use ($authUserId) {
-                            $subQuery->where('consumer_id', $authUserId)
-                                ->where('is_redeemed', 1); // Exclude if deal is redeemed
-                        });
-                    }
-                })
-                ->pluck('id');
-
-            $loyaltyWithinRadius = MerchantLoyaltyProgram::where('status', 1)
-                ->whereHas('loyaltylocations.locations', function ($query) use ($today, $latitude, $longitude, $radius) {
-                    $query->where('status', 1)
-                        ->whereNotNull('latitude')
-                        ->whereNotNull('longitude')
-                        ->whereRaw(
-                            "(3959 * acos(cos(radians(?)) 
-                            * cos(radians(latitude)) 
-                            * cos(radians(longitude) - radians(?)) 
-                            + sin(radians(?)) 
-                            * sin(radians(latitude)))) <= ?",
-                            [$latitude, $longitude, $latitude, $radius]
-                        );
-                })
-                ->pluck('id');
-
-            $business_profiles = BusinessProfile::where(function ($query) use ($today, $dealsWithinRadius, $loyaltyWithinRadius) {
-                $query->whereHas('deals', function ($q1) use ($today, $dealsWithinRadius) {
-                    $q1->where('status', 1)
                         ->where(function ($q2) use ($today) {
                             $q2->whereDate('end_Date', '>', $today)
                                 ->orWhereNull('end_Date');
-                            if (Auth::guard('api')->check()) {
-                                $q2->orWhere('consumer_id', Auth::guard('api')->user()->id);
-                            }
                         })
                         ->whereIn('id', $dealsWithinRadius);
-                })->orWhereHas('loyalty', function ($query) use ($today, $loyaltyWithinRadius) {
+                }])
+                ->whereHas('deals', function ($query) use ($today, $dealsWithinRadius) {
+                    $query->where('status', 1)
+                        ->where(function ($q2) use ($today) {
+                            $q2->whereDate('end_Date', '>', $today)
+                                ->orWhereNull('end_Date');
+                        })
+                        ->whereIn('id', $dealsWithinRadius);
+                });
+            } elseif ($request->type == 'loyaltyRewards') {
+                if ($request->category_id != null) {
+                    $categoryIds = is_array($request->category_id) ? $request->category_id : explode(',', $request->category_id);
+                    $query->whereIn('business_category_id', $categoryIds);
+                }
+                $query->with(['loyalty' => function ($query) use ($today, $loyaltyWithinRadius) {
+                    $query->where('status', 1)
+                        ->where(function ($q2) use ($today) {
+                            $q2->whereDate('end_on', '>', $today)
+                                ->orWhereNull('end_on');
+                        })->whereIn('id', $loyaltyWithinRadius);
+                }])
+                ->whereHas('loyalty', function ($query) use ($today, $loyaltyWithinRadius) {
                     $query->where('status', 1)
                         ->where(function ($q2) use ($today) {
                             $q2->whereDate('end_on', '>', $today)
                                 ->orWhereNull('end_on');
                         })->whereIn('id', $loyaltyWithinRadius);
                 });
-            })->with([
-                'deals' => function ($query) use ($today, $dealsWithinRadius) {
-                    $query->where('status', 1)
-                        ->where(function ($q2) use ($today) {
-                            $q2->whereDate('end_Date', '>', $today)
-                                ->orWhereNull('end_Date');
-                            if (Auth::guard('api')->check()) {
-                                $q2->orWhere('consumer_id', Auth::guard('api')->user()->id);
-                            }
-                        })
-                        ->whereIn('id', $dealsWithinRadius);
-                },
-                'loyalty' => function ($query) use ($today, $loyaltyWithinRadius) {
-                    $query->where('status', 1)
-                        ->where(function ($q2) use ($today) {
-                            $q2->whereDate('end_on', '>', $today)
-                                ->orWhereNull('end_on');
-                        })->whereIn('id', $loyaltyWithinRadius);
-                },
-            ])->withCount([
-                'deals as deals_count' => function ($query) use ($today, $dealsWithinRadius) {
-                    $query->where('status', 1)
-                        ->where(function ($q2) use ($today) {
-                            $q2->whereDate('end_Date', '>', $today)
-                                ->orWhereNull('end_Date');
-                            if (Auth::guard('api')->check()) {
-                                $q2->orWhere('consumer_id', Auth::guard('api')->user()->id);
-                            }
-                        })
-                        ->whereIn('id', $dealsWithinRadius);
-                },
-                'loyalty as loyalty_count' => function ($query) use ($today, $loyaltyWithinRadius) {
-                    $query->where('status', 1)
-                        ->where(function ($q2) use ($today) {
-                            $q2->whereDate('end_on', '>', $today)
-                                ->orWhereNull('end_on');
-                        })->whereIn('id', $loyaltyWithinRadius);
-                }
-            ])->whereHas('locations', function ($subq) {
-                $subq->whereNotNull('latitude')->whereNotNull('longitude');
-            })->where('status', 1)->get();
-
-            
-
-            // Type filtering
-            if ($request->type != null) {
-                $query = BusinessProfile::query();
-
-                if ($request->type == 'gimmziDeals') {
-                    if ($request->category_id != null) {
-                        $categoryIds = $request->category_id;
-                        if (!is_array($categoryIds)) {
-                            $categoryIds = $categoryIds ? explode(',', $categoryIds) : [];
-                        }
-                        $query->whereIn('business_category_id', $categoryIds);
-                    }
-
-                    $query->with(['deals' => function ($query) use ($today, $dealsWithinRadius) {
-                        $query->where('status', 1)
-                            ->where(function ($q2) use ($today) {
-                                $q2->whereDate('end_Date', '>', $today)
-                                    ->orWhereNull('end_Date');
-                            })
-                            ->whereIn('id', $dealsWithinRadius);
-                    }])->whereHas('deals', function ($query) use ($today, $dealsWithinRadius) {
-                        $query->where('status', 1)
-                            ->where(function ($q2) use ($today) {
-                                $q2->whereDate('end_Date', '>', $today)
-                                    ->orWhereNull('end_Date');
-                            })
-                            ->whereIn('id', $dealsWithinRadius);
-                    });
-                } elseif ($request->type == 'loyaltyRewards') {
-                    if ($request->category_id != null) {
-                        $categoryIds = $request->category_id;
-                        if (!is_array($categoryIds)) {
-                            $categoryIds = $categoryIds ? explode(',', $categoryIds) : [];
-                        }
-                        $query->whereIn('business_category_id', $categoryIds);
-                    }
-                    $query->with(['loyalty' => function ($query) use ($today, $loyaltyWithinRadius) {
-                        $query->where('status', 1)
-                            ->where(function ($q2) use ($today) {
-                                $q2->whereDate('end_on', '>', $today)
-                                    ->orWhereNull('end_on');
-                            })->whereIn('id', $loyaltyWithinRadius);
-                    }])->whereHas('loyalty', function ($query) use ($today, $loyaltyWithinRadius) {
-                        $query->where('status', 1)
-                            ->where(function ($q2) use ($today) {
-                                $q2->whereDate('end_on', '>', $today)
-                                    ->orWhereNull('end_on');
-                            })->whereIn('id', $loyaltyWithinRadius);
-                    });
-                }
-                $query->where('status', 1);
-                $business_profiles = $query->get();
-            } else {
-                if ($request->category_id != null) {
-                    $business_profiles = $business_profiles->whereIn('business_category_id', $request->category_id);
-                }
             }
-
-            foreach ($business_profiles as $business) {
-                // Filter locations in the business profile to exclude "Headquarters" type
-                $business->locations = $business->locations->filter(function ($location) {
-                    return $location->location_type !== 'Headquarters';
-                })->values(); // Reset the array keys
-            
-                // If a business has a main location, filter it as well
-                if ($business->main_location && $business->main_location->location_type !== 'Headquarters') {
-                    $business->main_location = $business->main_location;
-                } else {
-                    $business->main_location = null; // Remove main location if it is "Headquarters"
-                }
+            $query->where('status', 1)
+                ->with(['locations' => function ($query) {
+                    $query->where('location_type', '!=', 'Headquarters')
+                        ->where('status', 1);
+                }]);
+            $business_profiles = $query->get();
+        } else {
+            if ($request->category_id != null) {
+                $categoryIds = is_array($request->category_id) ? $request->category_id : explode(',', $request->category_id);
+                $business_profiles = $business_profiles->whereIn('business_category_id', $categoryIds);
             }
-            
-            // Remove duplicate business profiles by ID
-            $filtered_profiles = [];
-            
-            foreach ($business_profiles as $business) {
-                if (!$business->locations || $business->locations->isEmpty()) {
-                    continue;
-                }
-            
-                foreach ($business->locations->where('status', 1)->where('participating_type', 'Participating') as $location) {
-                    // Only proceed if location type is not "Headquarters"
-                    if ($location->latitude !== null && $location->longitude !== null && $location->location_type !== "Headquarters") {
-                        $distance = $this->haversineDistance2($latitude, $longitude, $location->latitude, $location->longitude);
-            
-                        if (!$request->has('distance_range') || $distance < (float)$request->distance_range) {
-                            // Clone the business profile to avoid modifying the original collection
-                            $businessClone = clone $business;
-                            $businessClone->distance = $distance;
-            
-                            // Add to the filtered profiles array only if the id isn't already in the array
-                            $existingIds = array_column($filtered_profiles, 'id');
-                            if (!in_array($businessClone->id, $existingIds)) {
-                                $filtered_profiles[] = $businessClone;
-                            }
-                        }
-                    }
-                }
-            }
-            
-
-            
-
-
-            // Sorting by distance as before
-            usort($filtered_profiles, function ($a, $b) {
-                return $a->distance <=> $b->distance;
-            });
-
-            // Return the response
-            if (count($filtered_profiles) > 0) {
-                return $this->sendResponse($filtered_profiles, 'Business profile found', 201);
-            } else {
-                return $this->sendError('No Business profile found', [], 404);
-            }
-
-        } catch (\Throwable $th) {
-            Log::error(" :: EXCEPTION :: " . $th->getMessage() . "\n" . $th->getTraceAsString());
-            return $this->sendError('Server Error!', [], 500);
         }
+
+        // Filter and calculate distances
+        $filtered_profiles = [];
+        foreach ($business_profiles as $business) {
+            $valid_locations = $business->locations->where('status', 1)
+                ->where('participating_type', 'Participating')
+                ->where('location_type', '!=', 'Headquarters');
+
+            if ($valid_locations->isEmpty()) {
+                continue;
+            }
+
+            foreach ($valid_locations as $location) {
+                if ($location->latitude !== null && $location->longitude !== null) {
+                    $distance = $this->haversineDistance2($latitude, $longitude, $location->latitude, $location->longitude);
+
+                    if (!$request->has('distance_range') || $distance < (float)$request->distance_range) {
+                        $businessClone = clone $business;
+                        $businessClone->distance = $distance;
+                        $businessClone->locations = $valid_locations->values();
+                        
+                        // Add only if not already present
+                        if (!in_array($businessClone->id, array_column($filtered_profiles, 'id'))) {
+                            $filtered_profiles[] = $businessClone;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Sort by distance
+        usort($filtered_profiles, function ($a, $b) {
+            return $a->distance <=> $b->distance;
+        });
+
+        // Return response
+        return count($filtered_profiles) > 0
+            ? $this->sendResponse($filtered_profiles, 'Business profile found', 201)
+            : $this->sendError('No Business profile found', [], 404);
+
+    } catch (\Throwable $th) {
+        Log::error(" :: EXCEPTION :: " . $th->getMessage() . "\n" . $th->getTraceAsString());
+        return $this->sendError('Server Error!', [], 500);
     }
+}
 
 
     public function haversineDistance1($lat2, $lon2)

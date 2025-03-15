@@ -380,6 +380,10 @@
                 font-size: 12px;
             }
         }
+
+        .email-sharing-modal {
+                border-radius: 24px !important;
+            }
     </style>
     <div class="allen-park-apartments-main-sec">
         <div class="allen-part-apartments-sec">
@@ -517,18 +521,18 @@
 
                                                 <!-- Bottom Row -->
                                                 <div class="social-row">
-                                                    {{-- <a href="#" data-bs-toggle="modal"
+                                                    <a href="#" data-bs-toggle="modal"
                                                         data-bs-target="#shareSocialModal" class="social-btn">
                                                         <img src="{{ asset('frontend_assets/images/email.svg') }}"
                                                             alt="Email" class="icon-img">
                                                         <span>Email</span>
-                                                    </a> --}}
-                                                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=&su=Check%20out%20this%20Gimmzi%20page&body={{ urlencode(request()->fullUrl()) }}"
+                                                    </a>
+                                                    {{-- <a href="https://mail.google.com/mail/?view=cm&fs=1&to=&su=Check%20out%20this%20Gimmzi%20page&body={{ urlencode(request()->fullUrl()) }}"
                                                         target="_blank" class="social-btn">
                                                         <img src="{{ asset('frontend_assets/images/email.svg') }}"
                                                             alt="Email" class="icon-img">
                                                         <span>Email</span>
-                                                    </a>
+                                                    </a> --}}
 
 
                                                     <a href="#"
@@ -1046,11 +1050,11 @@
 
 
 
-    <!-- Share social Modal -->
+    <!-- Share social Modal via email -->
     <div class="modal fade" id="shareSocialModal" tabindex="-1" aria-labelledby="shareModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
+            <div class="modal-content email-sharing-modal">
                 <!-- Modal Header with Close Button -->
                 <button type="button" class="btn-close position-absolute"
                     style="top: 10px; right: 10px; z-index: 1050;" data-bs-dismiss="modal" aria-label="Close">
@@ -1109,6 +1113,24 @@
                 </div>
             </div>
         </div>
+        <input type="hidden" id="pageLink">
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Add an event listener when the modal is about to be shown
+                document.getElementById("shareSocialModal").addEventListener("show.bs.modal", function() {
+                    let pageLink = window.location.href; // Get current page URL
+
+                    let openModals = document.querySelectorAll(".modal.show");
+                    openModals.forEach(modal => {
+                        let modalInstance = bootstrap.Modal.getInstance(modal);
+                        modalInstance.hide();
+                    });
+                    // Set the default message with subject and link
+                    document.getElementById("message").value = "Check out this Gimmzi Page:\n" +
+                        pageLink;
+                });
+            });
+        </script>
     </div>
 
     <!-- Contact Modal -->

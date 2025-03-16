@@ -834,6 +834,114 @@ class MarketUniverseController extends BaseController
      *      @OA\Response(response=404, description="Resource Not Found"),
      * )
      */
+    // public function businessProfileDetails(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'business_id' => "required",
+    //         'location_id' => "required",
+    //         'lat' => Auth::guard('api')->check() ? "nullable" : "required|numeric|between:-90,90",
+    //         'long' => Auth::guard('api')->check() ? "nullable" : "required|numeric|between:-180,180",
+
+    //     ]);
+    //     if ($validator->fails()) {
+    //         return response()->json(["status" => false, "code" => 550, "message" => $validator->errors()->first()], 550);
+    //     }
+
+    //     try {
+    //         $today = date('Y-m-d');
+    //         $latitude = Auth::guard('api')->check() ? Auth::guard('api')->user()->lat : $request->lat;
+    //         $longitude = Auth::guard('api')->check() ? Auth::guard('api')->user()->long : $request->long;
+    //         $business = BusinessProfile::find($request->business_id);
+    //         if ($business) {
+    //             $mainLocation = BusinessLocation::where(['id' => $request->location_id, 'business_profile_id' => $request->business_id])->whereNotNull(['latitude', 'longitude'])->first();
+    //             if ($mainLocation) {
+    //                 $dealIds = DealLocation::where('location_id', $mainLocation->id)->pluck('deal_id');
+    //                 $loyaltyIds = LoyaltyRewardLocation::where('location_id', $mainLocation->id)->pluck('loyalty_program_id');
+    //                 $data['business_profiles'] = BusinessProfile::where('id', $request->business_id)->with(['deals' => function ($query) use ($today, $dealIds) {
+    //                     $query->whereIn('id', $dealIds)
+    //                         ->where('status', 1)
+    //                         ->where(function ($q) use ($today) {
+    //                             $q->whereDate('end_Date', '>', $today)
+    //                                 ->orWhereNull('end_Date');
+    //                         })
+    //                         ->orderBy('id', 'desc')
+    //                         ->where(function ($query) {
+    //                             // Deals with consumer_id null or Auth::guard('api')->user()->id, and also deals which are not redeemed
+    //                             $query->whereNull('consumer_id')
+    //                                 ->when(Auth::guard('api')->check(), function ($q) {
+    //                                     $q->orWhere('consumer_id', Auth::guard('api')->user()->id);
+    //                                 })
+    //                                 ->whereDoesntHave('consumerWallet', function ($subQuery) {
+    //                                     $subQuery->when(Auth::guard('api')->check(), function ($q) {
+    //                                         $q->where('consumer_id', Auth::guard('api')->user()->id);
+    //                                     })->where('is_redeemed', 1); // Exclude if deal is redeemed by Auth::guard('api')->user()->id
+    //                                 });
+    //                         })
+    //                         ->take(5);
+    //                 }, 'loyalty' => function ($query) use ($today, $loyaltyIds) {
+
+    //                     $query->whereIn('id', $loyaltyIds)
+    //                         ->where('status', 1)
+    //                         ->where(function ($q) use ($today) {
+    //                             $q->whereDate('end_on', '>', $today)
+    //                                 ->orWhereNull('end_on');
+    //                         })
+    //                         ->orderBy('id', 'desc')
+    //                         ->take(2);
+    //                 }, 'merchantBoard' => function ($query) use ($mainLocation) {
+    //                     $query->where('location_id', $mainLocation->id);
+    //                 }, 'category'])->where('status', 1)->first()->makeHidden('locations');
+
+    //                 $locDistance = null;
+    //                 if ($mainLocation->latitude !== null && $mainLocation->longitude !== null) {
+    //                     $locDistance = $this->haversineDistance2($latitude, $longitude, $mainLocation->latitude, $mainLocation->longitude);
+
+    //                     $data['business_profiles']['selected_location_distance'] = $locDistance;
+    //                 }
+
+
+
+    //                 $all_locations = BusinessLocation::where('business_profile_id', $request->business_id)->where('id', '!=', $request->location_id)->whereNotNull(['latitude', 'longitude'])->where('status', 1)->get();
+    //                 $distances = [];
+    //                 foreach ($all_locations as $location) {
+    //                     if ($location->latitude !== null && $location->longitude !== null) {
+    //                         $distance = $this->haversineDistance2($latitude, $longitude, $location->latitude, $location->longitude);
+    //                         // dd($distance);
+    //                         $distances[$location->id] = $distance;
+    //                     } else {
+    //                         $distances[$location->id] = null;
+    //                     }
+    //                 }
+
+    //                 $locations = [];
+    //                 foreach ($all_locations as $location) {
+    //                     if (isset($distances[$location->id]) && $distances[$location->id] !== null) {
+    //                         $location->distance = $distances[$location->id];
+    //                         $locations[] = $location;
+    //                     }
+    //                 }
+
+    //                 usort($locations, function ($a, $b) {
+    //                     return $a->distance <=> $b->distance;
+    //                 });
+
+    //                 $data['all_locations'] = $locations;
+    //                 if ($data) {
+    //                     return $this->sendResponse($data, 'Business profile found', 201);
+    //                 } else {
+    //                     return $this->sendError('No Business profile found', [], 404);
+    //                 }
+    //             } else {
+    //                 return $this->sendError('No Location found', [], 404);
+    //             }
+    //         } else {
+    //             return $this->sendError('No Business profile found', [], 404);
+    //         }
+    //     } catch (\Throwable $th) {
+    //         Log::error(" :: EXCEPTION :: " . $th->getMessage() . "\n" . $th->getTraceAsString());
+    //         return $this->sendError('Server Error!', [], 500);
+    //     }
+    // }
     public function businessProfileDetails(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -855,58 +963,66 @@ class MarketUniverseController extends BaseController
             if ($business) {
                 $mainLocation = BusinessLocation::where(['id' => $request->location_id, 'business_profile_id' => $request->business_id])->whereNotNull(['latitude', 'longitude'])->first();
                 if ($mainLocation) {
+                    $data['main_location'] = $mainLocation; // Explicitly adding main_location details
+                    
                     $dealIds = DealLocation::where('location_id', $mainLocation->id)->pluck('deal_id');
                     $loyaltyIds = LoyaltyRewardLocation::where('location_id', $mainLocation->id)->pluck('loyalty_program_id');
-                    $data['business_profiles'] = BusinessProfile::where('id', $request->business_id)->with(['deals' => function ($query) use ($today, $dealIds) {
-                        $query->whereIn('id', $dealIds)
-                            ->where('status', 1)
-                            ->where(function ($q) use ($today) {
-                                $q->whereDate('end_Date', '>', $today)
-                                    ->orWhereNull('end_Date');
-                            })
-                            ->orderBy('id', 'desc')
-                            ->where(function ($query) {
-                                // Deals with consumer_id null or Auth::guard('api')->user()->id, and also deals which are not redeemed
-                                $query->whereNull('consumer_id')
-                                    ->when(Auth::guard('api')->check(), function ($q) {
-                                        $q->orWhere('consumer_id', Auth::guard('api')->user()->id);
-                                    })
-                                    ->whereDoesntHave('consumerWallet', function ($subQuery) {
-                                        $subQuery->when(Auth::guard('api')->check(), function ($q) {
-                                            $q->where('consumer_id', Auth::guard('api')->user()->id);
-                                        })->where('is_redeemed', 1); // Exclude if deal is redeemed by Auth::guard('api')->user()->id
-                                    });
-                            })
-                            ->take(5);
-                    }, 'loyalty' => function ($query) use ($today, $loyaltyIds) {
-
-                        $query->whereIn('id', $loyaltyIds)
-                            ->where('status', 1)
-                            ->where(function ($q) use ($today) {
-                                $q->whereDate('end_on', '>', $today)
-                                    ->orWhereNull('end_on');
-                            })
-                            ->orderBy('id', 'desc')
-                            ->take(2);
-                    }, 'merchantBoard' => function ($query) use ($mainLocation) {
-                        $query->where('location_id', $mainLocation->id);
-                    }, 'category'])->where('status', 1)->first()->makeHidden('locations');
+                    
+                    $data['business_profiles'] = BusinessProfile::where('id', $request->business_id)->with([
+                        'deals' => function ($query) use ($today, $dealIds) {
+                            $query->whereIn('id', $dealIds)
+                                ->where('status', 1)
+                                ->where(function ($q) use ($today) {
+                                    $q->whereDate('end_Date', '>', $today)
+                                        ->orWhereNull('end_Date');
+                                })
+                                ->orderBy('id', 'desc')
+                                ->where(function ($query) {
+                                    // Deals with consumer_id null or Auth::guard('api')->user()->id, and also deals which are not redeemed
+                                    $query->whereNull('consumer_id')
+                                        ->when(Auth::guard('api')->check(), function ($q) {
+                                            $q->orWhere('consumer_id', Auth::guard('api')->user()->id);
+                                        })
+                                        ->whereDoesntHave('consumerWallet', function ($subQuery) {
+                                            $subQuery->when(Auth::guard('api')->check(), function ($q) {
+                                                $q->where('consumer_id', Auth::guard('api')->user()->id);
+                                            })->where('is_redeemed', 1);
+                                        });
+                                })
+                                ->take(5);
+                        },
+                        'loyalty' => function ($query) use ($today, $loyaltyIds) {
+                            $query->whereIn('id', $loyaltyIds)
+                                ->where('status', 1)
+                                ->where(function ($q) use ($today) {
+                                    $q->whereDate('end_on', '>', $today)
+                                        ->orWhereNull('end_on');
+                                })
+                                ->orderBy('id', 'desc')
+                                ->take(2);
+                        },
+                        'merchantBoard' => function ($query) use ($mainLocation) {
+                            $query->where('location_id', $mainLocation->id);
+                        },
+                        'category'
+                    ])->where('status', 1)->first()->makeHidden('locations');
 
                     $locDistance = null;
                     if ($mainLocation->latitude !== null && $mainLocation->longitude !== null) {
                         $locDistance = $this->haversineDistance2($latitude, $longitude, $mainLocation->latitude, $mainLocation->longitude);
-
                         $data['business_profiles']['selected_location_distance'] = $locDistance;
                     }
 
+                    $all_locations = BusinessLocation::where('business_profile_id', $request->business_id)
+                        ->where('id', '!=', $request->location_id)
+                        ->whereNotNull(['latitude', 'longitude'])
+                        ->where('status', 1)
+                        ->get();
 
-
-                    $all_locations = BusinessLocation::where('business_profile_id', $request->business_id)->where('id', '!=', $request->location_id)->whereNotNull(['latitude', 'longitude'])->where('status', 1)->get();
                     $distances = [];
                     foreach ($all_locations as $location) {
                         if ($location->latitude !== null && $location->longitude !== null) {
                             $distance = $this->haversineDistance2($latitude, $longitude, $location->latitude, $location->longitude);
-                            // dd($distance);
                             $distances[$location->id] = $distance;
                         } else {
                             $distances[$location->id] = null;
@@ -926,14 +1042,14 @@ class MarketUniverseController extends BaseController
                     });
 
                     $data['all_locations'] = $locations;
+
                     if ($data) {
                         return $this->sendResponse($data, 'Business profile found', 201);
                     } else {
                         return $this->sendError('No Business profile found', [], 404);
                     }
-                } else {
-                    return $this->sendError('No Location found', [], 404);
                 }
+
             } else {
                 return $this->sendError('No Business profile found', [], 404);
             }
@@ -942,6 +1058,8 @@ class MarketUniverseController extends BaseController
             return $this->sendError('Server Error!', [], 500);
         }
     }
+    
+
 
     /**
      * @OA\Post(

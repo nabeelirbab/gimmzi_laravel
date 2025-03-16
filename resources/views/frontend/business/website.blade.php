@@ -384,6 +384,11 @@
         .email-sharing-modal {
             border-radius: 24px !important;
         }
+
+        body {
+            color: #000;
+
+        }
     </style>
     <div class="allen-park-apartments-main-sec">
         <div class="allen-part-apartments-sec">
@@ -416,15 +421,13 @@
                                 @if ($business->street_address != '')
                                     <p style="margin-top: 10px;">
                                         <img src="{{ asset('frontend_assets/images/location.svg') }}" alt="icon">
-                                        <p>
-                                            {{ $business->street_address }}, {{ $business->city }},
-                                            {{ $business->states->name }}, {{ $business->zip_code }}
-                                        </p>
+                                        {{ $business->street_address }}, {{ $business->city }},
+                                        {{ $business->states->name }}, {{ $business->zip_code }}
                                     </p>
                                 @elseif($business->mailing_address != '')
-                                    <img src="{{ asset('frontend_assets/images/location-icon-rental-1.svg') }}"
-                                        alt="icon">
-                                    <p style="color: black; font-weight: bold;">
+                                    <p style="margin-top: 10px;">
+                                        <img src="{{ asset('frontend_assets/images/location-icon-rental-1.svg') }}"
+                                            alt="icon">
                                         {{ $business->mailing_address }}, {{ $business->mailing_city }},
                                         {{ $business->mailingstates->name }}, {{ $business->mailing_zipcode }}
                                     </p>

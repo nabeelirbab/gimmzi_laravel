@@ -1170,8 +1170,9 @@
 
 
 
-
+    
     <script>
+        
         // When an offer is clicked, update the modal content
         document.querySelectorAll('.form-check').forEach(function(offerDiv) {
             offerDiv.addEventListener('click', function() {
@@ -1198,26 +1199,26 @@
 
 
         // Initialize the map when the page loads
-        function initMap() {
-            // Define the map center (latitude and longitude)
-            const center = {
-                lat: 40.730610,
-                lng: -73.935242
-            }; // Example: New York City
+        // function initMap() {
+        //     // Define the map center (latitude and longitude)
+        //     const center = {
+        //         lat: 40.730610,
+        //         lng: -73.935242
+        //     }; // Example: New York City
 
-            // Create a new map centered at the specified location
-            const map = new google.maps.Map(document.getElementById("map"), {
-                center: center,
-                zoom: 12,
-            });
+        //     // Create a new map centered at the specified location
+        //     const map = new google.maps.Map(document.getElementById("map"), {
+        //         center: center,
+        //         zoom: 12,
+        //     });
 
-            // Add a marker at the center of the map
-            const marker = new google.maps.Marker({
-                position: center,
-                map: map,
-                title: "Hello, Google Maps!",
-            });
-        }
+        //     // Add a marker at the center of the map
+        //     const marker = new google.maps.Marker({
+        //         position: center,
+        //         map: map,
+        //         title: "Hello, Google Maps!",
+        //     });
+        // }
 
         function initMap() {
             // Create a map object and specify the DOM element for display

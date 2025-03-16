@@ -859,7 +859,8 @@
                                     aria-labelledby="contact-tab">
                                     <p id="contactContent" style="color: #000">
                                         <img src="{{ asset($business->main_image) }}" alt="business-img"
-                                            srcset="">
+                                            >
+                                        <br>
                                         {{ $business->business_story }}
                                     </p>
                                 </div>

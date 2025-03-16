@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Gimmzi - {{ $title }}</title>
-
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyBNL_1BSqiKF5qf0WqLbMT4xF1dB1Aux1M&libraries=places">
+    </script>
     <!-- fabicon -->
     <link rel="shortcut icon" type="images/x-icon" href="{{ asset('frontend_assets/images/favicon.ico') }}" />
     <!-- All CSS -->
@@ -2060,7 +2062,6 @@
         $("#nav-home-tab").children('span.tab_ttle').text($(this).text());
         $(".provider_type_lstng").css('display', 'none');
     });
-
 </script>
 @stack('scripts')
 </body>

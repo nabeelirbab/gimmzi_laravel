@@ -384,6 +384,11 @@
         .email-sharing-modal {
             border-radius: 24px !important;
         }
+
+        body {
+            color: #000;
+
+        }
     </style>
     <div class="allen-park-apartments-main-sec">
         <div class="allen-part-apartments-sec">
@@ -416,15 +421,13 @@
                                 @if ($business->street_address != '')
                                     <p style="margin-top: 10px;">
                                         <img src="{{ asset('frontend_assets/images/location.svg') }}" alt="icon">
-                                        <p>
-                                            {{ $business->street_address }}, {{ $business->city }},
-                                            {{ $business->states->name }}, {{ $business->zip_code }}
-                                        </p>
+                                        {{ $business->street_address }}, {{ $business->city }},
+                                        {{ $business->states->name }}, {{ $business->zip_code }}
                                     </p>
                                 @elseif($business->mailing_address != '')
-                                    <img src="{{ asset('frontend_assets/images/location-icon-rental-1.svg') }}"
-                                        alt="icon">
-                                    <p style="color: black; font-weight: bold;">
+                                    <p style="margin-top: 10px;">
+                                        <img src="{{ asset('frontend_assets/images/location-icon-rental-1.svg') }}"
+                                            alt="icon">
                                         {{ $business->mailing_address }}, {{ $business->mailing_city }},
                                         {{ $business->mailingstates->name }}, {{ $business->mailing_zipcode }}
                                     </p>
@@ -1167,8 +1170,9 @@
 
 
 
-
+    
     <script>
+        
         // When an offer is clicked, update the modal content
         document.querySelectorAll('.form-check').forEach(function(offerDiv) {
             offerDiv.addEventListener('click', function() {
@@ -1195,26 +1199,26 @@
 
 
         // Initialize the map when the page loads
-        function initMap() {
-            // Define the map center (latitude and longitude)
-            const center = {
-                lat: 40.730610,
-                lng: -73.935242
-            }; // Example: New York City
+        // function initMap() {
+        //     // Define the map center (latitude and longitude)
+        //     const center = {
+        //         lat: 40.730610,
+        //         lng: -73.935242
+        //     }; // Example: New York City
 
-            // Create a new map centered at the specified location
-            const map = new google.maps.Map(document.getElementById("map"), {
-                center: center,
-                zoom: 12,
-            });
+        //     // Create a new map centered at the specified location
+        //     const map = new google.maps.Map(document.getElementById("map"), {
+        //         center: center,
+        //         zoom: 12,
+        //     });
 
-            // Add a marker at the center of the map
-            const marker = new google.maps.Marker({
-                position: center,
-                map: map,
-                title: "Hello, Google Maps!",
-            });
-        }
+        //     // Add a marker at the center of the map
+        //     const marker = new google.maps.Marker({
+        //         position: center,
+        //         map: map,
+        //         title: "Hello, Google Maps!",
+        //     });
+        // }
 
         function initMap() {
             // Create a map object and specify the DOM element for display

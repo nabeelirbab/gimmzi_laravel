@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\Mail\ShareListingMail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Exception;
 
 class ShareController extends Controller
 {
@@ -32,7 +33,17 @@ class ShareController extends Controller
             return back()->with('success', 'Email sent successfully!');
     
         } catch (Exception $e) {
-            return back()->with('error', 'Failed to send email: ' . $e->getMessage());
+            Log::error('Email Sending Failed: ', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'request' => $request->all()
+            ]);
+    
+            // Alternatively, write to a custom log file
+            $logFile = storage_path('logs/email_errors.log');
+            file_put_contents($logFile, '[' . now() . '] ' . $e->getMessage() . "\n" . $e->getTraceAsString() . "\n", FILE_APPEND);
+    
+            return back()->with('error', 'Failed to send email');
         }
     }
 }

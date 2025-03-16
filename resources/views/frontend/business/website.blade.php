@@ -857,7 +857,11 @@
                                 </div>
                                 <div class="tab-pane fade" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
-                                    <p id="contactContent" style="color: #000">{{ $business->business_story }}</p>
+                                    <p id="contactContent" style="color: #000">
+                                        <img src="{{ asset($business->main_image) }}" alt="business-img"
+                                            srcset="">
+                                        {{ $business->business_story }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -1170,9 +1174,8 @@
 
 
 
-    
+
     <script>
-        
         // When an offer is clicked, update the modal content
         document.querySelectorAll('.form-check').forEach(function(offerDiv) {
             offerDiv.addEventListener('click', function() {

@@ -760,6 +760,7 @@ class MarketUniverseController extends BaseController
     //         return $this->sendError('Server Error!', [], 500);
     //     }
     // }
+
     public function businessProfile(Request $request)
     {
 
@@ -1085,6 +1086,9 @@ class MarketUniverseController extends BaseController
                     }
                 }
             }
+
+            $filtered_profiles = collect($filtered_profiles)->unique('id')->values()->all();
+            
             usort($filtered_profiles, function ($a, $b) {
                 return $a->distance <=> $b->distance;
             });
@@ -1282,6 +1286,7 @@ class MarketUniverseController extends BaseController
     //         return $this->sendError('Server Error!', [], 500);
     //     }
     // }
+
     public function businessProfileDetails(Request $request)
     {
         $validator = Validator::make($request->all(), [

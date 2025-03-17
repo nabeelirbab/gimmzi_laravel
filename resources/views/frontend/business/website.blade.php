@@ -857,10 +857,12 @@
                                 </div>
                                 <div class="tab-pane fade" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
-
-                                    <p id="contactContent">{!! $business->business_story !!}</p>
-                                   // <p id="contactContent" style="color: #000">{{ $business->business_story }}</p>
-
+                                      <p id="contactContent" style="color: #000">
+                                        <img src="{{ asset($business->main_image) }}" alt="business-img"
+                                            >
+                                        <br>
+                                        {!! $business->business_story !!}
+                                    </p>
                                 </div>
                             </div>
                         </div>

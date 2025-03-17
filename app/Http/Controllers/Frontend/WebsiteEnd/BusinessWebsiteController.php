@@ -73,7 +73,7 @@ class BusinessWebsiteController extends Controller
 
         $data['deals'] = $businessProfile->deals;
         $data['loyalty'] = $businessProfile->loyalty;
-
+        // dd($businessProfile);
         // dd($data['loyalty']);
         return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses','alreadyFav','data'));
     } 

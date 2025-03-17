@@ -77,7 +77,7 @@ class BusinessProfile extends Model implements HasMedia
 
     public function locations()
     {
-        return $this->hasMany(BusinessLocation::class, 'business_profile_id', 'id');
+        return $this->hasMany(BusinessLocation::class, 'business_profile_id', 'id')->where('location_type', 'Not Headquarters');
     }
 
     public function merchantUser()

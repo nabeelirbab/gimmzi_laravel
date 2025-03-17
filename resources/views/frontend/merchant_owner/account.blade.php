@@ -639,7 +639,7 @@
                                         <td>{{ $startdate }}</td>
                                         @if ($data->end_Date != '')
                                             @php$enddate = date_format(date_create($data->end_Date), 'm-d-Y');
-                                                                                                                                                                                @endphp ?> ?> ?>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @endphp ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?>
                                             <td id="endOn{{ $data->id }}">{{ $enddate }}</td>
                                         @else
                                             <td>N/A</td>
@@ -804,16 +804,18 @@
                                                         <tr>
                                                             <td>
                                                                 @if ($businesslocation->location_type == 'Not Headquarters')
-                                                                    <b>{{ $businesslocation->address }}</b><br>
-                                                                @endif
-                                                                {{ $businesslocation->address }},
-                                                                {{ $businesslocation->city }},
-                                                                @if ($businesslocation->state_id == null)
-                                                                    {{ $businesslocation->state_name }},
+                                                                    <b>{{ $businesslocation->address }} </b><br>
                                                                 @else
-                                                                    {{ $businesslocation->states->name }},
+                                                                    {{ $businesslocation->address }},
+                                                                    {{ $businesslocation->city }},
+                                                                    @if ($businesslocation->state_id == null)
+                                                                        {{ $businesslocation->state_name }} if,
+                                                                    @else
+                                                                        {{ $businesslocation->states->name }} else,
+                                                                    @endif
+                                                                    {{ $businesslocation->zip_code }}
                                                                 @endif
-                                                                {{ $businesslocation->zip_code }}
+
                                                                 <div class="" id="preview-deal-text">
                                                                     <a href="javascript:void(0)"
                                                                         data-id="{{ $businesslocation->id }}"

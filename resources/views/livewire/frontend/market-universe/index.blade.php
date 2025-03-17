@@ -671,10 +671,7 @@
                         // Debugging: Log the retrieved link
                         console.log("Retrieved Page Link:", pageLink);
 
-                        if (!pageLink || pageLink === "null" || pageLink.trim() === "") {
-                            alert("Error: Page link is missing!");
-                            return;
-                        }
+
 
                         // Close any other open modals before opening this one
                         let openModals = document.querySelectorAll(".modal.show");

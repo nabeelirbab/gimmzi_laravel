@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend\WebsiteEnd;
 
 
+use App\Models\DealLocation;
 use Illuminate\Http\Request;
 use App\Models\BusinessProfile;
 use App\Models\ProviderSubType;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\MerchantDisplayBoard;
 use Illuminate\Support\Facades\Auth;
+use App\Models\LoyaltyRewardLocation;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Facades\Validator;
 use App\Models\ConsumerFavouriteTravelTourism;
@@ -28,8 +30,52 @@ class BusinessWebsiteController extends Controller
         $business_photos = Media::where(['model_id' => $id, 'collection_name' => 'businessProfilePhoto'])->get();
         $businesses = BusinessProfile::where('id', '<>', $id)->withCount('deals')->with('states')->whereHas('deals')->where('status', 1)->get();
         $alreadyFav = ConsumerFavouriteTravelTourism::where('business_id',$business->id)->first();
-        // dd($business,$providerType,$business_photos,$businesses,$message_board,$businessLocation);
-        return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses','alreadyFav'));
+
+        $dealIds = DealLocation::where('location_id', $businessLocation->id)->pluck('deal_id');
+        $loyaltyIds = LoyaltyRewardLocation::where('location_id', $businessLocation->id)->pluck('loyalty_program_id');
+        $today = date('Y-m-d');
+        $businessProfile = BusinessProfile::where('id', $id)
+            ->with([
+                'deals' => function ($query) use ($today, $dealIds) {
+                    $query->whereIn('id', $dealIds)
+                        ->where('status', 1)
+                        ->where(function ($q) use ($today) {
+                            $q->whereDate('end_Date', '>', $today)
+                                ->orWhereNull('end_Date');
+                        })
+                        ->orderBy('id', 'desc')
+                        ->where(function ($query) {
+                            $query->whereNull('consumer_id')
+                                ->when(Auth::check(), function ($q) {
+                                    $q->orWhere('consumer_id', Auth::user()->id);
+                                })
+                                ->whereDoesntHave('consumerWallet', function ($subQuery) {
+                                    $subQuery->when(Auth::check(), function ($q) {
+                                        $q->where('consumer_id', Auth::user()->id);
+                                    })->where('is_redeemed', 1);
+                                });
+                        })
+                        ->take(5);
+                },
+                'loyalty' => function ($query) use ($today, $loyaltyIds) {
+                    $query->whereIn('id', $loyaltyIds)
+                        ->where('status', 1)
+                        ->where(function ($q) use ($today) {
+                            $q->whereDate('end_on', '>', $today)
+                                ->orWhereNull('end_on');
+                        })
+                        ->orderBy('id', 'desc')
+                        ->take(2);
+                }
+            ])
+            ->where('status', 1)
+            ->first();
+
+        $data['deals'] = $businessProfile->deals;
+        $data['loyalty'] = $businessProfile->loyalty;
+
+        // dd($data['loyalty']);
+        return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses','alreadyFav','data'));
     } 
 
     public function searchBusinessProfile(Request $request){

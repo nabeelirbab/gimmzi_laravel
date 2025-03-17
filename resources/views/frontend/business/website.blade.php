@@ -689,6 +689,139 @@
                                 <div class="rounded p-1 p-md-4" style="width: 100%;">
                                     <div class="">
                                         <div class="card p-1 p-md-4">
+                                            <!-- loyalty -->
+                                            @foreach (collect($data['loyalty'])->take(2) as $loyalty)
+                                                <div class="form-check mt-3" data-bs-toggle="modal"
+                                                    data-bs-target="#offerLoyaltyModal"
+                                                    data-title="{{ $loyalty->program_name }}"
+                                                    data-description="No minimum purchase necessary. To redeem rewards, you must be registered and logged into your account. Cannot be combined with any other coupons. Discounts, promotions and/or offers. Cannot be applied on promotional priced product(s).\n\nPromotion codes and offers please note: Deals and programs are not retroactive and price adjustments will not be issued to orders placed either before or after the duration of any promotion. If you forgot to use your deal or program we are unable to adjust orders after they've been placed. Only one deal or program can be applied in one order. ${businessInfo?.details?.business_name} reserves the right to modify or cancel promotion deals at any time without notice."
+                                                    data-termsAndConditions='Gimmzi Smart Rewards Program\n\n1. Eligibility:\nParticipation in the Gimmzi Loyalty Rewards Program ("Program") is open to individuals who are 13 years of age or older. Businesses must meet the eligibility criteria specified by Gimmzi.\n\n2. Program Overview:\nThe Program allows members to earn and redeem points for rewards offered by participating businesses. Gimmzi reserves the right to modify or terminate the Program at any time.\n\n3. Earning Points:\nPoints are earned through qualifying purchases, referrals, or other activities as specified by Gimmzi or participating businesses. Points have no cash value and are non-transferable.\n\n4. Redeeming Rewards:\nMembers can redeem points for rewards offered by participating businesses. Gimmzi is not responsible for the quality, safety, legality, or any other aspect of the rewards provided by businesses.\n\n5. Account Termination:\nGimmzi reserves the right to terminate or suspend a member's
+                                                    account for any reason, including but not limited to violation of
+                                                    these terms, fraudulent activity, or misuse of the Program.\n\n6.
+                                                    Privacy:\nBy participating in the Program, members agree to the
+                                                    collection and use of personal information as outlined in Gimmzi's
+                                                    Privacy Policy.\n\n7. Changes to Terms:\nGimmzi reserves the right
+                                                    to modify these terms and conditions at any time. Changes will be
+                                                    communicated to members through the Gimmzi platform.\n\n8.
+                                                    Limitation of Liability:\nGimmzi and participating businesses are
+                                                    not liable for any direct, indirect, incidental, special, or
+                                                    consequential damages arising out of or related to the
+                                                    Program.\n\n9. Governing Law:\nThese terms and conditions are
+                                                    governed by and construed in accordance with the laws of the United
+                                                    States of America.\n\n10. Contact Information:\nFor questions or
+                                                    concerns regarding the Program, please contact legal@gimmzi.com.'
+                                                    style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; display: flex; align-items: center; position: relative;">
+                                                    <input class="form-check-input2" type="radio" name="offer"
+                                                        id="offer1" value="25-off-all-products"
+                                                        style="margin-right: 10px;width:20px">
+                                                    <div style="flex: 1; width: calc(100% - 35px);">
+                                                        <label class="form-check-label" for="offer1"
+                                                            style="display: block; color:#000">
+                                                            <p style="line-height: 30px;">
+                                                                {{ $loyalty->program_name }}</p>
+                                                        </label>
+                                                        <small class="d-block text-muted"
+                                                            style="display: block; color:#26a1d6 !important; line-height: 18px;">
+                                                            Earn upto {{ $loyalty->off_percentage }} on your purchase
+                                                        </small>
+                                                    </div>
+                                                    <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"
+                                                        style="position: absolute; top: 0px; right: 0px; border-radius: 5px;">
+                                                </div>
+                                            @endforeach
+                                            <!-- deals -->
+                                            @foreach (collect($data['deals'])->take(3) as $deal)
+                                                <div class="form-check mt-3" data-bs-toggle="modal"
+                                                    data-bs-target="#offerDetailsModal" data-title="Move-in Special"
+                                                    data-start-date="08-01-2020" data-end-date="09-30-2020"
+                                                    data-description="No Application fee <br> if Approved, 1st month of rent free"
+                                                    data-termsAndConditions="Gimmzi Smart Rewards Program\n\n1. Eligibility:\nParticipation in the Gimmzi Loyalty Rewards Program ("Program")
+                                                    is open to individuals who are 13 years of age or older. Businesses
+                                                    must meet the eligibility criteria specified by Gimmzi.\n\n2.
+                                                    Program Overview:\nThe Program allows members to earn and redeem
+                                                    points for rewards offered by participating businesses. Gimmzi
+                                                    reserves the right to modify or terminate the Program at any
+                                                    time.\n\n3. Earning Points:\nPoints are earned through qualifying
+                                                    purchases, referrals, or other activities as specified by Gimmzi or
+                                                    participating businesses. Points have no cash value and are
+                                                    non-transferable.\n\n4. Redeeming Rewards:\nMembers can redeem
+                                                    points for rewards offered by participating businesses. Gimmzi is
+                                                    not responsible for the quality, safety, legality, or any other
+                                                    aspect of the rewards provided by businesses.\n\n5. Account
+                                                    Termination:\nGimmzi reserves the right to terminate or suspend a
+                                                    member's account for any reason, including but not limited to
+                                                    violation of these terms, fraudulent activity, or misuse of the
+                                                    Program.\n\n6. Privacy:\nBy participating in the Program, members
+                                                    agree to the collection and use of personal information as outlined
+                                                    in Gimmzi's Privacy Policy.\n\n7. Changes to Terms:\nGimmzi reserves
+                                                    the right to modify these terms and conditions at any time. Changes
+                                                    will be communicated to members through the Gimmzi platform.\n\n8.
+                                                    Limitation of Liability:\nGimmzi and participating businesses are
+                                                    not liable for any direct, indirect, incidental, special, or
+                                                    consequential damages arising out of or related to the
+                                                    Program.\n\n9. Governing Law:\nThese terms and conditions are
+                                                    governed by and construed in accordance with the laws of the United
+                                                    States of America.\n\n10. Contact Information:\nFor questions or
+                                                    concerns regarding the Program, please contact legal@gimmzi.com"
+                                                    style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; display: flex; align-items: center; position: relative;">
+                                                    <input class="form-check-input2" type="radio" name="offer"
+                                                        id="offer1" value="25-off-all-products"
+                                                        style="margin-right: 10px;width:20px;">
+                                                    <div style="flex: 1; width: calc(100% - 35px);">
+                                                        <label class="form-check-label" for="offer1"
+                                                            style="display: block; color:#000">
+                                                            <p style="line-height: 30px;width:80%;">
+                                                                {{ $deal->suggested_description }}</p>
+                                                        </label>
+                                                        <small class="d-block text-muted"
+                                                            style="display: block; color:#26a1d6 !important; line-height: 18px;">
+                                                            Earn upto {{ $loyalty->off_percentage }} on your purchase
+                                                        </small>
+                                                    </div>
+                                                    <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"
+                                                        style="position: absolute; top: 0px; right: 0px; border-radius: 5px;">
+                                                </div>
+                                            @endforeach
+
+                                            <!-- Add to Wallet Button -->
+                                            <div class="mt-4">
+                                                <button class="btn btn-primary btn-block w-100"
+                                                    style="background-color: #26a1d6">
+                                                    Add to My Wallet</button>
+                                            </div>
+
+                                            <!-- Card with List -->
+                                            <div class="card mt-4" style="width: 100%;">
+                                                <ul class="list-group list-group-flush">
+                                                    @if (!empty($message_board->boardone))
+                                                        <li class="list-group-item">
+                                                            <p style="color:#17B26A; margin-bottom: 1px">
+                                                                {{ $message_board->board_one_title }}</p>
+                                                            <span style="color: #98A2B3; font-size: 12px">
+                                                                {{ $message_board->boardone->active_description }}</span>
+                                                        </li>
+                                                    @endif
+
+                                                    @if (!empty($message_board->boardtwo))
+                                                        <li class="list-group-item">
+                                                            <p style="color:#17B26A; margin-bottom: 1px">
+                                                                {{ $message_board->board_two_title }}</p>
+                                                            <span style="color: #98A2B3; font-size: 12px">
+                                                                {{ $message_board->boardtwo->active_description }}</span>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- old code --}}
+                            {{-- <div class="col-12 col-md-5 d-flex justify-content-end">
+                                <div class="rounded p-1 p-md-4" style="width: 100%;">
+                                    <div class="">
+                                        <div class="card p-1 p-md-4">
                                             <!-- Offer 1 -->
                                             <div class="form-check mt-3" data-bs-toggle="modal"
                                                 data-bs-target="#offerDetailsModal" data-title="Move-in Special"
@@ -821,7 +954,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
 
@@ -857,9 +990,9 @@
                                 </div>
                                 <div class="tab-pane fade" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
-                                      <p id="contactContent" style="color: #000">
-                                        <img src="{{ asset($business->main_image) }}" alt="business-img"
-                                            >
+                               <p id="contactContent" style="color: #000">
+                                        <img src="{{ asset($business->main_image) }}" alt="business-img">
+
                                         <br>
                                         {!! $business->business_story !!}
                                     </p>
@@ -1041,6 +1174,23 @@
     </div>
 
 
+    <!-- Modal for loyalty Details -->
+    <div class="modal fade" id="offerLoyaltyModal" tabindex="-1" aria-labelledby="offerLoyaltyModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span id="modalTitle"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="fa fa-times" aria-hidden="true"></i></button>
+                </div>
+                <div class="modal-body">
+                    <span id="modalDescription"></span>
+                    <span id="modalTermsConditions"></span>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal for Offer Details -->
     <div class="modal fade" id="offerDetailsModal" tabindex="-1" aria-labelledby="offerDetailsModalLabel"
         aria-hidden="true">
@@ -1052,9 +1202,8 @@
                             class="fa fa-times" aria-hidden="true"></i></button>
                 </div>
                 <div class="modal-body">
-
                     <span id="modalDescription"></span>
-                    <span id="modalDate"></span>
+                    <span id="modalTermsConditions"></span>
                 </div>
             </div>
         </div>
@@ -1182,14 +1331,13 @@
             offerDiv.addEventListener('click', function() {
                 // Get the data attributes of the clicked offer
                 var title = offerDiv.getAttribute('data-title');
-                var startDate = offerDiv.getAttribute('data-start-date');
-                var endDate = offerDiv.getAttribute('data-end-date');
                 var description = offerDiv.getAttribute('data-description');
+                var termsAndConditions = offerDiv.getAttribute('data-termsAndConditions');
 
                 // Set the values in the modal
                 document.getElementById('modalTitle').innerText = title;
                 document.getElementById('modalDescription').innerHTML = description;
-                document.getElementById('modalDate').innerText = `From: ${startDate} to: ${endDate}`;
+                document.getElementById('termsAndConditions').innerText = termsAndConditions;
             });
         });
 

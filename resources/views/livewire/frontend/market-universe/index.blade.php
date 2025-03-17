@@ -520,7 +520,7 @@
                                                             <div class="social-row">
                                                                 <a href="#" data-bs-toggle="modal"
                                                                     data-bs-target="#shareSocialModal"
-                                                                    class="social-btn"
+                                                                    class="social-btn email-share-btn"
                                                                     data-link="{{ url('merchant/' . $business->id) }}">
                                                                     <img src="{{ asset('frontend_assets/images/email.svg') }}"
                                                                         alt="Email" class="icon-img">
@@ -662,7 +662,7 @@
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 // Select all elements with class .social-btn
-                document.querySelectorAll(".social-btn").forEach(button => {
+                document.querySelectorAll(".social-btn.email-share-btn").forEach(button => {
                     button.addEventListener("click", function(event) {
                         event.preventDefault(); // Prevent default action
 
@@ -670,8 +670,6 @@
 
                         // Debugging: Log the retrieved link
                         console.log("Retrieved Page Link:", pageLink);
-
-
 
                         // Close any other open modals before opening this one
                         let openModals = document.querySelectorAll(".modal.show");

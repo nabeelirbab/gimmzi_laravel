@@ -1371,26 +1371,56 @@
         //         title: "Hello, Google Maps!",
         //     });
         // }
+        var businessLocations = @json($businessLocations);
 
         function initMap() {
+            // Check if businessLocations is populated
+            console.log("businessLocations:", businessLocations);
+
             // Create a map object and specify the DOM element for display
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: {
-                    lat: 40.730610,
-                    lng: -73.935242
-                }, // New York coordinates, change to your desired location
-                zoom: 12
-            });
-
-            // You can add a marker (optional)
-            var marker = new google.maps.Marker({
-                position: {
-                    lat: 40.730610,
+                    lat: 40.730610, // Default center, adjust later based on locations
                     lng: -73.935242
                 },
-                map: map,
-                title: "Hello New York!"
+                zoom: 4
             });
+
+            // Array to store all markers
+            var markers = [];
+
+            // Dynamically add markers with info windows based on businessLocations array
+            var markers = {}; // Object to store markers with location.id as keys
+
+            businessLocations.forEach(function(location) {
+                var lat = parseFloat(location.latitude);
+                var lng = parseFloat(location.longitude);
+
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    markers[location.id] = new google.maps.Marker({
+                        position: {
+                            lat: lat,
+                            lng: lng
+                        },
+                        map: map,
+                        title: location.location_name
+                    });
+
+
+                    console.log(`Added marker for ${location.location_name} with ID ${location.id}`);
+                } else {
+                    console.error(`Invalid latitude or longitude for ${location.location_name}`);
+                }
+            });
+
+            // Adjust map to fit all markers
+            if (markers.length > 0) {
+                var bounds = new google.maps.LatLngBounds();
+                markers.forEach(function(marker) {
+                    bounds.extend(marker.getPosition());
+                });
+                map.fitBounds(bounds);
+            }
         }
 
         // Call the initMap function once the script is loaded

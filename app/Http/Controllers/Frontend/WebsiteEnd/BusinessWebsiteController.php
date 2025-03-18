@@ -30,9 +30,23 @@ class BusinessWebsiteController extends Controller
         $business_photos = Media::where(['model_id' => $id, 'collection_name' => 'businessProfilePhoto'])->get();
         $businesses = BusinessProfile::where('id', '<>', $id)->withCount('deals')->with('states')->whereHas('deals')->where('status', 1)->get();
         $alreadyFav = ConsumerFavouriteTravelTourism::where('business_id',$business->id)->first();
-
-        $dealIds = DealLocation::where('location_id', $businessLocation->id)->pluck('deal_id');
-        $loyaltyIds = LoyaltyRewardLocation::where('location_id', $businessLocation->id)->pluck('loyalty_program_id');
+        if ($businessLocation && isset($businessLocation->id)) {
+            $dealIds = DealLocation::where('location_id', $businessLocation->id)->pluck('deal_id');
+        } else {
+            // Handle the case where $businessLocation is null
+            // Maybe log the error or provide a default behavior
+            $dealIds = collect(); // Return an empty collection or handle as needed
+        }
+        if ($businessLocation && isset($businessLocation->id)) {
+            $loyaltyIds = LoyaltyRewardLocation::where('location_id', $businessLocation->id)->pluck('loyalty_program_id');
+        } else {
+            // Handle the case where $businessLocation is null
+            // Maybe log the error or provide a default behavior
+            $loyaltyIds = collect(); // Return an empty collection or handle as needed
+        }        
+        
+        // $dealIds = DealLocation::where('location_id', $businessLocation->id)->pluck('deal_id');
+        // $loyaltyIds = LoyaltyRewardLocation::where('location_id', $businessLocation->id)->pluck('loyalty_program_id');
         $today = date('Y-m-d');
         $businessProfile = BusinessProfile::where('id', $id)
             ->with([
@@ -75,7 +89,14 @@ class BusinessWebsiteController extends Controller
         $data['loyalty'] = $businessProfile->loyalty;
         // dd($businessProfile);
         // dd($data['loyalty']);
-        return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses','alreadyFav','data'));
+        $businessLocations = $business->locations
+            ->where('status', 1)
+            ->where('participating_type', 'Participating')
+            ->values()
+            ->toArray();
+
+        // dd($businessLocations);
+        return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses','alreadyFav','data','businessLocations'));
     } 
 
     public function searchBusinessProfile(Request $request){

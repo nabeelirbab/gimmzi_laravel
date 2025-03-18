@@ -1309,7 +1309,12 @@ class MarketUniverseController extends BaseController
                 $mainLocation = BusinessLocation::where(['id' => $request->location_id, 'business_profile_id' => $request->business_id])->whereNotNull(['latitude', 'longitude'])->first();
                 if ($mainLocation) {
                     $data['main_location'] = $mainLocation; // Explicitly adding main_location details
-                    
+                    $locDistance = null;
+                    if ($mainLocation->latitude !== null && $mainLocation->longitude !== null) {
+                        $locDistance = $this->haversineDistance2($latitude, $longitude, $mainLocation->latitude, $mainLocation->longitude);
+                        $data['main_location']['distance'] = $locDistance;  // Adding the distance to the main_location object
+                    }
+
                     $dealIds = DealLocation::where('location_id', $mainLocation->id)->pluck('deal_id');
                     $loyaltyIds = LoyaltyRewardLocation::where('location_id', $mainLocation->id)->pluck('loyalty_program_id');
                     

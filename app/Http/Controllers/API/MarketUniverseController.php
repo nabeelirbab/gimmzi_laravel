@@ -1093,7 +1093,7 @@ class MarketUniverseController extends BaseController
                 return $a->distance <=> $b->distance;
             });
 
-
+            // return $filtered_profiles;
 
             if (count($filtered_profiles) > 0) {
                 return $this->sendResponse($filtered_profiles, 'Business profile found', 201);

@@ -75,7 +75,14 @@ class BusinessWebsiteController extends Controller
         $data['loyalty'] = $businessProfile->loyalty;
         // dd($businessProfile);
         // dd($data['loyalty']);
-        return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses','alreadyFav','data'));
+        $businessLocations = $business->locations
+            ->where('status', 1)
+            ->where('participating_type', 'Participating')
+            ->values()
+            ->toArray();
+
+        // dd($businessLocations);
+        return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses','alreadyFav','data','businessLocations'));
     } 
 
     public function searchBusinessProfile(Request $request){

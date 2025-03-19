@@ -33,16 +33,12 @@ class BusinessWebsiteController extends Controller
         if ($businessLocation && isset($businessLocation->id)) {
             $dealIds = DealLocation::where('location_id', $businessLocation->id)->pluck('deal_id');
         } else {
-            // Handle the case where $businessLocation is null
-            // Maybe log the error or provide a default behavior
-            $dealIds = collect(); // Return an empty collection or handle as needed
+            $dealIds = collect();
         }
         if ($businessLocation && isset($businessLocation->id)) {
             $loyaltyIds = LoyaltyRewardLocation::where('location_id', $businessLocation->id)->pluck('loyalty_program_id');
         } else {
-            // Handle the case where $businessLocation is null
-            // Maybe log the error or provide a default behavior
-            $loyaltyIds = collect(); // Return an empty collection or handle as needed
+            $loyaltyIds = collect();
         }        
         
         // $dealIds = DealLocation::where('location_id', $businessLocation->id)->pluck('deal_id');

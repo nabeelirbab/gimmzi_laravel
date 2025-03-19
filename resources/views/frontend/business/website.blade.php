@@ -732,37 +732,9 @@
                                             <!-- deals -->
                                             @foreach (collect($data['deals'])->take(3) as $deal)
                                                 <div class="form-check mt-3" data-bs-toggle="modal"
-                                                    data-bs-target="#offerDetailsModal" data-title="Move-in Special"
-                                                    data-start-date="08-01-2020" data-end-date="09-30-2020"
-                                                    data-description="No Application fee <br> if Approved, 1st month of rent free"
-                                                    data-termsAndConditions="Gimmzi Smart Rewards Program\n\n1. Eligibility:\nParticipation in the Gimmzi Loyalty Rewards Program ("Program")
-                                                    is open to individuals who are 13 years of age or older. Businesses
-                                                    must meet the eligibility criteria specified by Gimmzi.\n\n2.
-                                                    Program Overview:\nThe Program allows members to earn and redeem
-                                                    points for rewards offered by participating businesses. Gimmzi
-                                                    reserves the right to modify or terminate the Program at any
-                                                    time.\n\n3. Earning Points:\nPoints are earned through qualifying
-                                                    purchases, referrals, or other activities as specified by Gimmzi or
-                                                    participating businesses. Points have no cash value and are
-                                                    non-transferable.\n\n4. Redeeming Rewards:\nMembers can redeem
-                                                    points for rewards offered by participating businesses. Gimmzi is
-                                                    not responsible for the quality, safety, legality, or any other
-                                                    aspect of the rewards provided by businesses.\n\n5. Account
-                                                    Termination:\nGimmzi reserves the right to terminate or suspend a
-                                                    member's account for any reason, including but not limited to
-                                                    violation of these terms, fraudulent activity, or misuse of the
-                                                    Program.\n\n6. Privacy:\nBy participating in the Program, members
-                                                    agree to the collection and use of personal information as outlined
-                                                    in Gimmzi's Privacy Policy.\n\n7. Changes to Terms:\nGimmzi reserves
-                                                    the right to modify these terms and conditions at any time. Changes
-                                                    will be communicated to members through the Gimmzi platform.\n\n8.
-                                                    Limitation of Liability:\nGimmzi and participating businesses are
-                                                    not liable for any direct, indirect, incidental, special, or
-                                                    consequential damages arising out of or related to the
-                                                    Program.\n\n9. Governing Law:\nThese terms and conditions are
-                                                    governed by and construed in accordance with the laws of the United
-                                                    States of America.\n\n10. Contact Information:\nFor questions or
-                                                    concerns regarding the Program, please contact legal@gimmzi.com"
+                                                    data-title="Deal Detail {{ $deal->id }}"
+                                                    data-description="{{ $deal->description }}"
+                                                    data-termsAndConditions="{{ $deal->terms_conditions }}"
                                                     style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; display: flex; align-items: center; position: relative;">
                                                     <input class="form-check-input2" type="radio" name="offer"
                                                         id="offer1" value="25-off-all-products"
@@ -779,7 +751,8 @@
                                                         </small>
                                                     </div>
                                                     <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"
-                                                        style="position: absolute; top: 0px; right: 0px; border-radius: 5px;">
+                                                        style="position: absolute; top: 0px; right: 0px; border-radius: 5px;"
+                                                        data-bs-toggle="modal" data-bs-target="#offerDetailsModal">
                                                 </div>
                                             @endforeach
 
@@ -787,7 +760,7 @@
                                             <div class="mt-4">
                                                 <button class="btn btn-primary btn-block w-100"
                                                     style="background-color: #26a1d6">
-                                                    Add to My Wallet</button>
+                                                    Add to My Wallet..</button>
                                             </div>
 
                                             <!-- Card with List -->
@@ -1072,47 +1045,6 @@
                     </div>
                 </div>
 
-
-                {{-- <footer class="bg-dark text-white py-4 mt-5">
-                        <div class="container text-center">
-                            <!-- Logo and Tagline -->
-                            <div class="mb-3">
-                                <img src="https://via.placeholder.com/150x50" alt="Gimmzi Logo" class="mb-2">
-                                <p class="mb-0">SMART REWARDS</p>
-                            </div>
-    
-                            <!-- Navigation Links -->
-                            <div class="mb-3">
-                                <a href="#" class="text-white text-decoration-none mx-2">Loyalty Rewards</a>
-                                <a href="#" class="text-white text-decoration-none mx-2">Gimmzi Deals</a>
-                                <a href="#" class="text-white text-decoration-none mx-2">Earn More Points</a>
-                                <a href="#" class="text-white text-decoration-none mx-2">Become a Partner</a>
-                            </div>
-    
-                            <!-- Subtext -->
-                            <div class="mb-3">
-                                <a href="#" class="text-white text-decoration-none">Do Not Sell My Personal
-                                    Information</a>
-                            </div>
-    
-                            <!-- Social Icons -->
-                            <div class="mb-3">
-                                <a href="#" class="text-white mx-2"><i class="bi bi-facebook"></i></a>
-                                <a href="#" class="text-white mx-2"><i class="bi bi-instagram"></i></a>
-                            </div>
-    
-                            <!-- Bottom Links -->
-                            <div class="border-top pt-3">
-                                <small>&copy; 2023 Gimmzi LLC. All rights reserved.</small>
-                                <div>
-                                    <a href="#" class="text-white text-decoration-none mx-2">Terms of
-                                        Services</a>
-                                    <a href="#" class="text-white text-decoration-none mx-2">Privacy Policy</a>
-                                </div>
-                            </div>
-                        </div>
-                    </footer> --}}
-
             </div>
         </div>
     </div>
@@ -1190,6 +1122,7 @@
             </div>
         </div>
     </div>
+
     <!-- Modal for Offer Details -->
     <div class="modal fade" id="offerDetailsModal" tabindex="-1" aria-labelledby="offerDetailsModalLabel"
         aria-hidden="true">
@@ -1201,14 +1134,18 @@
                             class="fa fa-times" aria-hidden="true"></i></button>
                 </div>
                 <div class="modal-body">
-                    <span id="modalDescription"></span>
-                    <span id="modalTermsConditions"></span>
+                    <!-- Description Section -->
+                    <label for="modalDescription" class="form-label"><strong>Offer Description</strong></label>
+                    <textarea id="modalDescription" class="form-control" style="height: 200px; overflow-y: auto;" readonly></textarea>
+
+                    <!-- Terms and Conditions Section -->
+                    <label for="modalTermsConditions" class="form-label mt-3"><strong>Terms and
+                            Conditions</strong></label>
+                    <textarea id="modalTermsConditions" class="form-control mt-3" style="height: 200px; overflow-y: auto;" readonly></textarea>
                 </div>
             </div>
         </div>
     </div>
-
-
 
     <!-- Share social Modal via email -->
     <div class="modal fade" id="shareSocialModal" tabindex="-1" aria-labelledby="shareModalLabel"
@@ -1321,9 +1258,6 @@
         </div>
     </div>
 
-
-
-
     <script>
         // When an offer is clicked, update the modal content
         document.querySelectorAll('.form-check').forEach(function(offerDiv) {
@@ -1347,6 +1281,32 @@
                 toastr.error('Could not copy text: ', err);
             });
         }
+
+        // Listen for the modal show event
+        document.addEventListener('DOMContentLoaded', function() {
+            var offerDetailsModal = document.getElementById('offerDetailsModal');
+            offerDetailsModal.addEventListener('show.bs.modal', function(event) {
+                // Get the element that triggered the modal
+                var triggerElement = event.relatedTarget;
+
+                // If the trigger is the <img>, get the parent <div> that has the data-* attributes
+                var dataElement = triggerElement.closest('div');
+
+                // Extract data from the data-* attributes of the parent div
+                var title = dataElement.getAttribute('data-title');
+                var description = dataElement.getAttribute('data-description');
+                var terms = dataElement.getAttribute('data-termsAndConditions');
+
+                // Update the modal content
+                var modalTitle = offerDetailsModal.querySelector('#modalTitle');
+                var modalDescription = offerDetailsModal.querySelector('#modalDescription');
+                var modalTerms = offerDetailsModal.querySelector('#modalTermsConditions');
+
+                modalTitle.textContent = title;
+                modalDescription.innerHTML = description; // Use innerHTML for <br> tags
+                modalTerms.textContent = terms;
+            });
+        });
 
 
         // Initialize the map when the page loads

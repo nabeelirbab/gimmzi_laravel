@@ -224,8 +224,7 @@
                             </a>
                         </li>
                         <li class="hdr-li">
-                            <a href="javascript:void(0)" class="hdr-ul-anchor add-to-wallet" data-business-id="2"
-                                data-type="loyaltyRewards" data-deal-id="10">
+                            <a href="javascript:void(0)" class="hdr-ul-anchor">
                                 <img loading="lazy" src="{{ asset('frontend_assets/images/wallet.svg') }}"
                                     alt="wallet icon">
                             </a>

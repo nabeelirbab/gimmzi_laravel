@@ -15,9 +15,9 @@ class WalletController extends Controller
 {
     public function addToMyWalletWeb(Request $request)
     {
-        //dd($request->all());
-        $businesses = BusinessProfile::where('id',$request->business_id)->with('deals')->first();
-        dd($businesses->deals);
+        dd($request->all()); 
+        // $businesses = BusinessProfile::where('id',$request->business_id)->with('deals')->first();
+        // dd($businesses->loyalty);
         if (Auth::check()) { // For web authentication
             $validator = Validator::make($request->all(), [
                 'business_id' => "required",
@@ -33,7 +33,8 @@ class WalletController extends Controller
             try {
                 $userId = Auth::id(); // Get authenticated user's ID
 
-                if ($request->type == 'gimmziDeals') {
+                // if ($request->type == 'gimmziDeals') {
+                if ($businesses->deals) {
                     $deal = Deal::where(['business_id' => $request->business_id, 'id' => $request->deal_id])->first();
                     if ($deal) {
                         $alreadyAdded = ConsumerWallet::where(['business_id' => $request->business_id, 'deal_id' => $request->deal_id, 'consumer_id' => $userId])->first();
@@ -51,7 +52,7 @@ class WalletController extends Controller
                     } else {
                         return redirect()->back()->with('error', 'No deal found.');
                     }
-                } elseif ($request->type == 'loyaltyRewards') {
+                } elseif ($businesses->loyalty) {
                     $loyalty = MerchantLoyaltyProgram::where(['business_profile_id' => $request->business_id, 'id' => $request->loyalty_id])->first();
                     if ($loyalty) {
                         $alreadyLoyaltyAdded = ConsumerWallet::where(['business_id' => $request->business_id, 'loyalty_id' => $request->loyalty_id, 'consumer_id' => $userId])->first();

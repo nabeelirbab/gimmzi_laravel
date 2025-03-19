@@ -691,7 +691,8 @@
                                         <div class="card p-1 p-md-4">
                                             <!-- loyalty -->
                                             @foreach (collect($data['loyalty'])->take(2) as $loyalty)
-                                                <div class="form-check mt-3"
+                                                <div class="form-check mt-3" data-loyalty-id="{{ $loyalty->id }}"
+                                                    data-business-id="{{ $business->id }}"
                                                     data-title="{{ $loyalty->program_name }}"
                                                     data-description="{{ $loyalty->about_program }}"
                                                     data-termsAndConditions='{{ $loyalty->terms_conditions }}'
@@ -702,8 +703,8 @@
                                                     <div style="flex: 1; width: calc(100% - 35px);">
                                                         <label class="form-check-label" for="offer1"
                                                             style="display: block; color:#000">
-                                                            <p style="line-height: 30px;">
-                                                                {{ $loyalty->program_name }}</p>
+                                                            <p style="line-height: 30px;">{{ $loyalty->program_name }}
+                                                            </p>
                                                         </label>
                                                         <small class="d-block text-muted"
                                                             style="display: block; color:#26a1d6 !important; line-height: 18px;">
@@ -712,12 +713,16 @@
                                                     </div>
                                                     <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"
                                                         style="position: absolute; top: 0px; right: 0px; border-radius: 5px;"
-                                                        data-bs-toggle="modal" data-bs-target="#offerLoyaltyModal">
+                                                        data-bs-toggle="modal" data-bs-target="#offerLoyaltyModal"
+                                                        data-id="{{ $loyalty->id }}">
                                                 </div>
                                             @endforeach
-                                            <!-- deals -->
+
                                             @foreach (collect($data['deals'])->take(3) as $deal)
                                                 <div class="form-check mt-3" data-bs-toggle="modal"
+                                                    data-business-id="{{ $business->id }}"
+                                                    data-deal-id="{{ $deal->id }}"
+                                                    data-business-id="{{ $deal->business_id }}"
                                                     data-title="Deal Detail {{ $deal->id }}"
                                                     data-description="{{ $deal->description }}"
                                                     data-termsAndConditions="{{ $deal->terms_conditions }}"
@@ -733,19 +738,21 @@
                                                         </label>
                                                         <small class="d-block text-muted"
                                                             style="display: block; color:#26a1d6 !important; line-height: 18px;">
-                                                            Earn upto {{ $loyalty->off_percentage }} on your purchase
+                                                            Earn upto {{ $deal->off_percentage }} on your purchase
                                                         </small>
                                                     </div>
                                                     <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"
                                                         style="position: absolute; top: 0px; right: 0px; border-radius: 5px;"
-                                                        data-bs-toggle="modal" data-bs-target="#offerDetailsModal">
+                                                        data-bs-toggle="modal" data-bs-target="#offerDetailsModal"
+                                                        data-id="{{ $deal->id }}">
                                                 </div>
                                             @endforeach
+
 
                                             <!-- Add to Wallet Button -->
                                             <div class="mt-4">
                                                 <button class="btn btn-primary btn-block w-100"
-                                                    style="background-color: #26a1d6">
+                                                    style="background-color: #26a1d6" id="addToWalletBtn">
                                                     Add to My Wallet..</button>
                                             </div>
 
@@ -1184,6 +1191,59 @@
                 modalTerms.textContent = terms;
             });
         });
+
+        document.getElementById("addToWalletBtn").addEventListener("click", function() {
+            const selectedOffer = document.querySelector('input[name="offer"]:checked');
+
+            if (selectedOffer) {
+                let loyaltyId = null;
+                let dealId = null;
+                let businessId = selectedOffer.closest('.form-check').getAttribute('data-business-id');
+
+                // Check if the selected offer is a loyalty program or a deal
+                if (selectedOffer.closest('.form-check').hasAttribute('data-loyalty-id')) {
+                    loyaltyId = selectedOffer.closest('.form-check').getAttribute('data-loyalty-id');
+                } else if (selectedOffer.closest('.form-check').hasAttribute('data-deal-id')) {
+                    dealId = selectedOffer.closest('.form-check').getAttribute('data-deal-id');
+                }
+
+                console.log("loyaltyId:", loyaltyId);
+                console.log("dealId:", dealId);
+                console.log("businessId:", businessId);
+
+                // Ensure that one of loyaltyId or dealId is available
+                if (!loyaltyId && !dealId) {
+                    alert("Please select a valid loyalty program or deal.");
+                    return;
+                }
+
+                // Send Ajax request with either loyalty_id or deal_id
+                fetch('{{ route('wallet.add') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF Token for Laravel
+                        },
+                        body: JSON.stringify({
+                            loyalty_id: loyaltyId, // Send loyalty_id if available
+                            deal_id: dealId, // Send deal_id if available
+                            business_id: businessId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Handle the response (e.g., success or error message)
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            } else {
+                alert("Please select a loyalty program or deal.");
+            }
+        });
+
+
 
 
         // Initialize the map when the page loads

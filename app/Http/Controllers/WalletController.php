@@ -15,31 +15,24 @@ class WalletController extends Controller
 {
     public function addToMyWalletWeb(Request $request)
     {
-        dd($request->all()); 
-        // $businesses = BusinessProfile::where('id',$request->business_id)->with('deals')->first();
-        // dd($businesses->loyalty);
-        if (Auth::check()) { // For web authentication
+        if (Auth::check()) { 
             $validator = Validator::make($request->all(), [
                 'business_id' => "required",
-                'type' => "required|in:gimmziDeals,loyaltyRewards",
-                'deal_id' => "required_if:type,=,gimmziDeals|exists:deals,id",
-                'loyalty_id' => "required_if:type,=,loyaltyRewards|exists:merchant_loyalty_programs,id",
             ]);
 
             if ($validator->fails()) {
-                return redirect()->back()->with('error', $validator->errors()->first());
+                return response()->json(['status' => false, 'message' => $validator->errors()->first()], 400);
             }
 
             try {
-                $userId = Auth::id(); // Get authenticated user's ID
+                $userId = Auth::id();
 
-                // if ($request->type == 'gimmziDeals') {
-                if ($businesses->deals) {
+                if ($request->deal_id) {
                     $deal = Deal::where(['business_id' => $request->business_id, 'id' => $request->deal_id])->first();
                     if ($deal) {
                         $alreadyAdded = ConsumerWallet::where(['business_id' => $request->business_id, 'deal_id' => $request->deal_id, 'consumer_id' => $userId])->first();
                         if ($alreadyAdded) {
-                            return redirect()->back()->with('info', 'Already Added to My Wallet.');
+                            return response()->json(['status' => true, 'message' => 'Already added to the wallet'], 200);
                         } else {
                             $addToWallet = new ConsumerWallet();
                             $addToWallet->consumer_id = $userId;
@@ -47,17 +40,18 @@ class WalletController extends Controller
                             $addToWallet->deal_id = $deal->id;
                             $addToWallet->points = $deal->point;
                             $addToWallet->save();
-                            return redirect()->back()->with('success', 'Deal added to wallet successfully.');
+                            return response()->json(['status' => true, 'message' => 'Deal added to wallet successfully'], 201);
                         }
                     } else {
-                        return redirect()->back()->with('error', 'No deal found.');
+                        return response()->json(['status' => false, 'message' => 'Something went wrong'], 500);
                     }
-                } elseif ($businesses->loyalty) {
+                } elseif ($request->loyalty_id) {
                     $loyalty = MerchantLoyaltyProgram::where(['business_profile_id' => $request->business_id, 'id' => $request->loyalty_id])->first();
                     if ($loyalty) {
                         $alreadyLoyaltyAdded = ConsumerWallet::where(['business_id' => $request->business_id, 'loyalty_id' => $request->loyalty_id, 'consumer_id' => $userId])->first();
                         if ($alreadyLoyaltyAdded) {
-                            return redirect()->back()->with('info', 'Already Added to My Wallet.');
+                            return response()->json(['status' => true, 'message' => 'Already Added to the Wallet'], 200);
+                            
                         } else {
                             $addToWallet = new ConsumerWallet();
                             $addToWallet->consumer_id = $userId;
@@ -65,18 +59,20 @@ class WalletController extends Controller
                             $addToWallet->loyalty_id = $loyalty->id;
                             $addToWallet->points = $loyalty->program_points;
                             $addToWallet->save();
-                            return redirect()->back()->with('success', 'Loyalty Punch Card added to wallet successfully.');
+                            return response()->json(['status' => true, 'message' => 'Loyalty added to wallet successfully'], 201);
+                            
                         }
                     } else {
-                        return redirect()->back()->with('error', 'No loyalty program found.');
+                        return response()->json(['status' => false, 'message' => 'No loyalty program found.'], 500);
+                        
                     }
                 }
             } catch (\Throwable $th) {
                 Log::error(" :: EXCEPTION :: " . $th->getMessage() . "\n" . $th->getTraceAsString());
-                return redirect()->back()->with('error', 'Server Error! Please try again.');
+                return response()->json(['status' => false, 'message' => 'Server Error! Please try again.'], 500);
             }
         } else {
-            return redirect()->route('login')->with('error', 'Sign in to save this deal and redeem rewards!');
+            return response()->json(['status' => false, 'message' => 'Sign in to save this deal and redeem rewards!'], 401);
         }
     }
 }

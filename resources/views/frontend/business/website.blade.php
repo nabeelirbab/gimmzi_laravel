@@ -753,7 +753,7 @@
                                             <div class="mt-4">
                                                 <button class="btn btn-primary btn-block w-100"
                                                     style="background-color: #26a1d6" id="addToWalletBtn">
-                                                    Add to My Wallet..</button>
+                                                    Add to My Wallet</button>
                                             </div>
 
                                             <!-- Card with List -->
@@ -1207,43 +1207,35 @@
                     dealId = selectedOffer.closest('.form-check').getAttribute('data-deal-id');
                 }
 
-                console.log("loyaltyId:", loyaltyId);
-                console.log("dealId:", dealId);
-                console.log("businessId:", businessId);
-
-                // Ensure that one of loyaltyId or dealId is available
-                if (!loyaltyId && !dealId) {
-                    alert("Please select a valid loyalty program or deal.");
-                    return;
-                }
-
                 // Send Ajax request with either loyalty_id or deal_id
                 fetch('{{ route('wallet.add') }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF Token for Laravel
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
                         body: JSON.stringify({
-                            loyalty_id: loyaltyId, // Send loyalty_id if available
-                            deal_id: dealId, // Send deal_id if available
+                            loyalty_id: loyaltyId,
+                            deal_id: dealId,
                             business_id: businessId
                         })
                     })
-                    .then(response => response.json())
+                    .then(response => response.json()) // Convert the response to JSON
                     .then(data => {
-                        // Handle the response (e.g., success or error message)
-                        console.log(data);
+                        if (data.status) { // Check if the response status is true
+                            toastr.success(data.message); // Show success message from response
+                        } else {
+                            toastr.error('Something went wrong: ' + data
+                                .message); // Error message from response
+                        }
                     })
                     .catch(error => {
-                        console.error('Error:', error);
+                        toastr.error('Something went wrong', error);
                     });
             } else {
                 alert("Please select a loyalty program or deal.");
             }
         });
-
-
 
 
         // Initialize the map when the page loads

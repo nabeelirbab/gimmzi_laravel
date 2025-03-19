@@ -691,25 +691,10 @@
                                         <div class="card p-1 p-md-4">
                                             <!-- loyalty -->
                                             @foreach (collect($data['loyalty'])->take(2) as $loyalty)
-                                                <div class="form-check mt-3" data-bs-toggle="modal"
-                                                    data-bs-target="#offerLoyaltyModal"
+                                                <div class="form-check mt-3"
                                                     data-title="{{ $loyalty->program_name }}"
-                                                    data-description="No minimum purchase necessary. To redeem rewards, you must be registered and logged into your account. Cannot be combined with any other coupons. Discounts, promotions and/or offers. Cannot be applied on promotional priced product(s).\n\nPromotion codes and offers please note: Deals and programs are not retroactive and price adjustments will not be issued to orders placed either before or after the duration of any promotion. If you forgot to use your deal or program we are unable to adjust orders after they've been placed. Only one deal or program can be applied in one order. ${businessInfo?.details?.business_name} reserves the right to modify or cancel promotion deals at any time without notice."
-                                                    data-termsAndConditions='Gimmzi Smart Rewards Program\n\n1. Eligibility:\nParticipation in the Gimmzi Loyalty Rewards Program ("Program") is open to individuals who are 13 years of age or older. Businesses must meet the eligibility criteria specified by Gimmzi.\n\n2. Program Overview:\nThe Program allows members to earn and redeem points for rewards offered by participating businesses. Gimmzi reserves the right to modify or terminate the Program at any time.\n\n3. Earning Points:\nPoints are earned through qualifying purchases, referrals, or other activities as specified by Gimmzi or participating businesses. Points have no cash value and are non-transferable.\n\n4. Redeeming Rewards:\nMembers can redeem points for rewards offered by participating businesses. Gimmzi is not responsible for the quality, safety, legality, or any other aspect of the rewards provided by businesses.\n\n5. Account Termination:\nGimmzi reserves the right to terminate or suspend a member's
-                                                    account for any reason, including but not limited to violation of
-                                                    these terms, fraudulent activity, or misuse of the Program.\n\n6.
-                                                    Privacy:\nBy participating in the Program, members agree to the
-                                                    collection and use of personal information as outlined in Gimmzi's
-                                                    Privacy Policy.\n\n7. Changes to Terms:\nGimmzi reserves the right
-                                                    to modify these terms and conditions at any time. Changes will be
-                                                    communicated to members through the Gimmzi platform.\n\n8.
-                                                    Limitation of Liability:\nGimmzi and participating businesses are
-                                                    not liable for any direct, indirect, incidental, special, or
-                                                    consequential damages arising out of or related to the
-                                                    Program.\n\n9. Governing Law:\nThese terms and conditions are
-                                                    governed by and construed in accordance with the laws of the United
-                                                    States of America.\n\n10. Contact Information:\nFor questions or
-                                                    concerns regarding the Program, please contact legal@gimmzi.com.'
+                                                    data-description="{{ $loyalty->about_program }}"
+                                                    data-termsAndConditions='{{ $loyalty->terms_conditions }}'
                                                     style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; display: flex; align-items: center; position: relative;">
                                                     <input class="form-check-input2" type="radio" name="offer"
                                                         id="offer1" value="25-off-all-products"
@@ -726,7 +711,8 @@
                                                         </small>
                                                     </div>
                                                     <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"
-                                                        style="position: absolute; top: 0px; right: 0px; border-radius: 5px;">
+                                                        style="position: absolute; top: 0px; right: 0px; border-radius: 5px;"
+                                                        data-bs-toggle="modal" data-bs-target="#offerLoyaltyModal">
                                                 </div>
                                             @endforeach
                                             <!-- deals -->
@@ -790,144 +776,7 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- old code --}}
-                            {{-- <div class="col-12 col-md-5 d-flex justify-content-end">
-                                <div class="rounded p-1 p-md-4" style="width: 100%;">
-                                    <div class="">
-                                        <div class="card p-1 p-md-4">
-                                            <!-- Offer 1 -->
-                                            <div class="form-check mt-3" data-bs-toggle="modal"
-                                                data-bs-target="#offerDetailsModal" data-title="Move-in Special"
-                                                data-start-date="08-01-2020" data-end-date="09-30-2020"
-                                                data-description="No Application fee <br> if Approved, 1st month of rent free"
-                                                style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; display: flex; align-items: center; position: relative;">
-                                                <input class="form-check-input2" type="radio" name="offer"
-                                                    id="offer1" value="25-off-all-products"
-                                                    style="margin-right: 10px;">
-                                                <div>
-                                                    <label class="form-check-label" for="offer1"
-                                                        style="display: block; color:#000">
-                                                        <p style="line-height: 30px;">Move-in Special</p>
-                                                    </label>
-                                                    <small class="d-block text-muted"
-                                                        style="display: block; color:#26a1d6 !important; line-height: 24px;">
-                                                        From 08-01-2020 to 09-30-2020 <br>
-                                                        No Application fee <br>
-                                                        if Approved, 1st month of rent free
-                                                    </small>
-                                                </div>
-                                                <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"
-                                                    style="position: absolute; top: 0px; right: 0px; border-radius: 5px;">
-                                            </div>
 
-                                            <!-- Offer 2 -->
-                                            <?php
-                                            if ($message_board->start_date != '') {
-                                                $startdate1 = date_format(date_create($message_board->start_date), 'm-d-Y');
-                                            } else {
-                                                $startdate1 = '';
-                                            }
-                                            if ($message_board->end_date != '') {
-                                                $enddate1 = date_format(date_create($message_board->end_date), 'm-d-Y');
-                                            } else {
-                                                $enddate1 = 'Open';
-                                            }
-                                            ?>
-                                            <div class="form-check mt-3" data-bs-toggle="modal"
-                                                data-bs-target="#offerDetailsModal"
-                                                data-title="{{ $message_board->boardone->title }}"
-                                                data-start-date="{{ $startdate1 }}"
-                                                data-end-date="{{ $enddate1 }}"
-                                                data-description="{!! $message_board->description !!}"
-                                                style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; display: flex; align-items: center; position: relative;">
-                                                <input class="form-check-input2" type="radio" name="offer"
-                                                    id="offer2" value="25-off-all-products"
-                                                    style="margin-right: 10px;">
-                                                <div>
-                                                    <label class="form-check-label" for="offer2"
-                                                        style="display: block; color:#000;">
-                                                        <p style="line-height: 30px;">
-                                                            {{ $message_board->boardone->title }}</p>
-                                                    </label>
-                                                    <small class="d-block text-muted"
-                                                        style="display: block; color:#26a1d6 !important; line-height: 24px;">
-                                                        From {{ $startdate1 }} to {{ $enddate1 }}
-                                                        <p>{!! $message_board->description !!}</p>
-                                                    </small>
-                                                </div>
-                                                <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"
-                                                    style="position: absolute; top: 0px; right: 0px; border-radius: 5px;">
-                                            </div>
-
-                                            <!-- Offer 3 -->
-                                            <?php
-                                            if ($message_board->start_date2 != '') {
-                                                $startdate2 = date_format(date_create($message_board->start_date2), 'm-d-Y');
-                                            } else {
-                                                $startdate2 = '';
-                                            }
-                                            if ($message_board->end_date2 != '') {
-                                                $enddate2 = date_format(date_create($message_board->end_date2), 'm-d-Y');
-                                            } else {
-                                                $enddate2 = 'Open';
-                                            }
-                                            ?>
-                                            <div class="form-check mt-3" data-bs-toggle="modal"
-                                                data-bs-target="#offerDetailsModal" data-title="Special Offer"
-                                                data-start-date="{{ $startdate2 }}"
-                                                data-end-date="{{ $enddate2 }}"
-                                                data-description="{!! $message_board->description2 !!}"
-                                                style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; display: flex; align-items: center; position: relative;">
-                                                <input class="form-check-input2" type="radio" name="offer"
-                                                    id="offer3" value="25-off-all-products"
-                                                    style="margin-right: 10px;">
-                                                <div>
-                                                    <label class="form-check-label" for="offer3"
-                                                        style="display: block; color:#000;line-height: 30px;">
-                                                        <p>From {{ $startdate2 }} to {{ $enddate2 }}</p>
-                                                    </label>
-                                                    <small class="d-block text-muted"
-                                                        style="display: block; color:#26a1d6 !important;line-height: 24px;">
-                                                        <p>{!! $message_board->description2 !!}</p>
-                                                    </small>
-                                                </div>
-                                                <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"
-                                                    style="position: absolute; top: 0px; right: 0px; border-radius: 5px;">
-                                            </div>
-                                            <!-- Add to Wallet Button -->
-                                            <div class="mt-4">
-                                                <button class="btn btn-primary btn-block w-100"
-                                                    style="background-color: #26a1d6">
-                                                    Add to My Wallet</button>
-                                            </div>
-
-                                            <!-- Card with List -->
-                                            <div class="card mt-4" style="width: 100%;">
-                                                <ul class="list-group list-group-flush">
-                                                    @if (!empty($message_board->boardone))
-                                                        <li class="list-group-item">
-                                                            <p style="color:#17B26A; margin-bottom: 1px">
-                                                                {{ $message_board->board_one_title }}</p>
-                                                            <span style="color: #98A2B3; font-size: 12px">
-                                                                {{ $message_board->boardone->active_description }}</span>
-                                                        </li>
-                                                    @endif
-
-                                                    @if (!empty($message_board->boardtwo))
-                                                        <li class="list-group-item">
-                                                            <p style="color:#17B26A; margin-bottom: 1px">
-                                                                {{ $message_board->board_two_title }}</p>
-                                                            <span style="color: #98A2B3; font-size: 12px">
-                                                                {{ $message_board->boardtwo->active_description }}</span>
-                                                        </li>
-                                                    @endif
-                                                </ul>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
 
@@ -1116,8 +965,11 @@
                             class="fa fa-times" aria-hidden="true"></i></button>
                 </div>
                 <div class="modal-body">
-                    <span id="modalDescription"></span>
-                    <span id="modalTermsConditions"></span>
+                    <label for="modalDescription" class="form-label"><strong>About Program</strong></label>
+                    <textarea id="modalDescription" class="form-control" style="height: 200px; overflow-y: auto;" readonly></textarea>
+                    <label for="modalTermsConditions" class="form-label mt-3"><strong>Terms and
+                            Conditions</strong></label>
+                    <textarea id="modalTermsConditions" class="form-control mt-3" style="height: 200px; overflow-y: auto;" readonly></textarea>
                 </div>
             </div>
         </div>
@@ -1301,6 +1153,31 @@
                 var modalTitle = offerDetailsModal.querySelector('#modalTitle');
                 var modalDescription = offerDetailsModal.querySelector('#modalDescription');
                 var modalTerms = offerDetailsModal.querySelector('#modalTermsConditions');
+
+                modalTitle.textContent = title;
+                modalDescription.innerHTML = description; // Use innerHTML for <br> tags
+                modalTerms.textContent = terms;
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var offerLoyaltyModal = document.getElementById('offerLoyaltyModal');
+            offerLoyaltyModal.addEventListener('show.bs.modal', function(event) {
+                // Get the element that triggered the modal
+                var triggerElement = event.relatedTarget;
+
+                // If the trigger is the <img>, get the parent <div> that has the data-* attributes
+                var dataElement = triggerElement.closest('div');
+
+                // Extract data from the data-* attributes of the parent div
+                var title = dataElement.getAttribute('data-title');
+                var description = dataElement.getAttribute('data-description');
+                var terms = dataElement.getAttribute('data-termsAndConditions');
+
+                // Update the modal content
+                var modalTitle = offerLoyaltyModal.querySelector('#modalTitle');
+                var modalDescription = offerLoyaltyModal.querySelector('#modalDescription');
+                var modalTerms = offerLoyaltyModal.querySelector('#modalTermsConditions');
 
                 modalTitle.textContent = title;
                 modalDescription.innerHTML = description; // Use innerHTML for <br> tags

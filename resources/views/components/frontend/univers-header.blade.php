@@ -218,13 +218,13 @@
                             </a>
                         </li>
                         <li class="hdr-li">
-                            <a href="javascript:void(0)" class="hdr-ul-anchor">
+                            <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor">
                                 <img loading="lazy" src="{{ asset('frontend_assets/images/favourite.svg') }}"
                                     alt="favourite icon">
                             </a>
                         </li>
                         <li class="hdr-li">
-                            <a href="javascript:void(0)" class="hdr-ul-anchor">
+                            <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor">
                                 <img loading="lazy" src="{{ asset('frontend_assets/images/wallet.svg') }}"
                                     alt="wallet icon">
                             </a>

@@ -30,6 +30,7 @@ class CorporateLeadSetting extends Component
         $location = MerchantLocation::where('user_id', Auth::user()->id)->where('is_main', 1)->first();
 
         $this->business = BusinessProfile::find(Auth::user()->business_id);
+        // dd(auth::user()->id);
         $this->business_story = $this->business->business_story;
         $this->business_overview = $this->business->business_overview;
         $this->show_story_image = Media::where(['model_id' => $this->business->id, 'collection_name' => 'BusinessStoryImage'])->first();
@@ -190,7 +191,7 @@ class CorporateLeadSetting extends Component
 
             if ($get_location) {
 
-                $this->validate(
+                $this->validate( 
                     [
                         'participating_website' => ['nullable', 'url'],
                         'participating_phone' => ['numeric'],

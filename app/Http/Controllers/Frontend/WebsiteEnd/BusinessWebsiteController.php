@@ -29,6 +29,7 @@ class BusinessWebsiteController extends Controller
         $message_board = MerchantDisplayBoard::with('boardone', 'boardtwo')->where('location_id', 10)->first();
         $business_photos = Media::where(['model_id' => $id, 'collection_name' => 'businessProfilePhoto'])->get();
         $businesses = BusinessProfile::where('id', '<>', $id)->withCount('deals')->with('states')->whereHas('deals')->where('status', 1)->get();
+        // dd($businesses);
         $alreadyFav = ConsumerFavouriteTravelTourism::where('business_id',$business->id)->first();
         if ($businessLocation && isset($businessLocation->id)) {
             $dealIds = DealLocation::where('location_id', $businessLocation->id)->pluck('deal_id');

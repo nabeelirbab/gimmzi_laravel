@@ -820,9 +820,20 @@
                                 <div class="tab-pane fade" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
                                     <p id="contactContent" style="color: #000">
-                                        <img src="{{ asset($business->main_image) }}" alt="business-img">
+                                        @php
+                                            $ourStory = \App\Models\BusinessProfile::find(Auth::user()->business_id);
+                                            $storyImage = Spatie\MediaLibrary\Models\Media::where([
+                                                'model_id' => Auth::user()->business_id,
+                                                'collection_name' => 'BusinessStoryImage',
+                                            ])->first();
+                                            // dd($storyImage);
+                                        @endphp
+                                        <img src="{{ $storyImage->getUrl() }}" alt="business-img">
                                         <br>
-                                        {{ $business->business_story }}
+
+                                        {{-- {{ $business->business_story }} --}}
+                                        {{ $ourStory->merchant_id }}
+                                        {!! $ourStory->business_story !!}
                                     </p>
                                 </div>
                             </div>

@@ -808,10 +808,19 @@
                             </ul>
                             <hr>
                             <!-- Tab Content -->
+                            @php
+                                $ourStory = \App\Models\BusinessProfile::find(Auth::user()->business_id);
+                                $storyImage = Spatie\MediaLibrary\Models\Media::where([
+                                    'model_id' => Auth::user()->business_id,
+                                    'collection_name' => 'BusinessStoryImage',
+                                ])->first();
+                                // dd($storyImage);
+                            @endphp
                             <div class="tab-content mt-3" id="myTabContent">
                                 <div class="tab-pane fade show active" id="home" role="tabpanel"
                                     aria-labelledby="home-tab">
-                                    <p class="color:#475467;">{{ $business->business_overview }}</p>
+                                    <p class="color:#475467;">{!! $ourStory->business_overview !!}
+                                    </p>
                                 </div>
                                 <div class="tab-pane fade" id="profile" role="tabpanel"
                                     aria-labelledby="profile-tab">
@@ -820,19 +829,12 @@
                                 <div class="tab-pane fade" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
                                     <p id="contactContent" style="color: #000">
-                                        @php
-                                            $ourStory = \App\Models\BusinessProfile::find(Auth::user()->business_id);
-                                            $storyImage = Spatie\MediaLibrary\Models\Media::where([
-                                                'model_id' => Auth::user()->business_id,
-                                                'collection_name' => 'BusinessStoryImage',
-                                            ])->first();
-                                            // dd($storyImage);
-                                        @endphp
-                                        <img src="{{ $storyImage->getUrl() }}" alt="business-img">
+
+                                        <img src="{{ $storyImage->getUrl() }}" alt="business-img"
+                                            style="width: 890px;height:450px;margin-bottom:20px;">
                                         <br>
 
                                         {{-- {{ $business->business_story }} --}}
-                                        {{ $ourStory->merchant_id }}
                                         {!! $ourStory->business_story !!}
                                     </p>
                                 </div>
@@ -846,7 +848,8 @@
                     <!-- Header Row with H1 and Controls -->
                     <div class="row align-items-center mb-4">
                         <div class="col-6">
-                            <h1 class="h2">Other Jiffy Lube Locations</h1>
+                            <h1 class="h2">Other {{ $business->business_name }} Locations</h1>
+
                         </div>
                         <div class="col-6 text-end">
                             <button class="btn btn-info me-2" type="button" data-bs-target="#locationCarousel"
@@ -874,21 +877,24 @@
                     <div id="locationCarousel" class="carousel slide" data-bs-ride="carousel">
                         <!-- Carousel Items -->
                         <div class="carousel-inner">
-                            @foreach ($businesses->chunk(4) as $chunkIndex => $chunk)
+                            {{-- {{ $allLocations->chunk(4) }} --}}
+                            @foreach ($allLocations->chunk(4) as $chunkIndex => $chunk)
                                 <div class="carousel-item {{ $chunkIndex == 0 ? 'active' : '' }}">
                                     <div class="row">
                                         @foreach ($chunk as $business)
                                             <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
                                                 <div class="card h-100" style="border-radius: 1rem">
-                                                    <img src="{{ $business->logo_image }}" class="card-img-top"
+                                                    <img src="{{ env('APP_URL') . $business->business->main_image }}"
+                                                        alt="Business Image" class="card-img-top"
                                                         alt="Provider Image" style="height: 200px;">
                                                     <div class="card-body">
                                                         <p class="card-text">
-                                                            <img src="{{ asset('frontend_assets/images/location.svg') }}"
+                                                            <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
                                                                 alt="icon"
                                                                 style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
-                                                            {{ $business->street_address }}, {{ $business->city }},
-                                                            {{ $business->states->name }}, {{ $business->zip_code }}
+                                                            {{ $business->location_name }} <br>
+                                                            {{ $business->city }} {{ $business->state }}
+                                                            {{ $business->zip_code }}
                                                         </p>
                                                     </div>
                                                 </div>

@@ -92,8 +92,15 @@ class BusinessWebsiteController extends Controller
             ->values()
             ->toArray();
 
-        // dd($businessLocations);
-        return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses','alreadyFav','data','businessLocations'));
+        $allLocations = BusinessLocation::where('business_profile_id', $business->id)
+            ->where('id', '!=', $businessLocations[0]['id'])
+            ->whereNotNull(['latitude', 'longitude'])
+            ->where('status', 1)
+            ->get();
+
+        // dd($allLocations);
+        //dd($businessLocations,  $businessProfile, $business_photos, $businesses, $alreadyFav, $data, $businessLocations);
+        return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses','alreadyFav','data','businessLocations','allLocations'));
     } 
 
     public function searchBusinessProfile(Request $request){

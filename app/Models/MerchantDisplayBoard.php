@@ -58,4 +58,9 @@ class MerchantDisplayBoard extends Model
             }
         }
     }
+
+    public function displayBoard()
+    {
+        return $this->belongsTo(DisplayBoard::class);
+    }
 }

@@ -23,10 +23,11 @@ class BusinessWebsiteController extends Controller
     {
         $business = BusinessProfile::find($id); 
         // dd($business->id);
-        $message_board = MerchantDisplayBoard::where('business_id', $id)->first();
+        // $message_board = MerchantDisplayBoard::where('business_id', $id)->first();
         $providerType = ProviderSubType::get();
         $businessLocation = BusinessLocation::where('business_profile_id', $id)->first();
-        $message_board = MerchantDisplayBoard::with('boardone', 'boardtwo')->where('location_id', 10)->first();
+        // $message_board = MerchantDisplayBoard::with('boardone', 'boardtwo')->where('location_id', 10)->first();
+        $message_boards = MerchantDisplayBoard::where('business_id', $business->id)->get();
         $business_photos = Media::where(['model_id' => $id, 'collection_name' => 'businessProfilePhoto'])->get();
         $businesses = BusinessProfile::where('id', '<>', $id)->withCount('deals')->with('states')->whereHas('deals')->where('status', 1)->get();
         // dd($businesses);
@@ -98,9 +99,9 @@ class BusinessWebsiteController extends Controller
             ->where('status', 1)
             ->get();
 
-        // dd($allLocations);
+        //dd($message_boards);
         //dd($businessLocations,  $businessProfile, $business_photos, $businesses, $alreadyFav, $data, $businessLocations);
-        return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses','alreadyFav','data','businessLocations','allLocations'));
+        return view('frontend.business.website', compact('business', 'message_boards', 'providerType', 'business_photos', 'businesses','alreadyFav','data','businessLocations','allLocations'));
     } 
 
     public function searchBusinessProfile(Request $request){

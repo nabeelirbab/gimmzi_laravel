@@ -988,12 +988,39 @@
                         <!-- Carousel Navigation -->
                         <button class="carousel-control-prev" type="button"
                             data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                            <img src="{{ asset('frontend_assets/images/leftarrow.png') }}" alt="Previous">
+                            <img src="{{ asset('frontend_assets/images/left-arrow.svg') }}" alt="Previous">
                         </button>
                         <button class="carousel-control-next" type="button"
                             data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                            <img src="{{ asset('frontend_assets/images/rightarrow.png') }}" alt="Next">
+                            <img src="{{ asset('frontend_assets/images/right-arrow.svg') }}" alt="Next">
                         </button>
+                        <style>
+                            .carousel-control-next,
+                            .carousel-control-prev {
+                                background-color: white;
+                                border-radius: 50%;
+                                width: 30px;
+                                height: 30px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                /* border: 2px solid #000; */
+                            }
+
+                            .carousel-control-next {
+                                right: -60px
+                            }
+
+                            .carousel-control-prev {
+                                left: -60px
+                            }
+
+                            .carousel-control-next img,
+                            .carousel-control-prev img {
+                                width: 20px;
+                                height: 20px;
+                            }
+                        </style>
                     </div>
                 </div>
             </div>

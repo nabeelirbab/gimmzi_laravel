@@ -570,16 +570,30 @@
                                 style="gap: 24px; margin-right:20px;">
                                 <div class="d-flex align-items-center"
                                     style="background-color: #F2F4F7; padding: 8px; border-radius: 8px; cursor: pointer;">
-                                    <img src="{{ asset('frontend_assets/images/phone.svg') }}" alt="">
+                                    <img src="{{ asset('frontend_assets/images/phone-icon.svg') }}" alt="phone-icon">
                                     <p id="phone-number" style="margin-left: 7px;"
-                                        data-phone="{{ $business->business_phone }}">{{ $business->business_phone }}
+                                        data-phone="{{ $business->business_phone }}">
+                                        @php
+                                            $businessProfileId = \App\Models\BusinessProfile::where(
+                                                'merchant_id',
+                                                Auth::user()->id,
+                                            )->pluck('id');
+                                            $businessLocation = \App\Models\BusinessLocation::where(
+                                                'business_profile_id',
+                                                $businessProfileId,
+                                            )->first();
+                                        @endphp
+                                        {{ $businessLocation->business_phone }}
                                     </p>
                                 </div>
 
                                 <div class="d-flex align-items-center rounded-2"
                                     style="background-color: #F2F4F7; padding: 10px;">
-                                    <img src="{{ asset('frontend_assets/images/global.svg') }}" alt="">
-                                    <p style="margin-left: 7px;">visit website</p>
+                                    <a href="{{ $businessLocation->business_fax_number }}" target="_blank">
+                                        <img src="{{ asset('frontend_assets/images/global-icon.png') }}"
+                                            alt="global-icon" style="width:24px !important;height:24px !important;">
+                                        <p style="margin-left: 7px;">visit website
+                                    </a>
                                 </div>
 
                                 <div class="d-flex align-items-center" style="cursor: pointer;"
@@ -708,7 +722,7 @@
                                                         </label>
                                                         <small class="d-block text-muted"
                                                             style="display: block; color:#26a1d6 !important; line-height: 18px;">
-                                                            Earn upto {{ $loyalty->off_percentage }} on your purchase
+                                                            Earn up to {{ $loyalty->off_percentage }} on your purchase
                                                         </small>
                                                     </div>
                                                     <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"
@@ -738,7 +752,7 @@
                                                         </label>
                                                         <small class="d-block text-muted"
                                                             style="display: block; color:#26a1d6 !important; line-height: 18px;">
-                                                            Earn upto {{ $deal->off_percentage }} on your purchase
+                                                            Earn up to {{ $deal->off_percentage }} on your purchase
                                                         </small>
                                                     </div>
                                                     <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"
@@ -809,17 +823,22 @@
                             <hr>
                             <!-- Tab Content -->
                             @php
-                                $ourStory = \App\Models\BusinessProfile::find(Auth::user()->business_id);
+                                $ourStory = \App\Models\BusinessProfile::find(optional(Auth::user())->business_id);
                                 $storyImage = Spatie\MediaLibrary\Models\Media::where([
-                                    'model_id' => Auth::user()->business_id,
+                                    'model_id' => optional(Auth::user())->business_id,
                                     'collection_name' => 'BusinessStoryImage',
                                 ])->first();
-                                // dd($storyImage);
+                                // dd($storyImage, $ourStory);
                             @endphp
                             <div class="tab-content mt-3" id="myTabContent">
                                 <div class="tab-pane fade show active" id="home" role="tabpanel"
                                     aria-labelledby="home-tab">
-                                    <p class="color:#475467;">{!! $ourStory->business_overview !!}
+                                    <p class="color:#475467;">
+                                        @if ($ourStory)
+                                            {!! $ourStory->business_overview !!}
+                                        @else
+                                            No data found
+                                        @endif
                                     </p>
                                 </div>
                                 <div class="tab-pane fade" id="profile" role="tabpanel"
@@ -829,13 +848,17 @@
                                 <div class="tab-pane fade" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
                                     <p id="contactContent" style="color: #000">
-
-                                        <img src="{{ $storyImage->getUrl() }}" alt="business-img"
-                                            style="width: 890px;height:450px;margin-bottom:20px;">
+                                        @if ($storyImage)
+                                            <img src="{{ $storyImage->getUrl() }}" alt="business-img"
+                                                style="width: 890px;height:450px;margin-bottom:20px;">
+                                        @endif
                                         <br>
 
-                                        {{-- {{ $business->business_story }} --}}
-                                        {!! $ourStory->business_story !!}
+                                        @if ($ourStory)
+                                            {!! $ourStory->business_story !!}
+                                        @else
+                                            No data found
+                                        @endif
                                     </p>
                                 </div>
                             </div>

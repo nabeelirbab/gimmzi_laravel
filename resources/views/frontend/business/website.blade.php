@@ -897,79 +897,82 @@
 
             </div>
 
-            <div class="container mt-5">
-                <!-- Header Row with H1 and Controls -->
-                <div class="row align-items-center mb-4">
-                    <div class="col-6">
-                        <h1 class="h2">Other {{ $business->business_name }} Locations</h1>
+            @if (empty($allLocations))
+                <div class="container mt-5">
+                    <!-- Header Row with H1 and Controls -->
+                    <div class="row align-items-center mb-4">
+                        <div class="col-6">
+                            <h1 class="h2">Other {{ $business->business_name }} Locations</h1>
 
+                        </div>
+                        <div class="col-6 text-end">
+                            <button class="btn btn-info me-2" type="button" data-bs-target="#locationCarousel"
+                                data-bs-slide="prev">
+                                <!-- SVG for left arrow -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z" />
+                                </svg>
+                            </button>
+                            <button class="btn btn-info" type="button" data-bs-target="#locationCarousel"
+                                data-bs-slide="next">
+                                <!-- SVG for right arrow -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 8 4.646 3.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-6 text-end">
-                        <button class="btn btn-info me-2" type="button" data-bs-target="#locationCarousel"
-                            data-bs-slide="prev">
-                            <!-- SVG for left arrow -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z" />
-                            </svg>
-                        </button>
-                        <button class="btn btn-info" type="button" data-bs-target="#locationCarousel"
-                            data-bs-slide="next">
-                            <!-- SVG for right arrow -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 8 4.646 3.354a.5.5 0 0 1 0-.708z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
 
-                <!-- Carousel -->
-                <div id="locationCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <!-- Carousel Items -->
-                    <div class="carousel-inner">
-                        {{-- {{ $allLocations->chunk(4) }} --}}
-                        @foreach ($allLocations->chunk(4) as $chunkIndex => $chunk)
-                            <div class="carousel-item {{ $chunkIndex == 0 ? 'active' : '' }}">
-                                <div class="row">
-                                    @foreach ($chunk as $business)
-                                        <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
-                                            <div class="card h-100" style="border-radius: 1rem">
-                                                <img src="{{ env('APP_URL') . $business->business->main_image }}"
-                                                    alt="Business Image" class="card-img-top" alt="Provider Image"
-                                                    style="height: 200px;">
-                                                <div class="card-body">
-                                                    <p class="card-text">
-                                                        <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
-                                                            alt="icon"
-                                                            style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
-                                                        {{ $business->location_name }} <br>
-                                                        {{ $business->city }} {{ $business->state }}
-                                                        {{ $business->zip_code }}
-                                                    </p>
+                    <!-- Carousel -->
+
+                    <div id="locationCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <!-- Carousel Items -->
+                        <div class="carousel-inner">
+                            @foreach ($allLocations->chunk(4) as $chunkIndex => $chunk)
+                                <div class="carousel-item {{ $chunkIndex == 0 ? 'active' : '' }}">
+                                    <div class="row">
+                                        @foreach ($chunk as $business)
+                                            <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
+                                                <div class="card h-100" style="border-radius: 1rem">
+                                                    <img src="{{ env('APP_URL') . $business->business->main_image }}"
+                                                        alt="Business Image" class="card-img-top"
+                                                        alt="Provider Image" style="height: 200px;">
+                                                    <div class="card-body">
+                                                        <p class="card-text">
+                                                            <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
+                                                                alt="icon"
+                                                                style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
+                                                            {{ $business->location_name }} <br>
+                                                            {{ $business->city }} {{ $business->state }}
+                                                            {{ $business->zip_code }}
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
+
+                        <!-- Indicators (Circles Below the Carousel) -->
+                        <div class="mt-3 d-flex justify-content-center">
+                            @foreach ($businesses->chunk(4) as $index => $chunk)
+                                <button type="button" data-bs-target="#locationCarousel"
+                                    data-bs-slide-to="{{ $index }}"
+                                    class="{{ $index == 0 ? 'active ' : '' }}btn btn-info rounded-circle p-2 mx-2 circular-button"
+                                    aria-current="{{ $index == 0 ? 'true' : 'false' }}"
+                                    aria-label="Slide {{ $index + 1 }}"></button>
+                            @endforeach
+                        </div>
                     </div>
 
-                    <!-- Indicators (Circles Below the Carousel) -->
-                    <div class="mt-3 d-flex justify-content-center">
-                        @foreach ($businesses->chunk(4) as $index => $chunk)
-                            <button type="button" data-bs-target="#locationCarousel"
-                                data-bs-slide-to="{{ $index }}"
-                                class="{{ $index == 0 ? 'active ' : '' }}btn btn-info rounded-circle p-2 mx-2 circular-button"
-                                aria-current="{{ $index == 0 ? 'true' : 'false' }}"
-                                aria-label="Slide {{ $index + 1 }}"></button>
-                        @endforeach
-                    </div>
                 </div>
-            </div>
+            @endif
 
         </div>
     </div>

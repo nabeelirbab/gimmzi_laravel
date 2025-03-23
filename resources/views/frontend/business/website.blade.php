@@ -573,23 +573,26 @@
                                     <img src="{{ asset('frontend_assets/images/phone-icon.svg') }}" alt="phone-icon">
                                     <p id="phone-number" style="margin-left: 7px;"
                                         data-phone="{{ $business->business_phone }}">
-                                        @php
-                                            $businessProfileId = \App\Models\BusinessProfile::where(
-                                                'merchant_id',
-                                                Auth::user()->id,
-                                            )->pluck('id');
-                                            $businessLocation = \App\Models\BusinessLocation::where(
-                                                'business_profile_id',
-                                                $businessProfileId,
-                                            )->first();
-                                        @endphp
-                                        {{ $businessLocation->business_phone }}
+                                        @auth
+                                            @php
+                                                $businessProfileId = \App\Models\BusinessProfile::where(
+                                                    'merchant_id',
+                                                    Auth::user()->id,
+                                                )->pluck('id');
+                                                $businessLocation = \App\Models\BusinessLocation::where(
+                                                    'business_profile_id',
+                                                    $businessProfileId,
+                                                )->first();
+                                            @endphp
+                                        @endauth
+                                        {{ $businessLocation->business_phone ?? $business->business_phone }}
                                     </p>
                                 </div>
 
                                 <div class="d-flex align-items-center rounded-2"
                                     style="background-color: #F2F4F7; padding: 10px;">
-                                    <a href="{{ $businessLocation->business_fax_number }}" target="_blank">
+                                    <a href="{{ $businessLocation->business_fax_number ?? 'https://gimmzi-smart.dedicateddevelopers.us/' }}"
+                                        target="_blank">
                                         <img src="{{ asset('frontend_assets/images/global-icon.png') }}"
                                             alt="global-icon" style="width:24px !important;height:24px !important;">
                                         <p style="margin-left: 7px;">visit website
@@ -789,38 +792,28 @@
                                                     @endforeach
                                                 </ul>
                                             </div>
-                                            {{-- <li class="list-group-item">
+                                            {{-- <div class="card mt-4" style="width: 100%;">
+                                                <ul class="list-group list-group-flush">
+                                                    @if (!empty($message_board->boardone))
+                                                        <li class="list-group-item">
                                                             <p style="color:#17B26A; margin-bottom: 1px">
-                                                                {{ $title }}
-                                                            </p>
-                                                            @foreach ($boards as $message_board)
-                                                                <span style="color: #98A2B3; font-size: 12px">
-                                                                    {!! $message_board->description !!}</span>
-                                                            @endforeach
-                                                        </li> --}}
+                                                                {{ $message_board->board_one_title }}</p>
+                                                            <span style="color: #98A2B3; font-size: 12px">
+                                                                {{ $message_board->boardone->active_description }}</span>
+                                                        </li>
+                                                    @endif
 
+                                                    @if (!empty($message_board->boardtwo))
+                                                        <li class="list-group-item">
+                                                            <p style="color:#17B26A; margin-bottom: 1px">
+                                                                {{ $message_board->board_two_title }}</p>
+                                                            <span style="color: #98A2B3; font-size: 12px">
+                                                                {{ $message_board->boardtwo->active_description }}</span>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                            </div> --}}
 
-
-                                            {{-- @if (!empty($message_board->boardone))
-                                                            <li class="list-group-item">
-                                                                <p style="color:#17B26A; margin-bottom: 1px">
-                                                                    {{ $message_board->board_one_title }}
-                                                                </p>
-                                                                <span style="color: #98A2B3; font-size: 12px">
-                                                                    {!! $message_board->description !!}</span>
-                                                            </li>
-                                                        @endif
-
-                                                        @if (!empty($message_board->boardtwo))
-                                                            <li class="list-group-item">
-                                                                <p style="color:#17B26A; margin-bottom: 1px">
-                                                                    {{ $message_board->board_two_title }} board 2</p>
-                                                                <span style="color: #98A2B3; font-size: 12px">
-                                                                    {!! $message_board->description !!}</span>
-                                                            </li>
-                                                        @endif --}}
-                                            {{-- @endforeach --}}
-                                            </ul>
                                         </div>
 
                                     </div>

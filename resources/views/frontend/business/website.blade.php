@@ -765,13 +765,20 @@
                                                 </div>
                                             @endforeach
 
-
-                                            <!-- Add to Wallet Button -->
-                                            <div class="mt-4">
-                                                <button class="btn btn-primary btn-block w-100"
-                                                    style="background-color: #26a1d6" id="addToWalletBtn">
-                                                    Add to My Wallet</button>
-                                            </div>
+                                            @if (empty(collect($data['deals'])) || empty(collect($data['loyalty'])))
+                                                <!-- Add to Wallet Button -->
+                                                <div class="mt-4">
+                                                    <button class="btn btn-primary btn-block w-100"
+                                                        style="background-color: #26a1d6" id="addToWalletBtn">
+                                                        Add to My Wallet {{ collect($data['deals']) }}</button>
+                                                </div>
+                                            @else
+                                                <div class="mt-4">
+                                                    <button class="btn btn-primary btn-block w-100"
+                                                        style="background-color: #26a1d6">
+                                                        No deal and loyalty found</button>
+                                                </div>
+                                            @endif
 
                                             <!-- Card with List -->
                                             @php

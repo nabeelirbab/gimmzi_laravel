@@ -80,9 +80,10 @@ class BusinessWebsiteController extends Controller
                         ->take(2);
                 }
             ])
-            ->where('status', 1)
+            // ->where('status', 1)
             ->first();
 
+        // dd($businessProfile);
         $data['deals'] = $businessProfile->deals;
         $data['loyalty'] = $businessProfile->loyalty;
         // dd($businessProfile);

@@ -706,35 +706,8 @@
                                 <div class="rounded p-1 p-md-4" style="width: 100%;">
                                     <div class="">
                                         <div class="card p-1 p-md-4">
-                                            <!-- loyalty -->
-                                            @foreach (collect($data['loyalty'])->take(2) as $loyalty)
-                                                <div class="form-check mt-3" data-loyalty-id="{{ $loyalty->id }}"
-                                                    data-business-id="{{ $business->id }}"
-                                                    data-title="{{ $loyalty->program_name }}"
-                                                    data-description="{{ $loyalty->about_program }}"
-                                                    data-termsAndConditions='{{ $loyalty->terms_conditions }}'
-                                                    style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; display: flex; align-items: center; position: relative;">
-                                                    <input class="form-check-input2" type="radio" name="offer"
-                                                        id="offer1" value="25-off-all-products"
-                                                        style="margin-right: 10px;width:20px">
-                                                    <div style="flex: 1; width: calc(100% - 35px);">
-                                                        <label class="form-check-label" for="offer1"
-                                                            style="display: block; color:#000">
-                                                            <p style="line-height: 30px;">{{ $loyalty->program_name }}
-                                                            </p>
-                                                        </label>
-                                                        <small class="d-block text-muted"
-                                                            style="display: block; color:#26a1d6 !important; line-height: 18px;">
-                                                            Earn up to {{ $loyalty->off_percentage }} on your purchase
-                                                        </small>
-                                                    </div>
-                                                    <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"
-                                                        style="position: absolute; top: 0px; right: 0px; border-radius: 5px;"
-                                                        data-bs-toggle="modal" data-bs-target="#offerLoyaltyModal"
-                                                        data-id="{{ $loyalty->id }}">
-                                                </div>
-                                            @endforeach
 
+                                            <!-- deals -->
                                             @foreach (collect($data['deals'])->take(3) as $deal)
                                                 <div class="form-check mt-3" data-bs-toggle="modal"
                                                     data-business-id="{{ $business->id }}"
@@ -762,6 +735,35 @@
                                                         style="position: absolute; top: 0px; right: 0px; border-radius: 5px;"
                                                         data-bs-toggle="modal" data-bs-target="#offerDetailsModal"
                                                         data-id="{{ $deal->id }}">
+                                                </div>
+                                            @endforeach
+
+                                            <!-- loyalty -->
+                                            @foreach (collect($data['loyalty'])->take(2) as $loyalty)
+                                                <div class="form-check mt-3" data-loyalty-id="{{ $loyalty->id }}"
+                                                    data-business-id="{{ $business->id }}"
+                                                    data-title="{{ $loyalty->program_name }}"
+                                                    data-description="{{ $loyalty->about_program }}"
+                                                    data-termsAndConditions='{{ $loyalty->terms_conditions }}'
+                                                    style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; display: flex; align-items: center; position: relative;">
+                                                    <input class="form-check-input2" type="radio" name="offer"
+                                                        id="offer1" value="25-off-all-products"
+                                                        style="margin-right: 10px;width:20px">
+                                                    <div style="flex: 1; width: calc(100% - 35px);">
+                                                        <label class="form-check-label" for="offer1"
+                                                            style="display: block; color:#000">
+                                                            <p style="line-height: 30px;">{{ $loyalty->program_name }}
+                                                            </p>
+                                                        </label>
+                                                        <small class="d-block text-muted"
+                                                            style="display: block; color:#26a1d6 !important; line-height: 18px;">
+                                                            Earn up to {{ $loyalty->off_percentage }} on your purchase
+                                                        </small>
+                                                    </div>
+                                                    <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"
+                                                        style="position: absolute; top: 0px; right: 0px; border-radius: 5px;"
+                                                        data-bs-toggle="modal" data-bs-target="#offerLoyaltyModal"
+                                                        data-id="{{ $loyalty->id }}">
                                                 </div>
                                             @endforeach
 

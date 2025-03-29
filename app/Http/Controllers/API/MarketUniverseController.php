@@ -1780,12 +1780,11 @@ class MarketUniverseController extends BaseController
 
     public function searchBusiness(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
 
             'name' => "required",
-            'lat' => Auth::guard('api')->check() ? "nullable" : "required|numeric|between:-90,90",
-            'long' => Auth::guard('api')->check() ? "nullable" : "required|numeric|between:-180,180",
+            // 'lat' => Auth::guard('api')->check() ? "nullable" : "required|numeric|between:-90,90",
+            // 'long' => Auth::guard('api')->check() ? "nullable" : "required|numeric|between:-180,180",
 
         ]);
         if ($validator->fails()) {

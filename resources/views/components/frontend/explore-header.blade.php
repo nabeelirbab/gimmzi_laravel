@@ -45,6 +45,35 @@
         font-size: 13px;
         color: #888;
     }
+
+    /* Update your modal CSS */
+    #searchResultsModal {
+        position: absolute;
+        top: 100%;
+        /* Position directly below search input */
+        left: 0;
+        right: 0;
+        width: auto;
+        /* Or set specific width */
+        max-width: 100%;
+        /* Prevent exceeding header width */
+        margin: 0 auto;
+        background: white;
+        border: 1px solid #ddd;
+        border-top: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    /* Ensure parent has relative positioning */
+    #searchForm {
+        position: relative;
+        width: 100%;
+        /* Match header width */
+        max-width:
+            /* your header's max width */
+        ;
+    }
 </style>
 <header class="new-main-head inner-headers">
     <div class="top-hdr">
@@ -391,16 +420,16 @@
                                         <div class="business-info">
                                             <h4 class="business-name">${business.business_name}</h4>
                                             ${business.main_location ? `
-                                                                            <div class="business-location">
-                                                                                <span class="location-address">${business.main_location.address}</span>,
-                                                                                <span class="location-city">${business.main_location.city}</span>
-                                                                            </div>
-                                                                            ` : ''}
+                                                                                <div class="business-location">
+                                                                                    <span class="location-address">${business.main_location.address}</span>,
+                                                                                    <span class="location-city">${business.main_location.city}</span>
+                                                                                </div>
+                                                                                ` : ''}
                                             ${business.distance ? `
-                                                                            <div class="business-distance">
-                                                                                ${Math.round(business.distance)} meters away
-                                                                            </div>
-                                                                            ` : ''}
+                                                                                <div class="business-distance">
+                                                                                    ${Math.round(business.distance)} meters away
+                                                                                </div>
+                                                                                ` : ''}
                                         </div>
                                     </div>
                                 </a>

@@ -2,9 +2,7 @@
     <style>
         .modal-content {
             border-radius: 24px;
-            /* Adjust this value (e.g., 20px, 25px) for more rounding */
             overflow: hidden;
-            /* Ensures content respects the rounded corners */
         }
 
         .business_name {
@@ -19,7 +17,6 @@
             bottom: 32px;
             left: 32px;
             margin: 0px 0px 32px 0px;
-
         }
 
         .business_address {
@@ -177,8 +174,36 @@
             border-radius: 100px;
             border: 1px solid var(--body-clr);
             height: 40px;
+            width: 100%;
+            padding: 8px 15px;
+        }
+
+        /* Map container styles */
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-top: 15px;
+            border-radius: 8px;
+            display: none;
+            /* Hidden by default */
+        }
+
+        #map-canvas {
+            width: 100%;
+            height: 500px;
+            display: none;
+            /* Hidden by default */
+        }
+
+        .mapbtn.active {
+            background-color: #f0f0f0;
+        }
+
+        .pac-container {
+            z-index: 1051 !important;
         }
     </style>
+
     @php
         $lat_long_array = [];
     @endphp
@@ -241,31 +266,31 @@
                             <div class="filter-content">
                                 <div class="form_input_radio cstmchbox2">
                                     <label>
-                                        <input type="radio" name="name">
+                                        <input type="radio" name="distance" value="any" wire:model="distance">
                                         <span>Any Distance</span>
                                     </label>
                                     <label>
-                                        <input type="radio" name="name">
+                                        <input type="radio" name="distance" value="5" wire:model="distance">
                                         <span>Within 5.0 mi (&lt;10)</span>
                                     </label>
                                     <label>
-                                        <input type="radio" name="name">
+                                        <input type="radio" name="distance" value="10" wire:model="distance">
                                         <span>Within 10.0 mi (&lt;10)</span>
                                     </label>
                                     <label>
-                                        <input type="radio" name="name">
+                                        <input type="radio" name="distance" value="20" wire:model="distance">
                                         <span>Within 20.0 mi (&lt;10+)</span>
                                     </label>
                                     <label>
-                                        <input type="radio" name="name">
+                                        <input type="radio" name="distance" value="50" wire:model="distance">
                                         <span>Within 50.0 mi (&lt;20+)</span>
                                     </label>
                                     <label>
-                                        <input type="radio" name="name">
+                                        <input type="radio" name="distance" value="100" wire:model="distance">
                                         <span>Within 100.0 mi (&lt;30+)</span>
                                     </label>
                                     <label>
-                                        <input type="radio" name="name">
+                                        <input type="radio" name="distance" value="250" wire:model="distance">
                                         <span>Within 250.0 mi (&lt;30+)</span>
                                     </label>
                                 </div>
@@ -279,10 +304,7 @@
                             <div class="filter-sec-rit-top-lft">
                                 <div class="filter-sec-rit-top-lft-innr">
                                     <p>{{ count($business_profiles) }} Results Found</p>
-                                    {{-- <a href="javascript:void(0)" class="reset-filter"
-                                        onclick="window.location.href='{{ route('frontend.market-universe') }}'">Reset
-                                        Filter</a> --}}
-                                    <a href="javascript:void(0)" class="reset-filter"wire:click="resetFilter">Reset
+                                    <a href="javascript:void(0)" class="reset-filter" wire:click="resetFilter">Reset
                                         Filter</a>
                                 </div>
                                 <button class="fltrbtncls">
@@ -296,18 +318,18 @@
                                 <div class="filter-mdl-blk">
                                     <div class="search-location">
                                         <input type="text" id="search-location" class="form-control"
-                                            placeholder="Search by a location" wire:model.debounce.300ms='location'>
+                                            placeholder="Search by a location">
+                                        <div id="map"></div>
                                     </div>
                                 </div>
 
-                                <select name="cars" id="cars">
-                                    <option value="vl1">Sort By</option>
-                                    <option value="vl2">Category</option>
-                                    <option value="vl2">Types</option>
-                                    <option value="vl2">Distance</option>
-
+                                <select name="sort_by" id="sort_by" wire:model="sortBy">
+                                    <option value="">Sort By</option>
+                                    <option value="category">Category</option>
+                                    <option value="distance">Distance</option>
+                                    <option value="name">Name</option>
                                 </select>
-                                <button class="mapbtn">
+                                <button class="mapbtn" id="toggleMapBtn">
                                     <img loading="lazy" class="mapbtn-img"
                                         src="{{ asset('frontend_assets/images/map-ic.svg') }}" alt="">
                                     <span class="mapbtn-hide">View Map</span>
@@ -316,11 +338,7 @@
                         </div>
                         <div class="filter-mdl-blk" wire:ignore style="display: none;">
                             <div class="map">
-                                {{-- <img src="{{ asset('website_assets/images/map.png') }}" alt=""> --}}
-                                <div class="col-lg-12 form-item" wire:ignore>
-                                    <div wire:ignore id="map-canvas" class="google-map"
-                                        style="width:100%; height:500px;"></div>
-                                </div>
+                                <div id="map-canvas" class="google-map"></div>
                             </div>
                         </div>
                         <div class="filter-sec-rit-btm">
@@ -382,13 +400,11 @@
                                                                             ->where('status', 1)
                                                                             ->first()->address,
                                                                     ];
-
                                                                 @endphp
                                                                 <span>{{ $this->haversineDistance($business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->latitude, $business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->longitude) }}
                                                                     mi</span>
                                                             @endif
                                                         @endif
-
                                                     </div>
                                                 </div>
 
@@ -438,7 +454,6 @@
                                                             Wallet</a>
                                                     @endif
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -448,7 +463,6 @@
                                         <div class="modal-dialog modal-dialog-centered custom-modal"
                                             style="max-width: 900px; width: 90%;">
                                             <div class="modal-content container-fluid position-relative">
-                                                <!-- Close Button -->
                                                 <button type="button"
                                                     class="btn-close position-absolute top-0 end-0 m-3"
                                                     data-bs-dismiss="modal" aria-label="Close">
@@ -456,7 +470,6 @@
                                                 </button>
 
                                                 <div class="modal-body text-center">
-                                                    <!-- Business Info -->
                                                     <div
                                                         class="row align-items-center social-modal-header text-center text-md-start">
                                                         <div class="col-12 col-md-3 text-center mb-2 mb-md-0">
@@ -488,9 +501,7 @@
                                                         every share
                                                         count!</p>
 
-                                                    <!-- Social Sharing Content -->
                                                     <div class="row g-0">
-                                                        <!-- Business Image -->
                                                         <div
                                                             class="col-12 col-md-5 d-flex align-items-center justify-content-center p-2 bg-light">
                                                             <img loading="lazy"
@@ -499,10 +510,8 @@
                                                                 height="166" class="img-fluid rounded">
                                                         </div>
 
-                                                        <!-- Social Media Share Buttons -->
                                                         <div
                                                             class="col-12 col-md-7 d-flex flex-column social-container p-3">
-                                                            <!-- Top Row -->
                                                             <div class="social-row">
                                                                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
                                                                     target="_blank" class="social-btn">
@@ -518,7 +527,6 @@
                                                                 </a>
                                                             </div>
 
-                                                            <!-- Middle Row -->
                                                             <div class="social-row">
                                                                 <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
                                                                     target="_blank" class="social-btn">
@@ -535,7 +543,6 @@
                                                                 </a>
                                                             </div>
 
-                                                            <!-- Bottom Row -->
                                                             <div class="social-row">
                                                                 <a href="#" data-bs-toggle="modal"
                                                                     data-bs-target="#shareSocialModal"
@@ -544,7 +551,6 @@
                                                                     <img src="{{ asset('frontend_assets/images/email.svg') }}"
                                                                         alt="Email" class="icon-img">
                                                                     <span>Email</span>
-
                                                                 </a>
 
                                                                 <a href="#"
@@ -558,8 +564,6 @@
                                                         </div>
                                                     </div>
 
-
-                                                    <!-- Points Information -->
                                                     <div
                                                         class="bg-light text-secondary text-center py-2 mt-3 rounded footer-text">
                                                         Earn 1 point for each listing you share on Facebook, X (formerly
@@ -573,8 +577,6 @@
                                 @empty
                                     <p class="universe-top-head d-flex justify-content-center">No Result found</p>
                                 @endforelse
-
-
                             </div>
                         </div>
                     </div>
@@ -612,12 +614,10 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content email-sharing-modal">
-                <!-- Modal Header with Close Button -->
                 <button type="button" class="btn-close position-absolute"
                     style="top: 10px; right: 10px; z-index: 1050;" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fa fa-times" aria-hidden="true"></i>
                 </button>
-                <!-- Modal Body with Form -->
                 <div class="modal-body">
                     <div class="text-center">
                         <span class="d-block">Share this Listing.</span>
@@ -627,14 +627,11 @@
                     <form action="{{ route('share-business.email') }}" method="POST">
                         @csrf
                         <div class="row mb-3">
-                            <!-- Name Field -->
                             <div class="col-md-6">
                                 <label for="yourName" class="form-label">Your name*</label>
                                 <input type="text" name="yourName" class="form-control" id="yourName"
                                     placeholder="Enter your name" required>
                             </div>
-
-                            <!-- Email Field -->
                             <div class="col-md-6">
                                 <label for="yourEmail" class="form-label">Your Email*</label>
                                 <input type="email" name="yourEmail" class="form-control" id="yourEmail"
@@ -678,185 +675,166 @@
             </div>
         </div>
         <input type="hidden" id="pageLink">
+    </div>
+
+    @push('scripts')
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNL_1BSqiKF5qf0WqLbMT4xF1dB1Aux1M&libraries=places&callback=initMap"
+            async defer></script>
         <script>
+            // Global variables
+            let map, autocomplete, marker;
+            let mapViewActive = false;
+
+            // Initialize Google Maps
+            function initMap() {
+                console.log('Initializing Google Maps...');
+
+                // Try to get current position first
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function(position) {
+                            const currentLat = position.coords.latitude;
+                            const currentLng = position.coords.longitude;
+                            initMapWithLocation(currentLat, currentLng);
+                        },
+                        function(error) {
+                            console.warn("Geolocation error:", error);
+                            // Default to New York if geolocation fails
+                            initMapWithLocation(40.730610, -73.935242);
+                        }
+                    );
+                } else {
+                    console.log("Geolocation is not supported by this browser.");
+                    // Default to New York if geolocation not supported
+                    initMapWithLocation(40.730610, -73.935242);
+                }
+            }
+
+            function initMapWithLocation(lat, lng) {
+                // Create map
+                map = new google.maps.Map(document.getElementById("map"), {
+                    center: {
+                        lat: lat,
+                        lng: lng
+                    },
+                    zoom: 12,
+                });
+
+                // Create autocomplete
+                autocomplete = new google.maps.places.Autocomplete(
+                    document.getElementById("search-location"), {
+                        types: ['geocode'],
+                        fields: ['geometry', 'name', 'formatted_address']
+                    }
+                );
+
+                // Bind autocomplete to map bounds
+                autocomplete.bindTo('bounds', map);
+
+                // Create marker
+                marker = new google.maps.Marker({
+                    map: map,
+                    anchorPoint: new google.maps.Point(0, -29)
+                });
+
+                // Handle place selection
+                autocomplete.addListener("place_changed", () => {
+                    const place = autocomplete.getPlace();
+
+                    if (!place.geometry) {
+                        console.log("No details available for input: " + place.name);
+                        return;
+                    }
+
+                    // Update map view
+                    if (place.geometry.viewport) {
+                        map.fitBounds(place.geometry.viewport);
+                    } else {
+                        map.setCenter(place.geometry.location);
+                        map.setZoom(17);
+                    }
+
+                    // Update marker position
+                    marker.setPosition(place.geometry.location);
+                    marker.setVisible(true);
+
+                    // Update Livewire component with new location
+                    @this.set('location', place.formatted_address || place.name);
+
+                    // Update hidden fields with coordinates
+                    @this.set('current_lat', place.geometry.location.lat());
+                    @this.set('current_long', place.geometry.location.lng());
+                });
+
+                console.log('Google Maps initialized successfully');
+            }
+
+            // Toggle map view
+            document.getElementById('toggleMapBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                mapViewActive = !mapViewActive;
+
+                if (mapViewActive) {
+                    document.getElementById('map').style.display = 'block';
+                    this.classList.add('active');
+                    // Recenter map if needed
+                    if (map && autocomplete) {
+                        const place = autocomplete.getPlace();
+                        if (place && place.geometry) {
+                            map.setCenter(place.geometry.location);
+                        }
+                    }
+                } else {
+                    document.getElementById('map').style.display = 'none';
+                    this.classList.remove('active');
+                }
+            });
+
+            // Copy to clipboard function
+            function copyToClipboard(text) {
+                navigator.clipboard.writeText(text).then(function() {
+                    toastr.success('URL copied to clipboard');
+                }).catch(function(err) {
+                    toastr.error('Could not copy text: ' + err);
+                });
+            }
+
+            // Close modal handler
+            document.querySelectorAll(".closeModal").forEach(btn => {
+                btn.addEventListener('click', function() {
+                    $('#message_modal').modal('hide');
+                    $("#textmsg").html('');
+                });
+            });
+
+            // Livewire event listeners
+            window.livewire.on('messageModal', data => {
+                $('#message_modal').modal('show');
+                $("#textmsg").html(data.text);
+            });
+
+            // Email share button handler
             document.addEventListener("DOMContentLoaded", function() {
-                // Select all elements with class .social-btn
                 document.querySelectorAll(".social-btn.email-share-btn").forEach(button => {
                     button.addEventListener("click", function(event) {
-                        event.preventDefault(); // Prevent default action
+                        event.preventDefault();
+                        let pageLink = this.getAttribute("data-link");
 
-                        let pageLink = this.getAttribute("data-link"); // Get the dynamic page link
-
-                        // Debugging: Log the retrieved link
-                        console.log("Retrieved Page Link:", pageLink);
-
-                        // Close any other open modals before opening this one
-                        let openModals = document.querySelectorAll(".modal.show");
-                        openModals.forEach(modal => {
-                            let modalInstance = bootstrap.Modal.getInstance(modal);
-                            modalInstance.hide();
-                        });
-
-                        // Set the default message with subject and link
+                        // Set default message with subject and link
                         document.getElementById("emailSubject").value = "Check out this Gimmzi Pages";
                         document.getElementById("pageLink").value = pageLink;
                         document.getElementById("message").value = pageLink;
                     });
                 });
             });
-        </script>
-    </div>
 
-    @push('scripts')
-        <script src="https://maps.google.com/maps/api/js?sensor=true&key={{ env('GOOGLE_GEOCODE_API_KEY') }}&libraries=places"
-            type="text/javascript"></script>
-        <script>
-            if (navigator.geolocation) {
-
-                // Geolocation is supported
-                navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        // Success callback
-                        let current_lat = position.coords.latitude
-                        let current_long = position.coords.longitude
-                        $('#current_lat').val(current_lat);
-                        $('#current_long').val(current_long);
-                        @this.set('current_lat', current_lat);
-                        @this.set('current_long', current_long);
-
-                    },
-                    function(error) {
-                        // Error callback
-                        switch (error.code) {
-                            case error.PERMISSION_DENIED:
-                                console.log("User denied the request for Geolocation.");
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                console.log("Location information is unavailable.");
-                                break;
-                            case error.TIMEOUT:
-                                console.log("The request to get user location timed out.");
-                                break;
-                            case error.UNKNOWN_ERROR:
-                                console.log("An unknown error occurred.");
-                                break;
-                        }
-                    }
-                );
-            } else {
-                // Geolocation is not supported
-                console.log("Geolocation is not supported by this browser.");
-            }
-
-            function copyToClipboard(url) {
-                navigator.clipboard.writeText(url).then(function() {
-                    toastr.success('URL copied to clipboard');
-                }).catch(function(err) {
-                    toastr.error('Could not copy text');
-                });
-            }
-        </script>
-
-        <script>
-            $(document).ready(function() {
-                //to prevent enter form submit
-                $(window).keydown(function(event) {
-                    if (event.keyCode == 13) {
-                        event.preventDefault();
-                        return false;
-                    }
-                });
-
-                window.addEventListener('load', initialize);
-            });
-
-            var map;
-            var locations;
-            var circle;
-            //var new_icon = '<?= asset('website_assets/images/locationicon.svg') ?>';
-
-
-
-            locations = [<?php foreach ($lat_long_array as $value) {
-                echo "['" . $value[0] . "','" . $value[1] . "','" . $value[2] . "','" . $value[3] . "'],";
-            } ?>]
-
-
-
-
-            function initialize() {
-
-                let point_lt = {{ isset($latitude) ? $latitude : '37.0902' }};
-                let point_ln = {{ isset($longitude) ? $longitude : '-95.7129' }};
-                // let point_lt = {{ isset($latitude) ? $latitude : '22.589380' }};
-                // let point_ln = {{ isset($longitude) ? $longitude : '88.410072' }};
-
-                var thePoint = new google.maps.LatLng(point_lt, point_ln);
-
-                var mapOptions = {
-                    zoom: 10,
-                    center: thePoint
-                };
-
-                map = new google.maps.Map(document.getElementById('map-canvas'),
-                    mapOptions);
-
-
-
-                var infowindow = new google.maps.InfoWindow({
-                    maxWidth: 500
-                });
-                var marker, i;
-
-                for (i = 0; i < locations.length; i++) {
-                    console.log(locations[i][0]);
-                    marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(locations[i][0], locations[i][1]),
-                        map: map,
-                        animation: google.maps.Animation.DROP,
-                        //icon: new_icon
-                    });
-                    const contentString = `<a style="color:#141313;"` +
-                        locations[i][3] +
-                        `">
-                            <div id="content">
-                                <h4 id="firstHeading" class="firstHeading" style="margin-bottom:5px;text-transform: uppercase;">` +
-                        locations[i][2] + `</h4>
-                                <div id="bodyContent" class="row" style="margin:0px;">
-                                        
-                                        <div class="col-md-10">
-                                            <p><b>` + locations[i][2] + `</b> is a ` + locations[i][3] +
-                        ` <br>Address: ` + locations[i][3] + `</p>
-                                        </div>
-                                    </div>
-                            </div>
-                        </a>`;
-
-                    google.maps.event.addListener(marker, 'click', (function(marker, i) {
-
-                        return function() {
-                            infowindow.setContent(contentString);
-                            infowindow.open(map, marker);
-                            infowindow.open({
-                                anchor: marker,
-                                map,
-                            });
-                        }
-                    })(marker, i));
-
-                    map.setCenter(marker.getPosition());
-                    map.setZoom(10);
+            // Prevent form submit on enter key
+            $(window).keydown(function(event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
                 }
-
-            }
-
-            $(".closeModal").on('click', function() {
-                $('#message_modal').modal('hide');
-                $("#textmsg").html('');
-            })
-            window.livewire.on('messageModal', data => {
-                $('#message_modal').modal('show');
-                $("#textmsg").html(data.text);
             });
         </script>
     @endpush

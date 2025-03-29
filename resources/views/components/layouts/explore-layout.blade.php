@@ -44,7 +44,9 @@
         rel="stylesheet">
     <!-- <link rel="stylesheet" href="rental.css" /> -->
     <link rel="stylesheet" href="{{ asset('frontend_assets/wizard.css') }}" />
-
+    <script
+        src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyBNL_1BSqiKF5qf0WqLbMT4xF1dB1Aux1M&libraries=places">
+    </script>
     @livewireStyles
     <style>
         .carousel-wrapper {
@@ -2060,7 +2062,6 @@
         $("#nav-home-tab").children('span.tab_ttle').text($(this).text());
         $(".provider_type_lstng").css('display', 'none');
     });
-
 </script>
 @stack('scripts')
 </body>

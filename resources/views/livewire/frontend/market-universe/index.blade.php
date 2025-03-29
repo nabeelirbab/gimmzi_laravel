@@ -167,6 +167,17 @@
         .email-sharing-modal {
             border-radius: 24px !important;
         }
+
+        .search-location {
+            margin-right: 10px;
+        }
+
+        #search-location {
+            margin-right: 15px;
+            border-radius: 100px;
+            border: 1px solid var(--body-clr);
+            height: 40px;
+        }
     </style>
     @php
         $lat_long_array = [];
@@ -280,13 +291,15 @@
                                     <span>Filter</span>
                                 </button>
                             </div>
-                            <div class="filter-mdl-blk">
-                                <div class="search-location">
-                                    <input type="text" id="search-location" class="form-control"
-                                        placeholder="Search for a location" wire:model.debounce.300ms='location'>
-                                </div>
-                            </div>
+
                             <div class="sort-divss">
+                                <div class="filter-mdl-blk">
+                                    <div class="search-location">
+                                        <input type="text" id="search-location" class="form-control"
+                                            placeholder="Search by a location" wire:model.debounce.300ms='location'>
+                                    </div>
+                                </div>
+
                                 <select name="cars" id="cars">
                                     <option value="vl1">Sort By</option>
                                     <option value="vl2">Category</option>

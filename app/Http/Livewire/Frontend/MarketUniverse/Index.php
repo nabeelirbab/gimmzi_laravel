@@ -13,9 +13,9 @@ class Index extends Component
     public $allCategory = false, $allType = false;
     public $current_lat, $current_long;
     public $search = '';
-    public $location = ''; // Add this for the location search
-    public $searchLat = ''; // Default latitude
-    public $searchLng = ''; // Default longitude
+    public $location = ''; 
+    public $searchLat = ''; 
+    public $searchLng = '';
   
     public $radius = 50; 
 
@@ -187,8 +187,9 @@ class Index extends Component
                     [$this->searchLat, $this->searchLng, $this->searchLat]
                 )
                 ->having('distance', '<', $this->radius)
+                ->orderBy('distance', 'asc')
                 ->groupBy('business_profiles.id');
-                }
+        }
 
         // Category filter
         if ($this->category) {

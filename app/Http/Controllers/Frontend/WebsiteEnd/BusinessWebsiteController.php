@@ -22,7 +22,7 @@ class BusinessWebsiteController extends Controller
     public function index($id)
     {
         $business = BusinessProfile::find($id); 
-        // dd($business->id);
+        
         // $message_board = MerchantDisplayBoard::where('business_id', $id)->first();
         $providerType = ProviderSubType::get();
         $businessLocation = BusinessLocation::where('business_profile_id', $id)->first();
@@ -30,7 +30,7 @@ class BusinessWebsiteController extends Controller
         $message_boards = MerchantDisplayBoard::where('business_id', $business->id)->get();
         $business_photos = Media::where(['model_id' => $id, 'collection_name' => 'businessProfilePhoto'])->get();
         $businesses = BusinessProfile::where('id', '<>', $id)->withCount('deals')->with('states')->whereHas('deals')->where('status', 1)->get();
-        // dd($businesses);
+       
         $alreadyFav = ConsumerFavouriteTravelTourism::where('business_id',$business->id)->first();
         if ($businessLocation && isset($businessLocation->id)) {
             $dealIds = DealLocation::where('location_id', $businessLocation->id)->pluck('deal_id');

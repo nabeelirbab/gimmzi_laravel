@@ -389,6 +389,31 @@
             color: #000;
 
         }
+
+        .carousel-control-next,
+        .carousel-control-prev {
+            background-color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-control-next {
+            right: -60px;
+        }
+
+        .carousel-control-prev {
+            left: -60px;
+        }
+
+        .carousel-control-next img,
+        .carousel-control-prev img {
+            width: 20px;
+            height: 20px;
+        }
     </style>
     <div class="allen-park-apartments-main-sec">
         <div class="allen-part-apartments-sec">
@@ -682,7 +707,7 @@
                                         <!-- Display first image -->
                                         <img src="{{ $photo->getUrl() }}" alt="image"
                                             class="img-fluid mb-3 custom-image rounded-3" data-bs-toggle="modal"
-                                            data-bs-target="#imageCarouselModal">
+                                            data-bs-target="#imageCarouselModal" onclick="setActiveSlide(0)">
                                     @endif
                                 @endforeach
 
@@ -694,7 +719,8 @@
                                             <div class="col-6 col-md-2">
                                                 <img src="{{ $photo->getUrl() }}" alt="image {{ $index }}"
                                                     class="img-fluid rounded-3 mb-3" data-bs-toggle="modal"
-                                                    data-bs-target="#imageCarouselModal">
+                                                    data-bs-target="#imageCarouselModal"
+                                                    onclick="setActiveSlide({{ $index }})">
                                             </div>
                                         @endif
                                     @endforeach
@@ -980,7 +1006,7 @@
     </div>
 
     <!-- Modal for Image Carousel -->
-    <div class="modal fade" id="imageCarouselModal" tabindex="-1" aria-labelledby="imageCarouselModalLabel"
+    {{-- <div class="modal fade" id="imageCarouselModal" tabindex="-1" aria-labelledby="imageCarouselModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content custom-modal-content">
@@ -1027,6 +1053,7 @@
                             data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
                             <img src="{{ asset('frontend_assets/images/right-arrow.svg') }}" alt="Next">
                         </button>
+
                         <style>
                             .carousel-control-next,
                             .carousel-control-prev {
@@ -1037,15 +1064,14 @@
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
-                                /* border: 2px solid #000; */
                             }
 
                             .carousel-control-next {
-                                right: -60px
+                                right: -60px;
                             }
 
                             .carousel-control-prev {
-                                left: -60px
+                                left: -60px;
                             }
 
                             .carousel-control-next img,
@@ -1058,7 +1084,61 @@
                 </div>
             </div>
         </div>
+    </div> --}}
+    <div class="modal fade" id="imageCarouselModal" tabindex="-1" aria-labelledby="imageCarouselModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content custom-modal-content">
+                <div class="modal-header custom-modal-header">
+                    <button type="button" class="btn-close custom-close-button" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <!-- Carousel -->
+                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                        <!-- Dynamic Carousel Indicators -->
+                        <div class="carousel-indicators">
+                            @foreach ($business_photos as $index => $photo)
+                                @if ($index < 5)
+                                    <button type="button" data-bs-target="#carouselExampleIndicators"
+                                        data-bs-slide-to="{{ $index }}"
+                                        class="{{ $index == 0 ? 'active' : '' }}"
+                                        aria-current="{{ $index == 0 ? 'true' : 'false' }}"
+                                        aria-label="Slide {{ $index + 1 }}"></button>
+                                @endif
+                            @endforeach
+                        </div>
+
+                        <!-- Dynamic Carousel Items -->
+                        <div class="carousel-inner">
+                            @foreach ($business_photos as $index => $photo)
+                                @if ($index < 5)
+                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}"
+                                        id="slide-{{ $index }}">
+                                        <img src="{{ $photo->getUrl() }}" class="d-block w-100"
+                                            alt="Image {{ $index + 1 }}">
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+
+                        <!-- Carousel Navigation -->
+                        <button class="carousel-control-prev" type="button"
+                            data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                            <img src="{{ asset('frontend_assets/images/left-arrow.svg') }}" alt="Previous">
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                            data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                            <img src="{{ asset('frontend_assets/images/right-arrow.svg') }}" alt="Next">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 
 
     <!-- Modal for loyalty Details -->
@@ -1951,5 +2031,34 @@
                 });
             });
         });
+    </script>
+    <script>
+        function setActiveSlide(slideIndex) {
+            // Remove active class from all slides and indicators
+            document.querySelectorAll('.carousel-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            document.querySelectorAll('.carousel-indicators button').forEach(button => {
+                button.classList.remove('active');
+                button.removeAttribute('aria-current');
+            });
+
+            // Add active class to the selected slide and indicator
+            const slide = document.getElementById(`slide-${slideIndex}`);
+            if (slide) {
+                slide.classList.add('active');
+            }
+
+            const indicator = document.querySelector(`.carousel-indicators button[data-bs-slide-to="${slideIndex}"]`);
+            if (indicator) {
+                indicator.classList.add('active');
+                indicator.setAttribute('aria-current', 'true');
+            }
+
+            // Initialize the carousel if not already initialized
+            const carousel = new bootstrap.Carousel(document.getElementById('carouselExampleIndicators'));
+            carousel.to(slideIndex);
+        }
     </script>
     </x-layouts.frontend-layout>

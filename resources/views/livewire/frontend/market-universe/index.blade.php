@@ -280,6 +280,12 @@
                                     <span>Filter</span>
                                 </button>
                             </div>
+                            <div class="filter-mdl-blk">
+                                <div class="search-location">
+                                    <input type="text" id="search-location" class="form-control"
+                                        placeholder="Search for a location" wire:model.debounce.300ms='location'>
+                                </div>
+                            </div>
                             <div class="sort-divss">
                                 <select name="cars" id="cars">
                                     <option value="vl1">Sort By</option>

@@ -861,65 +861,46 @@
 
 
 
-                <div class="container mt-5 border rounded-3">
-                    <!-- Rounded Container -->
-                    <div class="rounded p-4">
-                        <ul class="nav nav-pills" id="myTabs" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#home"
-                                    role="tab" aria-controls="home" aria-selected="true">Overview</a>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#profile"
-                                    role="tab" aria-controls="profile" aria-selected="false">Location</a>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="contact-tab" data-bs-toggle="pill" href="#contact"
-                                    role="tab" aria-controls="contact" aria-selected="false">Our Story</a>
-                            </li>
-                        </ul>
-                        <hr>
-                        <!-- Tab Content -->
-                        @php
-                            $ourStory = \App\Models\BusinessProfile::find(optional(Auth::user())->business_id);
-                            $storyImage = Spatie\MediaLibrary\Models\Media::where([
-                                'model_id' => optional(Auth::user())->business_id,
-                                'collection_name' => 'BusinessStoryImage',
-                            ])->first();
-                            // dd($storyImage, $ourStory);
-                        @endphp
-                        <div class="tab-content mt-3" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel"
-                                aria-labelledby="home-tab">
-                                <p class="color:#475467;">
-                                    @if ($ourStory)
-                                        {!! $ourStory->business_overview !!}
-                                    @else
-                                        No data found
-                                    @endif
-                                </p>
-                            </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <div id="map"></div>
-                            </div>
-                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                <p id="contactContent" style="color: #000">
-                                    @if ($storyImage)
-                                        <img src="{{ $storyImage->getUrl() }}" alt="business-img"
-                                            style="width: 890px;height:450px;margin-bottom:20px;">
-                                    @endif
-                                    <br>
+                    <div class="container mt-5 border rounded-3">
+                        <!-- Rounded Container -->
+                        <div class="rounded p-4">
+                            <ul class="nav nav-pills" id="myTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#home"
+                                        role="tab" aria-controls="home" aria-selected="true">Overview</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#profile"
+                                        role="tab" aria-controls="profile" aria-selected="false">Location</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="contact-tab" data-bs-toggle="pill" href="#contact"
+                                        role="tab" aria-controls="contact" aria-selected="false">Our Story</a>
+                                </li>
+                            </ul>
+                            <hr>
+                            <!-- Tab Content -->
+                            <div class="tab-content mt-3" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel"
+                                    aria-labelledby="home-tab">
+                                    <p class="color:#475467;">{!! $business->business_overview !!}</p>
+                                </div>
+                                <div class="tab-pane fade" id="profile" role="tabpanel"
+                                    aria-labelledby="profile-tab">
+                                    <div id="map"></div>
+                                </div>
+                                <div class="tab-pane fade" id="contact" role="tabpanel"
+                                    aria-labelledby="contact-tab">
+                               <p id="contactContent" style="color: #000">
+                                        <img src="{{ asset($business->main_image) }}" alt="business-img">
 
-                                    @if ($ourStory)
-                                        {!! $ourStory->business_story !!}
-                                    @else
-                                        No data found
-                                    @endif
-                                </p>
+                                        <br>
+                                        {!! $business->business_story !!}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
             </div>
 

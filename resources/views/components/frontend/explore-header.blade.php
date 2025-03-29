@@ -194,8 +194,12 @@
                     <div class="hdr-frm">
                         <form action="{{ route('search.business.profile') }}" type="get">
                             <div class="hdr-frm-innr">
-                                <input type="text" class="form-control" placeholder="Search businesses..."
-                                    wire:model.debounce="search"> 
+                                {{-- <input type="text" class="form-control" placeholder="Search businesses here"
+                                    wire:model.debounce="search">  --}}
+                                @livewire('search-dropdown')
+                                <!-- In your layout file, before the closing body tag -->
+
+                                @livewire('business-profile-modal')
                                 {{-- <input type="text" name="search" placeholder="Find on Gimmzi..."> --}}
                                 <input type="submit" value="">
                             </div>
@@ -248,4 +252,5 @@
             </a>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </header>

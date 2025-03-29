@@ -795,7 +795,7 @@
                                                             <p style="color:#17B26A !important;">{{ $title }}
                                                             </p>
                                                             @foreach ($boards as $message_board)
-                                                                <p>{{ $message_board->description }}</p>
+                                                                <p>{!! $message_board->description !!}</p>
                                                             @endforeach
                                                         </li>
                                                     @endforeach

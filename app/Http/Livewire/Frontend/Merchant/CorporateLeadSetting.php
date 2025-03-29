@@ -181,8 +181,8 @@ class CorporateLeadSetting extends Component
         //    dd($this->lat);
         if ($this->business) {
             $this->business->update([
-                'business_overview' => $this->business_overview,
-                'business_story' => $this->business_story
+                'business_overview' => $this->mergeFontColorIntoSpan($this->business_overview),
+                'business_story' => $this->mergeFontColorIntoSpan($this->business_story),
             ]);
         }
         if ($this->participating_location) {
@@ -327,6 +327,52 @@ class CorporateLeadSetting extends Component
 
         }
     }
+
+   private function mergeFontColorIntoSpan($html)
+    {
+        libxml_use_internal_errors(true); // avoid DOM warnings
+
+        $doc = new \DOMDocument();
+        $doc->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' . $html);
+
+        $xpath = new \DOMXPath($doc);
+        $fonts = $xpath->query('//font');
+
+        foreach ($fonts as $font) {
+            $color = $font->getAttribute('color');
+            $parent = $font->parentNode;
+
+            // Create a <span> to replace <font>
+            $span = $doc->createElement('span', $font->nodeValue);
+
+            // Copy style if parent is a span
+            $style = '';
+            if ($parent->nodeName === 'span' && $parent->hasAttribute('style')) {
+                $style .= $parent->getAttribute('style');
+            }
+
+            // Append color style
+            if ($color) {
+                $style .= "color: {$color};";
+            }
+
+            if ($style) {
+                $span->setAttribute('style', $style);
+            }
+
+            $parent->replaceChild($span, $font);
+        }
+
+        // Remove <html>, <body>, etc.
+        $body = $doc->getElementsByTagName('body')->item(0);
+        $innerHTML = '';
+        foreach ($body->childNodes as $child) {
+            $innerHTML .= $doc->saveHTML($child);
+        }
+
+        return $innerHTML;
+    }
+
     public function updatedStoryImage()
     {
         if ($this->story_image) {

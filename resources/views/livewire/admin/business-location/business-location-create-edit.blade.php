@@ -127,7 +127,9 @@
     </x-slot>
     </x-form-section>
     @push('scripts')
-     <script rel="preload" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyBNL_1BSqiKF5qf0WqLbMT4xF1dB1Aux1M&libraries=places"></script>
+    <script async defer type="text/javascript"
+        src="https://maps.google.com/maps/api/js?key=AIzaSyBNL_1BSqiKF5qf0WqLbMT4xF1dB1Aux1M&libraries=places"></script>
+    <script>
     function isNumber(evt) {
         var charCode = (evt.which) ? evt.which : event.keyCode
         if (charCode > 31 && (charCode < 48 || charCode > 57))

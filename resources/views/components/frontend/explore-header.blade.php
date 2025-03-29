@@ -1,3 +1,80 @@
+<style>
+    .search-result-item {
+        display: flex;
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .search-result-item:hover {
+        background-color: #f9f9f9;
+    }
+
+    .business-image {
+        width: 60px;
+        height: 60px;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+
+    .business-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    .business-info {
+        flex: 1;
+    }
+
+    .business-name {
+        margin: 0 0 5px 0;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .business-location {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    .business-distance {
+        font-size: 13px;
+        color: #888;
+    }
+
+    /* Update your modal CSS */
+    #searchResultsModal {
+        position: absolute;
+        top: 100%;
+        /* Position directly below search input */
+        left: 0;
+        right: 0;
+        width: auto;
+        /* Or set specific width */
+        max-width: 100%;
+        /* Prevent exceeding header width */
+        margin: 0 auto;
+        background: white;
+        border: 1px solid #ddd;
+        border-top: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    /* Ensure parent has relative positioning */
+    #searchForm {
+        position: relative;
+        width: 100%;
+        /* Match header width */
+        max-width:
+            /* your header's max width */
+        ;
+    }
+</style>
 <header class="new-main-head inner-headers">
     <div class="top-hdr">
         <div class="top-hdr-wraps">
@@ -192,19 +269,37 @@
 
                 <div class="hdr-rit">
                     <div class="hdr-frm">
-                        <form action="{{ route('search.business.profile') }}" type="get">
+                        {{-- <form id="searchForm">
                             <div class="hdr-frm-innr">
-                                <input type="text" class="form-control" placeholder="Search businesses..."
-                                    wire:model.debounce="search"> 
-                                {{-- <input type="text" name="search" placeholder="Find on Gimmzi..."> --}}
-                                <input type="submit" value="">
+                                <input type="text" name="search" placeholder="Find on Gimmzi...">
+                                <input type="submit" value="" class="search-submit">
                             </div>
-                            <a href="javascript:void(0)" class="search-btn"
-                                onclick="document.querySelector('form').submit();">
+                            <a href="javascript:void(0)" class="search-btn">
                                 <img loading="lazy" src="{{ asset('frontend_assets/images/srch.svg') }}"
                                     alt="search icon" class="search-icon">
                             </a>
+                        </form> --}}
+                        <form id="searchForm">
+                            <div class="hdr-frm-innr">
+                                <input type="text" name="search" placeholder="Find on Gimmzi here" required>
+                                {{-- <input type="submit" value="" class="search-submit"> --}}
+                            </div>
+                            <a href="javascript:void(0)" class="search-btn">
+                                <img loading="lazy" src="{{ asset('frontend_assets/images/search-bar-icon-d.svg') }}"
+                                    alt="search-icon" class="search-icon">
+                            </a>
                         </form>
+                        <!-- Search Results Modal -->
+                        <div id="searchResultsModal" class="search-modal" style="display: none;">
+                            <div class="search-modal-content mt-2">
+                                {{-- <div class="search-modal-header">
+                                    <h3>Search Results</h3>
+                                    <span class="close-search-modal">&times;</span>
+                                </div> --}}
+                                <div class="search-modal-body" id="resultContainer">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <ul class="hdr-ul">
                         <li class="hdr-li">
@@ -248,4 +343,125 @@
             </a>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let searchTimer;
+            const searchDelay = 500; // milliseconds delay after typing stops
+
+            // Key-up event handler for live search
+            $('input[name="search"]').on('keyup', function(e) {
+                clearTimeout(searchTimer);
+
+                const searchQuery = $(this).val().trim();
+
+                // Only search if query has at least 3 characters
+                if (searchQuery.length < 3) {
+                    $('#searchResultsModal').hide();
+                    return;
+                }
+
+                // If Enter key is pressed, submit immediately
+                if (e.key === 'Enter') {
+                    performSearch(searchQuery);
+                    return;
+                }
+
+                // Set timer for delayed search
+                searchTimer = setTimeout(() => {
+                    performSearch(searchQuery);
+                }, searchDelay);
+            });
+
+            // Search button click handler
+            $('.search-btn').click(function(e) {
+                e.preventDefault();
+                const searchQuery = $('input[name="search"]').val().trim();
+                performSearch(searchQuery);
+            });
+
+            // Form submission handler
+            $('#searchForm').submit(function(e) {
+                e.preventDefault();
+                $('.search-btn').click();
+            });
+
+            // Function to perform the search
+            function performSearch(query) {
+                if (!query) {
+                    $('#searchResultsModal').hide();
+                    return;
+                }
+
+                $.ajax({
+                    url: "{{ route('frontend.search-business-profile') }}",
+                    type: 'GET',
+                    data: {
+                        name: query
+                    },
+                    beforeSend: function() {
+                        // Show loading indicator
+                        $('#resultContainer').html('<div class="search-loading">Searching...</div>');
+                        $('#searchResultsModal').show();
+                    },
+                    success: function(response) {
+                        if (response.success && response.data.length > 0) {
+                            let html = '';
+
+                            response.data.forEach(business => {
+                                html += `
+                                <a href="/merchant/${business.id}" class="search-result-item">
+                                    <div class="search-result-item">
+                                        <div class="business-image">
+                                            <img src="${business.logo_image || business.main_image_url || 'default-image.jpg'}" 
+                                                alt="${business.business_name}">
+                                        </div>
+                                        <div class="business-info">
+                                            <h4 class="business-name">${business.business_name}</h4>
+                                            ${business.main_location ? `
+                                                                                <div class="business-location">
+                                                                                    <span class="location-address">${business.main_location.address}</span>,
+                                                                                    <span class="location-city">${business.main_location.city}</span>
+                                                                                </div>
+                                                                                ` : ''}
+                                            ${business.distance ? `
+                                                                                <div class="business-distance">
+                                                                                    ${Math.round(business.distance)} meters away
+                                                                                </div>
+                                                                                ` : ''}
+                                        </div>
+                                    </div>
+                                </a>
+                                `;
+                            });
+
+                            $('#resultContainer').html(html);
+                            $('#searchResultsModal').show();
+                        } else {
+                            $('#resultContainer').html(
+                                '<div class="no-results">No businesses found</div>');
+                            $('#searchResultsModal').show();
+                        }
+                    },
+                    error: function(xhr) {
+                        $('#resultContainer').html(
+                            '<div class="search-error">Error loading results</div>');
+                        console.error('Search error:', xhr.responseText);
+                    }
+                });
+            }
+
+            // Close modal handlers (keep your existing ones)
+            $('.close-search-modal').click(function() {
+                $('#searchResultsModal').hide();
+            });
+
+            $(window).click(function(e) {
+                if ($(e.target).is('#searchResultsModal')) {
+                    $('#searchResultsModal').hide();
+                }
+            });
+        });
+    </script>
 </header>

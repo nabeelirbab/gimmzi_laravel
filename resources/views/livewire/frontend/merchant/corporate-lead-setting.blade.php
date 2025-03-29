@@ -1,7 +1,9 @@
 <div>
     @push('style')
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+        </script>
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     @endpush
     <div
         class="all-smart-rental-database-main-sec show-filled-units-only corporate-lead-setting-1-main-sec loyality-rewards-program-sec-main">
@@ -15,11 +17,11 @@
                                 <div class="left-sec-home">
                                     <span>
                                         @if (Auth::user()->merchantBusiness->logo_image)
-                                        <img src="{{ Auth::user()->merchantBusiness->logo_image }}" alt=""
-                                            style="width: 102px;height: 87px;border-radius: 4px;" />
+                                            <img src="{{ Auth::user()->merchantBusiness->logo_image }}" alt=""
+                                                style="width: 102px;height: 87px;border-radius: 4px;" />
                                         @else
-                                        <img src="{{ asset('frontend_assets/images/lead-setting-1-icon-1.svg') }}"
-                                            alt="" />
+                                            <img src="{{ asset('frontend_assets/images/lead-setting-1-icon-1.svg') }}"
+                                                alt="" />
                                         @endif
                                     </span>
                                 </div>
@@ -28,10 +30,10 @@
                                     <select wire:model="main_location" class="form-control" style="width: 50%;"
                                         wire:change='locationChange'>
                                         @if ($merchant_location)
-                                        @foreach ($merchant_location as $locations)
-                                        <option value="{{ $locations->businessLocation->id }}">
-                                            {{ $locations->businessLocation->location_name }}</option>
-                                        @endforeach
+                                            @foreach ($merchant_location as $locations)
+                                                <option value="{{ $locations->businessLocation->id }}">
+                                                    {{ $locations->businessLocation->location_name }}</option>
+                                            @endforeach
                                         @endif
                                     </select>
                                     <div class="apartments-sec" style="margin-top: 25px;">
@@ -54,9 +56,9 @@
                                                                 alt="" /></span>Mail:<span
                                                             class="points-distributed-txt" id="change_email">
                                                             @foreach ($merchant_location as $locations)
-                                                            @if ($locations->is_main == 1)
-                                                            {{ $locations->businessLocation->business_email }}
-                                                            @endif
+                                                                @if ($locations->is_main == 1)
+                                                                    {{ $locations->businessLocation->business_email }}
+                                                                @endif
                                                             @endforeach
                                                         </span>
                                                     </h6>
@@ -70,9 +72,9 @@
                                                                 alt="" /></span>Phone:
                                                         <span class="number-txt" id="change_phone">
                                                             @foreach ($merchant_location as $locations)
-                                                            @if ($locations->is_main == 1)
-                                                            {{ $locations->businessLocation->business_phone }}
-                                                            @endif
+                                                                @if ($locations->is_main == 1)
+                                                                    {{ $locations->businessLocation->business_phone }}
+                                                                @endif
                                                             @endforeach
                                                         </span>
                                                     </h6>
@@ -87,26 +89,27 @@
                         <div class="col-md-3">
                             <div class="right-sec-account-status-lead-setting-1">
                                 <figure>
-                                    @if(auth()->user()->profile_image)
-                                        <img src="{{auth()->user()->profile_image}}" alt="">
+                                    @if (auth()->user()->profile_image)
+                                        <img src="{{ auth()->user()->profile_image }}" alt="">
                                     @else
-                                       <img src="{{ asset('frontend_assets/images/lead-setting-people-icon.svg') }}" alt="">
+                                        <img src="{{ asset('frontend_assets/images/lead-setting-people-icon.svg') }}"
+                                            alt="">
                                     @endif
                                 </figure>
                                 <h3>Account Status</h3>
                                 @if (Auth::user()->merchantBusiness->status == 1)
-                                <p style="color: green;"><i style="background: green;"></i>Active</p>
+                                    <p style="color: green;"><i style="background: green;"></i>Active</p>
                                 @elseif(Auth::user()->merchantBusiness->status == 0)
-                                <p style="color: red;"><i style="background: red;"></i>Inactive</p>
+                                    <p style="color: red;"><i style="background: red;"></i>Inactive</p>
                                 @elseif(Auth::user()->merchantBusiness->status == 2)
-                                <p style="color: #ffb822;"><i style="background: #ffb822;"></i>Pending</p>
+                                    <p style="color: #ffb822;"><i style="background: #ffb822;"></i>Pending</p>
                                 @elseif(Auth::user()->merchantBusiness->status == 3)
-                                <p style="color: #5578eb;"><i style="background: #5578eb;"></i>Does Not Meet
-                                    Merchant Guidelines</p>
+                                    <p style="color: #5578eb;"><i style="background: #5578eb;"></i>Does Not Meet
+                                        Merchant Guidelines</p>
                                 @elseif(Auth::user()->merchantBusiness->status == 4)
-                                <p style="color: #b80abb;"><i style="background: #b80abb;"></i>Saved</p>
+                                    <p style="color: #b80abb;"><i style="background: #b80abb;"></i>Saved</p>
                                 @else
-                                <p style="color: red;"><i style="background: red;"></i>Pending</p>
+                                    <p style="color: red;"><i style="background: red;"></i>Pending</p>
                                 @endif
                             </div>
                         </div>
@@ -205,7 +208,7 @@
                 <div class="modal-body">
                     <div class="property-site-setting-website">
                         <div class="row">
-                          <div class="col-md-4 field-blk">
+                            <div class="col-md-4 field-blk">
                                 <label>Business Overview</label>
                                 <div wire:ignore>
                                     <textarea class="form-control summernote" id="business_overview"></textarea>
@@ -225,7 +228,8 @@
                                     <div class="row">
                                         <div class="col-sm-5">
                                             <div class="uploard-logo-one">
-                                                <input type="file" class="uploard-file-one" wire:model='story_image' />
+                                                <input type="file" class="uploard-file-one"
+                                                    wire:model='story_image' />
                                                 <img
                                                     src="{{ asset('frontend_assets/images/uploard-logo-icon11.svg') }}" />
                                                 <h4>Upload logo</h4>
@@ -235,13 +239,13 @@
                                         <div class="col-sm-5">
                                             <div class="uploard-logo-one">
                                                 @if ($show_story_image)
-                                                <img id="preview_logo"
-                                                    style="width: 230px;height: 147px;border-radius: 7%;"
-                                                    src="{{ $show_story_image->getUrl() }}" />
+                                                    <img id="preview_logo"
+                                                        style="width: 230px;height: 147px;border-radius: 7%;"
+                                                        src="{{ $show_story_image->getUrl() }}" />
                                                 @else
-                                                <img id="preview_logo"
-                                                    style="width: 230px;height: 147px;border-radius: 7%;"
-                                                    src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
+                                                    <img id="preview_logo"
+                                                        style="width: 230px;height: 147px;border-radius: 7%;"
+                                                        src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
                                                 @endif
                                             </div>
                                             <div class="btn_grp">
@@ -257,15 +261,15 @@
                                 <select class="form-control" wire:model='participating_location'
                                     wire:change='changeParticipatingLocation'>
                                     @if ($business_locations)
-                                    @foreach ($business_locations as $location_data)
-                                    @if ($location_data->main_location == true)
-                                    <option value="{{ $location_data->id }}">
-                                        {{ $location_data->location_name }}(Main)</option>
-                                    @else
-                                    <option value="{{ $location_data->id }}">
-                                        {{ $location_data->location_name }}</option>
-                                    @endif
-                                    @endforeach
+                                        @foreach ($business_locations as $location_data)
+                                            @if ($location_data->main_location == true)
+                                                <option value="{{ $location_data->id }}">
+                                                    {{ $location_data->location_name }}(Main)</option>
+                                            @else
+                                                <option value="{{ $location_data->id }}">
+                                                    {{ $location_data->location_name }}</option>
+                                            @endif
+                                        @endforeach
                                     @endif
                                 </select>
                             </div>
@@ -282,22 +286,22 @@
                                         <input type="text" class="form-control" id="autocomplete1"
                                             wire:model.defer='participating_address' autocomplete="off">
                                         @error('participating_address')
-                                        <span class="invalid-message" role="alert"
-                                            style="font-size: 12px; color:red;margin-bottom: 20px;">
-                                            {{ $message }}
-                                        </span>
+                                            <span class="invalid-message" role="alert"
+                                                style="font-size: 12px; color:red;margin-bottom: 20px;">
+                                                {{ $message }}
+                                            </span>
                                         @enderror
                                     </div>
 
                                     <div class="col-md-6 field-blk">
                                         <label>Location Zip Code *</label>
-                                        <input type="text" class="form-control" wire:model.defer='participating_zipcode'
-                                            id="zipcode">
+                                        <input type="text" class="form-control"
+                                            wire:model.defer='participating_zipcode' id="zipcode">
                                         @error('participating_zipcode')
-                                        <span class="invalid-message" role="alert"
-                                            style="font-size: 12px; color:red;margin-bottom: 20px;">
-                                            {{ $message }}
-                                        </span>
+                                            <span class="invalid-message" role="alert"
+                                                style="font-size: 12px; color:red;margin-bottom: 20px;">
+                                                {{ $message }}
+                                            </span>
                                         @enderror
                                     </div>
 
@@ -306,26 +310,27 @@
                                         <input type="text" class="form-control" wire:model='participating_city'
                                             id="city">
                                         @error('participating_city')
-                                        <span class="invalid-message" role="alert"
-                                            style="font-size: 12px; color:red;margin-bottom: 20px;">
-                                            {{ $message }}
-                                        </span>
+                                            <span class="invalid-message" role="alert"
+                                                style="font-size: 12px; color:red;margin-bottom: 20px;">
+                                                {{ $message }}
+                                            </span>
                                         @enderror
                                     </div>
                                     <div class="col-md-6 field-blk">
                                         <label>State *</label>
                                         {{-- <input type="text" class="form-control" wire:model='participating_state'
                                             id="state"> --}}
-                                            <select class="form-control" wire:model='participating_state'>
-                                                @foreach ($states as $state_data)
-                                                    <option value="{{$state_data->id}}">{{$state_data->name}}</option>
-                                                @endforeach
-                                            </select>
+                                        <select class="form-control" wire:model='participating_state'>
+                                            @foreach ($states as $state_data)
+                                                <option value="{{ $state_data->id }}">{{ $state_data->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                         @error('participating_state')
-                                        <span class="invalid-message" role="alert"
-                                            style="font-size: 12px; color:red;margin-bottom: 20px;">
-                                            {{ $message }}
-                                        </span>
+                                            <span class="invalid-message" role="alert"
+                                                style="font-size: 12px; color:red;margin-bottom: 20px;">
+                                                {{ $message }}
+                                            </span>
                                         @enderror
                                     </div>
                                     <div class="col-md-6 field-blk">
@@ -333,20 +338,21 @@
                                         <input type="text" class="form-control"
                                             wire:model.defer='participating_website'>
                                         @error('participating_website')
-                                        <span class="invalid-message" role="alert"
-                                            style="font-size: 12px; color:red;margin-bottom: 20px;">
-                                            {{ $message }}
-                                        </span>
+                                            <span class="invalid-message" role="alert"
+                                                style="font-size: 12px; color:red;margin-bottom: 20px;">
+                                                {{ $message }}
+                                            </span>
                                         @enderror
                                     </div>
                                     <div class="col-md-6 field-blk">
                                         <label>Phone</label>
-                                        <input type="text" class="form-control" wire:model.defer='participating_phone'>
+                                        <input type="text" class="form-control"
+                                            wire:model.defer='participating_phone'>
                                         @error('participating_phone')
-                                        <span class="invalid-message" role="alert"
-                                            style="font-size: 12px; color:red;margin-bottom: 20px;">
-                                            {{ $message }}
-                                        </span>
+                                            <span class="invalid-message" role="alert"
+                                                style="font-size: 12px; color:red;margin-bottom: 20px;">
+                                                {{ $message }}
+                                            </span>
                                         @enderror
                                     </div>
 
@@ -354,15 +360,17 @@
                                         <h4>Display Message Boards</h4>
                                         <div class="property-contain-r">
                                             <span class="form-select-box1">
-                                                <input class="form-check-input" type="radio" wire:model="display_status"
-                                                    id="flexRadioDefault1" value="1">
+                                                <input class="form-check-input" type="radio"
+                                                    wire:model="display_status" id="flexRadioDefault1"
+                                                    value="1">
                                                 <label class="form-check-label" for="flexRadioDefault1">
                                                     On
                                                 </label>
                                             </span>
                                             <span class="form-select-box1">
-                                                <input class="form-check-input" type="radio" wire:model="display_status"
-                                                    id="flexRadioDefault1" value="0">
+                                                <input class="form-check-input" type="radio"
+                                                    wire:model="display_status" id="flexRadioDefault1"
+                                                    value="0">
                                                 <label class="form-check-label" for="flexRadioDefault1">
                                                     Off
                                                 </label>
@@ -372,10 +380,10 @@
 
                                     </div>
                                     @error('display_status')
-                                    <span class="invalid-message" role="alert"
-                                        style="font-size: 12px; color:red;margin-bottom: 20px;">
-                                        {{ $message }}
-                                    </span>
+                                        <span class="invalid-message" role="alert"
+                                            style="font-size: 12px; color:red;margin-bottom: 20px;">
+                                            {{ $message }}
+                                        </span>
                                     @enderror
                                     <div class="col-md-12 field-blk">
                                         <p>Display to be viewed by Smart Rewards users and all traffic that comes to
@@ -385,47 +393,49 @@
                                     <div class="col-md-12 field-blk">
                                         <select class="form-control" wire:model="board_one" id="board_one">
                                             @if ($boards)
-                                            <option value="">Select Message Type</option>
-                                            <option value="0">None (This option will not display a message board)</option>
+                                                <option value="">Select Message Type</option>
+                                                <option value="0">None (This option will not display a message
+                                                    board)</option>
 
-                                            @foreach ($boards as $board_data)
-                                            <option value="{{ $board_data->id }}">{{ $board_data->title }}
-                                            </option>
-                                            @endforeach
+                                                @foreach ($boards as $board_data)
+                                                    <option value="{{ $board_data->id }}">{{ $board_data->title }}
+                                                    </option>
+                                                @endforeach
                                             @endif
                                         </select>
                                     </div>
                                     <div class="col-md-12 field-blk" wire:ignore>
-                                        <textarea class="form-control" wire:model.defer="message_one" id="merchant_message"
-                                            rows="5"></textarea>
-                                        
+                                        <textarea class="form-control" wire:model.defer="message_one" id="merchant_message" rows="5"></textarea>
+
                                         <div class="cmn-txtarea-reset-btn">
-                                            <a href="javascript:void(0);" wire:click.prevent='removeMessageOne'>Clear and
+                                            <a href="javascript:void(0);" wire:click.prevent='removeMessageOne'>Clear
+                                                and
                                                 remove message</a>
                                         </div>
                                     </div>
                                     @if ($errors->has('message_one'))
-                                            <div class="error" style="color:red;">
-                                                {{ $errors->first('message_one') }}</div>
+                                        <div class="error" style="color:red;">
+                                            {{ $errors->first('message_one') }}</div>
                                     @endif
                                     <div class="col-md-12 field-blk">
                                         <select class="form-control" wire:model="board_two" id="board_two">
                                             @if ($boards)
-                                            <option value="">Select Message Type</option>
-                                            <option value="0">None (This option will not display a message board)</option>
-                                            @foreach ($boards as $board_data)
-                                            <option value="{{ $board_data->id }}">{{ $board_data->title }}
-                                            </option>
-                                            @endforeach
+                                                <option value="">Select Message Type</option>
+                                                <option value="0">None (This option will not display a message
+                                                    board)</option>
+                                                @foreach ($boards as $board_data)
+                                                    <option value="{{ $board_data->id }}">{{ $board_data->title }}
+                                                    </option>
+                                                @endforeach
                                             @endif
                                         </select>
                                     </div>
                                     <div class="col-md-12 field-blk" wire:ignore>
-                                        <textarea class="form-control" wire:model="message_two" id="merchant_message2"
-                                            rows="5"></textarea>
-                                        
+                                        <textarea class="form-control" wire:model="message_two" id="merchant_message2" rows="5"></textarea>
+
                                         <div class="cmn-txtarea-reset-btn">
-                                            <a href="javascript:void(0);" wire:click.prevent='removeMessageTwo'>Clear and
+                                            <a href="javascript:void(0);" wire:click.prevent='removeMessageTwo'>Clear
+                                                and
                                                 remove message</a>
                                         </div>
                                     </div>
@@ -483,11 +493,11 @@
                                             <div class="col-sm-5">
                                                 <div class="uploard-logo-one">
                                                     @if ($show_logo_image)
-                                                    <img style="width: 230px;height: 158px;border-radius: 7%;"
-                                                        src="{{ $show_logo_image->getUrl() }}" />
+                                                        <img style="width: 230px;height: 158px;border-radius: 7%;"
+                                                            src="{{ $show_logo_image->getUrl() }}" />
                                                     @else
-                                                    <img style="width: 230px;height: 147px;border-radius: 7%;"
-                                                        src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
+                                                        <img style="width: 230px;height: 147px;border-radius: 7%;"
+                                                            src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
                                                     @endif
                                                 </div>
                                                 <div class="btn_grp">
@@ -515,11 +525,11 @@
                                             <div class="col-sm-5">
                                                 <div class="uploard-logo-one">
                                                     @if ($main_photo)
-                                                    <img style="width: 230px;height: 158px;border-radius: 7%;"
-                                                        src="{{ url($main_photo) }}" />
+                                                        <img style="width: 230px;height: 158px;border-radius: 7%;"
+                                                            src="{{ url($main_photo) }}" />
                                                     @else
-                                                    <img style="width: 230px;height: 158px;border-radius: 7%;"
-                                                        src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
+                                                        <img style="width: 230px;height: 158px;border-radius: 7%;"
+                                                            src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
                                                     @endif
                                                 </div>
                                                 <div class="btn_grp">
@@ -530,25 +540,25 @@
                                         </div>
                                         <div class="row">
                                             @if (count($show_photos) > 0)
-                                            @foreach ($show_photos as $key => $value)
-                                            <div class="col-md-3 item imageclass">
-                                                <div class="inner">
-                                                    <img width="175" height="130" class="merchantimage"
-                                                        src="{{ $value->getUrl() }}" alt="" />
-                                                    <div class="btn_grp">
-                                                        <a class="dlt_btn"
-                                                            wire:click='removeProfilePhoto({{ $value->id }})'
-                                                            href="javascript:void(0);"
-                                                            style="font-size: 10px;color: red;">Delete</a>
-                                                        <a class="mkm_pht_btn make_main_photo"
-                                                            href="javascript:void(0);"
-                                                            wire:click='MakeMainPhoto({{ $value->id }})'
-                                                            style="font-size: 10px;margin-left: 14px;">Make
-                                                            Main Photo</a>
+                                                @foreach ($show_photos as $key => $value)
+                                                    <div class="col-md-3 item imageclass">
+                                                        <div class="inner">
+                                                            <img width="175" height="130" class="merchantimage"
+                                                                src="{{ $value->getUrl() }}" alt="" />
+                                                            <div class="btn_grp">
+                                                                <a class="dlt_btn"
+                                                                    wire:click='removeProfilePhoto({{ $value->id }})'
+                                                                    href="javascript:void(0);"
+                                                                    style="font-size: 10px;color: red;">Delete</a>
+                                                                <a class="mkm_pht_btn make_main_photo"
+                                                                    href="javascript:void(0);"
+                                                                    wire:click='MakeMainPhoto({{ $value->id }})'
+                                                                    style="font-size: 10px;margin-left: 14px;">Make
+                                                                    Main Photo</a>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            @endforeach
+                                                @endforeach
                                             @endif
                                         </div>
                                     </div>
@@ -609,15 +619,16 @@
                         <div class="cmn_secthd_modals_btnnn">
                             <div class="btn_foot_end centr">
                                 @if ($photo_title == 'story')
-                                <button class="btn_table_s blu auto_wd" wire:click='deleteStoryImage'>Yes</button>
+                                    <button class="btn_table_s blu auto_wd" wire:click='deleteStoryImage'>Yes</button>
                                 @elseif($photo_title == 'logo')
-                                <button class="btn_table_s blu auto_wd" wire:click='deleteLogoImage'>Yes</button>
+                                    <button class="btn_table_s blu auto_wd" wire:click='deleteLogoImage'>Yes</button>
                                 @elseif($photo_title == 'profile_photo')
-                                <button class="btn_table_s blu auto_wd" wire:click='deleteProfileImage'>Yes</button>
+                                    <button class="btn_table_s blu auto_wd"
+                                        wire:click='deleteProfileImage'>Yes</button>
                                 @elseif($photo_title == 'main_photo')
-                                <button class="btn_table_s blu auto_wd" wire:click='deleteMainPhoto'>Yes</button>
+                                    <button class="btn_table_s blu auto_wd" wire:click='deleteMainPhoto'>Yes</button>
                                 @elseif($photo_title == 'video')
-                                <button class="btn_table_s blu auto_wd" wire:click='deleteVideo'>Yes</button>
+                                    <button class="btn_table_s blu auto_wd" wire:click='deleteVideo'>Yes</button>
                                 @endif
                                 <button class="btn_table_s rdd auto_wd" data-bs-dismiss="modal">No</button>
                             </div>
@@ -652,8 +663,8 @@
     </div>
     {{-- end success modal --}}
 
-    <div data-backdrop="static" data-keyboard="false" class="modal fade cmn_modal_designs gap_sec_modal2" id="tooltip_modal_edit" tabindex="-1"
-        aria-hidden="true">
+    <div data-backdrop="static" data-keyboard="false" class="modal fade cmn_modal_designs gap_sec_modal2"
+        id="tooltip_modal_edit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="border: 2px solid #000;border-radius: 10px;">
                 <div class="modal-header">
@@ -665,10 +676,13 @@
                 <div class="modal-body">
                     <div class="">
                         <div class="cmn_secthd_modals">
-                            <h2 style="font-size: 19px; font-weight:500;">Code customers use to redeem deal at time of purchase. This is confirmation
+                            <h2 style="font-size: 19px; font-weight:500;">Code customers use to redeem deal at time of
+                                purchase. This is confirmation
                                 your establishment's location is offering
                                 the deal that is redeemed. This code can be changed by you at any time per employee. If
-                                the GimmziD is turned off, the customer will show the deal on their mobile device at checkout without the deal being connected to an associate. We recommend keeping it on for your business reporting purposes and to confirm the integrity of every deal. 
+                                the GimmziD is turned off, the customer will show the deal on their mobile device at
+                                checkout without the deal being connected to an associate. We recommend keeping it on
+                                for your business reporting purposes and to confirm the integrity of every deal.
                             </h2>
                         </div>
 
@@ -683,128 +697,128 @@
     </div>
 
     @push('scripts')
-    <script async defer type="text/javascript"
-        src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_GEOCODE_API_KEY') }}&libraries=places"></script>
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+        <script async defer type="text/javascript"
+            src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_GEOCODE_API_KEY') }}&libraries=places"></script>
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
-   <script>
-    document.addEventListener('livewire:load', function () {
+        <script>
+            document.addEventListener('livewire:load', function() {
 
-        function initializeSummernote(id, model) {
-            $('#' + id).summernote({
-                height: 300,
-                callbacks: {
-                    onChange: function(contents) {
-                        @this.set(model, contents);
-                    }
+                function initializeSummernote(id, model) {
+                    $('#' + id).summernote({
+                        height: 300,
+                        callbacks: {
+                            onChange: function(contents) {
+                                @this.set(model, contents);
+                            }
+                        }
+                    });
+
+                    // Set initial value from Livewire
+                    let content = @this.get(model);
+                    $('#' + id).summernote('code', content);
                 }
-            });
 
-            // Set initial value from Livewire
-            let content = @this.get(model);
-            $('#' + id).summernote('code', content);
-        }
-
-        // Handle Modal Opening and Initialize Editors
-        window.livewire.on('pageSettingsModal', function() {
-            $('#merchant_site_setting_modal').modal('show');
-        });
-
-        // Ensure Summernote initializes properly when the modal is fully opened
-        $('#merchant_site_setting_modal').on('shown.bs.modal', function () {
-            initializeSummernote('business_story', 'business_story');
-            initializeSummernote('business_overview', 'business_overview');
-            initializeSummernote('merchant_message', 'message_one');
-            initializeSummernote('merchant_message2', 'message_two');
-        });
-
-        // Ensure Summernote destroys and reinitializes when the modal is closed and reopened
-        $('#merchant_site_setting_modal').on('hidden.bs.modal', function () {
-            $('.summernote').summernote('destroy'); // Destroy all Summernote instances
-            window.livewire.emit('modalClosed'); // Emit event to Livewire
-        });
-
-        // Clear Messages in Summernote
-        window.livewire.on('clear_message', () => {           
-            $('#merchant_message').summernote('code', ''); 
-            $('#merchant_message').summernote('reset');
-            @this.set('message_one', '');
-        });
-
-        window.livewire.on('clear_message2', () => {
-            $('#merchant_message2').summernote('code','');
-            $('#merchant_message2').summernote('reset');
-            @this.set('message_two', '');
-        });
-
-        // Refresh Summernote Content on Livewire Update
-        window.livewire.on('refreshSummernote', function () {
-            initializeSummernote('business_story', 'business_story');
-            initializeSummernote('business_overview', 'business_overview');
-            initializeSummernote('merchant_message', 'message_one');
-            initializeSummernote('merchant_message2', 'message_two');
-            $('#message_modal').modal('hide');
-        });
-
-        // Handle Success Modal Popup
-        window.livewire.on('successModal', data => {
-            $('#confirm_modal').modal('hide');
-            $('#message_modal').modal('show');
-            $('#textmsg').text(data.text);
-        });
-
-        // Handle Confirm Modal Popup
-        window.livewire.on('confirmModal', data => {
-            $('#message_modal').modal('hide');
-            $('#confirm_modal').modal('show');
-            $('#confirmmsg').text(data.text);
-        });
-
-        // Close modal when clicking the OK button
-        $(".closeModal").on('click', function() {
-            $('#confirm_modal').modal('hide');
-            $('#message_modal').modal('hide');
-            $('#textmsg').text('');
-        });
-
-        // AutoComplete Address Handling for Location Input
-        $("#autocomplete1").on('keyup', function() {
-            var input = document.getElementById('autocomplete1');
-            var autocomplete = new google.maps.places.Autocomplete(input);
-            autocomplete.setComponentRestrictions({ 'country': ['us'] });
-
-            google.maps.event.addListener(autocomplete, "place_changed", function() {
-                var place = autocomplete.getPlace();
-
-                $('#latitude').val(place.geometry['location'].lat());
-                $('#longitude').val(place.geometry['location'].lng());
-                @this.set('lat', place.geometry['location'].lat());
-                @this.set('long', place.geometry['location'].lng());
-                @this.set('participating_address', place.formatted_address);
-
-                place.address_components.forEach(component => {
-                    let types = component.types;
-                    if (types.includes("postal_code")) {
-                        $("#zipcode").val(component.long_name);
-                        @this.set('participating_zipcode', component.long_name);
-                    }
-                    if (types.includes("administrative_area_level_1")) {
-                        window.livewire.emit('checkState', [component.long_name]);
-                        $("#state").val(component.long_name);
-                        @this.set('participating_state', component.long_name);
-                    }
-                    if (types.includes("locality")) {
-                        $("#city").val(component.long_name);
-                        @this.set('participating_city', component.long_name);
-                    }
+                // Handle Modal Opening and Initialize Editors
+                window.livewire.on('pageSettingsModal', function() {
+                    $('#merchant_site_setting_modal').modal('show');
                 });
+
+                // Ensure Summernote initializes properly when the modal is fully opened
+                $('#merchant_site_setting_modal').on('shown.bs.modal', function() {
+                    initializeSummernote('business_story', 'business_story');
+                    initializeSummernote('business_overview', 'business_overview');
+                    initializeSummernote('merchant_message', 'message_one');
+                    initializeSummernote('merchant_message2', 'message_two');
+                });
+
+                // Ensure Summernote destroys and reinitializes when the modal is closed and reopened
+                $('#merchant_site_setting_modal').on('hidden.bs.modal', function() {
+                    $('.summernote').summernote('destroy'); // Destroy all Summernote instances
+                    window.livewire.emit('modalClosed'); // Emit event to Livewire
+                });
+
+                // Clear Messages in Summernote
+                window.livewire.on('clear_message', () => {
+                    $('#merchant_message').summernote('code', '');
+                    $('#merchant_message').summernote('reset');
+                    @this.set('message_one', '');
+                });
+
+                window.livewire.on('clear_message2', () => {
+                    $('#merchant_message2').summernote('code', '');
+                    $('#merchant_message2').summernote('reset');
+                    @this.set('message_two', '');
+                });
+
+                // Refresh Summernote Content on Livewire Update
+                window.livewire.on('refreshSummernote', function() {
+                    initializeSummernote('business_story', 'business_story');
+                    initializeSummernote('business_overview', 'business_overview');
+                    initializeSummernote('merchant_message', 'message_one');
+                    initializeSummernote('merchant_message2', 'message_two');
+                    $('#message_modal').modal('hide');
+                });
+
+                // Handle Success Modal Popup
+                window.livewire.on('successModal', data => {
+                    $('#confirm_modal').modal('hide');
+                    $('#message_modal').modal('show');
+                    $('#textmsg').text(data.text);
+                });
+
+                // Handle Confirm Modal Popup
+                window.livewire.on('confirmModal', data => {
+                    $('#message_modal').modal('hide');
+                    $('#confirm_modal').modal('show');
+                    $('#confirmmsg').text(data.text);
+                });
+
+                // Close modal when clicking the OK button
+                $(".closeModal").on('click', function() {
+                    $('#confirm_modal').modal('hide');
+                    $('#message_modal').modal('hide');
+                    $('#textmsg').text('');
+                });
+
+                // AutoComplete Address Handling for Location Input
+                $("#autocomplete1").on('keyup', function() {
+                    var input = document.getElementById('autocomplete1');
+                    var autocomplete = new google.maps.places.Autocomplete(input);
+                    autocomplete.setComponentRestrictions({
+                        'country': ['us']
+                    });
+
+                    google.maps.event.addListener(autocomplete, "place_changed", function() {
+                        var place = autocomplete.getPlace();
+
+                        $('#latitude').val(place.geometry['location'].lat());
+                        $('#longitude').val(place.geometry['location'].lng());
+                        @this.set('lat', place.geometry['location'].lat());
+                        @this.set('long', place.geometry['location'].lng());
+                        @this.set('participating_address', place.formatted_address);
+
+                        place.address_components.forEach(component => {
+                            let types = component.types;
+                            if (types.includes("postal_code")) {
+                                $("#zipcode").val(component.long_name);
+                                @this.set('participating_zipcode', component.long_name);
+                            }
+                            if (types.includes("administrative_area_level_1")) {
+                                window.livewire.emit('checkState', [component.long_name]);
+                                $("#state").val(component.long_name);
+                                @this.set('participating_state', component.long_name);
+                            }
+                            if (types.includes("locality")) {
+                                $("#city").val(component.long_name);
+                                @this.set('participating_city', component.long_name);
+                            }
+                        });
+                    });
+                });
+
             });
-        });
-
-    });
-</script>
-
-
+        </script>
     @endpush
 
 </div>

@@ -22,27 +22,25 @@ class BusinessWebsiteController extends Controller
     public function index($id)
     {
         $business = BusinessProfile::find($id); 
-        // dd($business->id);
-        $message_board = MerchantDisplayBoard::where('business_id', $id)->first();
+        
+        // $message_board = MerchantDisplayBoard::where('business_id', $id)->first();
         $providerType = ProviderSubType::get();
         $businessLocation = BusinessLocation::where('business_profile_id', $id)->first();
-        $message_board = MerchantDisplayBoard::with('boardone', 'boardtwo')->where('location_id', 10)->first();
+        // $message_board = MerchantDisplayBoard::with('boardone', 'boardtwo')->where('location_id', 10)->first();
+        $message_boards = MerchantDisplayBoard::where('business_id', $business->id)->get();
         $business_photos = Media::where(['model_id' => $id, 'collection_name' => 'businessProfilePhoto'])->get();
         $businesses = BusinessProfile::where('id', '<>', $id)->withCount('deals')->with('states')->whereHas('deals')->where('status', 1)->get();
+       
         $alreadyFav = ConsumerFavouriteTravelTourism::where('business_id',$business->id)->first();
         if ($businessLocation && isset($businessLocation->id)) {
             $dealIds = DealLocation::where('location_id', $businessLocation->id)->pluck('deal_id');
         } else {
-            // Handle the case where $businessLocation is null
-            // Maybe log the error or provide a default behavior
-            $dealIds = collect(); // Return an empty collection or handle as needed
+            $dealIds = collect();
         }
         if ($businessLocation && isset($businessLocation->id)) {
             $loyaltyIds = LoyaltyRewardLocation::where('location_id', $businessLocation->id)->pluck('loyalty_program_id');
         } else {
-            // Handle the case where $businessLocation is null
-            // Maybe log the error or provide a default behavior
-            $loyaltyIds = collect(); // Return an empty collection or handle as needed
+            $loyaltyIds = collect();
         }        
         
         // $dealIds = DealLocation::where('location_id', $businessLocation->id)->pluck('deal_id');
@@ -82,9 +80,10 @@ class BusinessWebsiteController extends Controller
                         ->take(2);
                 }
             ])
-            ->where('status', 1)
+            // ->where('status', 1)
             ->first();
 
+        // dd($businessProfile);
         $data['deals'] = $businessProfile->deals;
         $data['loyalty'] = $businessProfile->loyalty;
         // dd($businessProfile);
@@ -95,8 +94,15 @@ class BusinessWebsiteController extends Controller
             ->values()
             ->toArray();
 
-        // dd($businessLocations);
-        return view('frontend.business.website', compact('business', 'message_board', 'providerType', 'business_photos', 'businesses','alreadyFav','data','businessLocations'));
+        $allLocations = BusinessLocation::where('business_profile_id', $business->id)
+            ->where('id', '!=', $businessLocations[0]['id'])
+            ->whereNotNull(['latitude', 'longitude'])
+            ->where('status', 1)
+            ->get();
+
+        //dd($message_boards);
+        //dd($businessLocations,  $businessProfile, $business_photos, $businesses, $alreadyFav, $data, $businessLocations);
+        return view('frontend.business.website', compact('business', 'message_boards', 'providerType', 'business_photos', 'businesses','alreadyFav','data','businessLocations','allLocations'));
     } 
 
     public function searchBusinessProfile(Request $request){

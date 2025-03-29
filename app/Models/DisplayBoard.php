@@ -77,4 +77,9 @@ class DisplayBoard extends Model
             return 0;
         }
     }
+
+    // public function MerchantDisplayBoard()
+    // {
+    //     return $this->BelongTo(MerchantDisplayBoard::class,'display_board_id');
+    // }
 }

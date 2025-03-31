@@ -414,6 +414,15 @@
             width: 20px;
             height: 20px;
         }
+
+        @media (max-width: 450px) {
+
+            .carousel-control-prev,
+            .carousel-control-next {
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
     </style>
     <div class="allen-park-apartments-main-sec">
         <div class="allen-part-apartments-sec">
@@ -926,7 +935,7 @@
                 </div>
 
             </div>
-            {{-- {{ dd($data['deals']) }} --}}
+
             @if ($data['deals']->isNotEmpty())
                 <div class="container mt-5">
                     <!-- Header Row with H1 and Controls -->

@@ -414,6 +414,15 @@
             width: 20px;
             height: 20px;
         }
+
+        @media (max-width: 450px) {
+
+            .carousel-control-prev,
+            .carousel-control-next {
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
     </style>
     <div class="allen-park-apartments-main-sec">
         <div class="allen-part-apartments-sec">
@@ -810,9 +819,13 @@
 
                                             <!-- Card with List -->
                                             @php
-                                                $groupedBoards = $message_boards->groupBy(function ($message_board) {
-                                                    return $message_board->displayBoard->title;
-                                                });
+                                                $groupedBoards = $message_boards
+                                                    ->filter(function ($message_board) {
+                                                        return !empty($message_board->displayBoard->title);
+                                                    })
+                                                    ->groupBy(function ($message_board) {
+                                                        return $message_board->displayBoard->title;
+                                                    });
                                             @endphp
                                             <div class="card mt-4" style="width: 100%;">
                                                 <ul class="list-group list-group-flush">
@@ -904,12 +917,93 @@
 
             </div>
 
-            @if (empty($allLocations))
+            @if ($data['deals']->isNotEmpty())
                 <div class="container mt-5">
                     <!-- Header Row with H1 and Controls -->
                     <div class="row align-items-center mb-4">
                         <div class="col-6">
-                            <h1 class="h2">Other {{ $business->business_name }} Locations</h1>
+                            <h1 class="h2">Other {{ $business->business_name }} Deals Locations</h1>
+
+                        </div>
+                        <div class="col-6 text-end">
+                            <button class="btn btn-info me-2" type="button" data-bs-target="#locationCarousel"
+                                data-bs-slide="prev">
+                                <!-- SVG for left arrow -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z" />
+                                </svg>
+                            </button>
+                            <button class="btn btn-info" type="button" data-bs-target="#locationCarousel"
+                                data-bs-slide="next">
+                                <!-- SVG for right arrow -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 8 4.646 3.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Carousel -->
+
+                    <div id="locationCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <!-- Carousel Items -->
+                        <div class="carousel-inner">
+                            @foreach ($data['deals']->chunk(4) as $index => $deal)
+                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                    <div class="row">
+                                        @foreach ($deal as $d)
+                                            <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
+                                                <div class="card h-100" style="border-radius: 1rem">
+                                                    @if (empty($d->main_image))
+                                                        <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
+                                                            alt="" srcset="">
+                                                    @else
+                                                        <img src="{{ env('APP_URL') . $d->main_image }}"
+                                                            alt="Business Image" class="card-img-top"
+                                                            alt="Provider Image" style="height: 200px;">
+                                                    @endif
+                                                    <div class="card-body">
+                                                        <p class="card-text">
+                                                            {{ Str::limit($d->suggested_description, 50) ?? '' }} <br>
+                                                            <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
+                                                                alt="icon"
+                                                                style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
+
+                                                            {{ $d->available_location ?? 'address not found' }} <br>
+                                                            {{ $d->physical_location ?? '' }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Indicators (Circles Below the Carousel) -->
+                        <div class="mt-3 d-flex justify-content-center mb-3" style="margin-bottom: 20px !important;">
+                            @foreach ($businesses->chunk(4) as $index => $chunk)
+                                <button type="button" data-bs-target="#locationCarousel"
+                                    data-bs-slide-to="{{ $index }}"
+                                    class="{{ $index == 0 ? 'active ' : '' }}btn btn-info rounded-circle p-2 mx-2 circular-button"
+                                    aria-current="{{ $index == 0 ? 'true' : 'false' }}"
+                                    aria-label="Slide {{ $index + 1 }}"></button>
+                            @endforeach
+                        </div>
+                    </div>
+
+                </div>
+            @else
+                <div class="container mt-5">
+                    <!-- Header Row with H1 and Controls -->
+                    <div class="row align-items-center mb-4">
+                        <div class="col-6">
+                            <h1 class="h2">Other Businesses Locations</h1>
 
                         </div>
                         <div class="col-6 text-end">
@@ -945,9 +1039,15 @@
                                         @foreach ($chunk as $business)
                                             <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
                                                 <div class="card h-100" style="border-radius: 1rem">
-                                                    <img src="{{ env('APP_URL') . $business->business->main_image }}"
-                                                        alt="Business Image" class="card-img-top"
-                                                        alt="Provider Image" style="height: 200px;">
+                                                    @if (empty($d->main_image))
+                                                        <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
+                                                            alt="Business Image" class="card-img-top"
+                                                            alt="Provider Image" style="height: 200px;">
+                                                    @else
+                                                        <img src="{{ env('APP_URL') . $d->main_image }}"
+                                                            alt="Business Image" class="card-img-top"
+                                                            alt="Provider Image" style="height: 200px;">
+                                                    @endif
                                                     <div class="card-body">
                                                         <p class="card-text">
                                                             <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
@@ -967,7 +1067,7 @@
                         </div>
 
                         <!-- Indicators (Circles Below the Carousel) -->
-                        <div class="mt-3 d-flex justify-content-center">
+                        <div class="mt-3 d-flex justify-content-center mb-3" style="margin-bottom: 20px !important;">
                             @foreach ($businesses->chunk(4) as $index => $chunk)
                                 <button type="button" data-bs-target="#locationCarousel"
                                     data-bs-slide-to="{{ $index }}"

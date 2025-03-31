@@ -94,11 +94,15 @@ class BusinessWebsiteController extends Controller
             ->values()
             ->toArray();
 
-        $allLocations = BusinessLocation::where('business_profile_id', $business->id)
-            ->where('id', '!=', $businessLocations[0]['id'])
-            ->whereNotNull(['latitude', 'longitude'])
-            ->where('status', 1)
-            ->get();
+        // $allLocations = BusinessLocation::where('business_profile_id', $business->id)
+        //     ->where('id', '!=', $businessLocations[0]['id'])
+        //     ->whereNotNull(['latitude', 'longitude'])
+        //     ->where('status', 1)
+        //     ->get();
+        $allLocations = BusinessProfile::where('status', 1)
+                    ->inRandomOrder()  
+                    ->limit(8)         
+                    ->get();
 
         //dd($message_boards);
         //dd($businessLocations,  $businessProfile, $business_photos, $businesses, $alreadyFav, $data, $businessLocations);

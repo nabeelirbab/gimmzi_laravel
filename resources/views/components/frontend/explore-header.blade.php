@@ -281,7 +281,7 @@
                         </form> --}}
                         <form id="searchForm">
                             <div class="hdr-frm-innr">
-                                <input type="text" name="search" placeholder="Find on Gimmzi here" required>
+                                <input type="text" name="search" placeholder="Find on Gimmzi" required>
                                 {{-- <input type="submit" value="" class="search-submit"> --}}
                             </div>
                             <a href="javascript:void(0)" class="search-btn">

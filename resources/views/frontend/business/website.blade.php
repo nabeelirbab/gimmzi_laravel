@@ -832,14 +832,75 @@
                                                     });
                                             @endphp
                                             <div class="card mt-4" style="width: 100%;">
+                                                @php
+                                                    // Define weekdays list for checking
+                                                    $weekDays = [
+                                                        'Monday',
+                                                        'Tuesday',
+                                                        'Wednesday',
+                                                        'Thursday',
+                                                        'Friday',
+                                                        'Saturday',
+                                                        'Sunday',
+                                                    ];
+                                                @endphp
+
                                                 <ul class="list-group list-group-flush">
                                                     @foreach ($groupedBoards as $title => $boards)
                                                         <li class="list-group-item">
-                                                            <p style="color:#17B26A !important;">{{ $title }}
-                                                            </p>
-                                                            @foreach ($boards as $message_board)
-                                                                <p>{!! $message_board->description !!}</p>
-                                                            @endforeach
+                                                            <h5
+                                                                style="color:#17B26A; font-weight:bold; margin-bottom: 10px;">
+                                                                {{ $title }}</h5>
+
+                                                            @php
+                                                                // Is this a weekday group?
+                                                                $isWeekdayGroup = in_array($title, $weekDays);
+                                                            @endphp
+
+                                                            @if ($isWeekdayGroup)
+                                                                {{-- Handle weekday sublisting --}}
+                                                                <ul style="padding-left: 20px; margin: 0;">
+                                                                    @foreach ($boards as $item)
+                                                                        @php
+                                                                            $desc = strip_tags($item->description);
+                                                                            $desc = str_replace(
+                                                                                ['â€“', 'â€™', 'â€œ', 'â€', 'â€¦'],
+                                                                                ['–', "'", '"', '"', '...'],
+                                                                                $desc,
+                                                                            );
+                                                                        @endphp
+                                                                        @if (!empty(trim($desc)))
+                                                                            <li style="margin-bottom: 6px;">
+                                                                                {{ $desc }}</li>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </ul>
+                                                            @else
+                                                                {{-- Handle normal category --}}
+                                                                @php
+                                                                    $cleanedItems = collect($boards)
+                                                                        ->map(function ($item) {
+                                                                            $desc = strip_tags($item->description);
+                                                                            return str_replace(
+                                                                                ['â€“', 'â€™', 'â€œ', 'â€', 'â€¦'],
+                                                                                ['–', "'", '"', '"', '...'],
+                                                                                trim($desc),
+                                                                            );
+                                                                        })
+                                                                        ->filter();
+                                                                @endphp
+
+                                                                @if ($cleanedItems->isNotEmpty())
+                                                                    <ul style="padding-left: 20px; margin: 0;">
+                                                                        @foreach ($cleanedItems as $desc)
+                                                                            <li style="margin-bottom: 6px;">
+                                                                                {{ $desc }}</li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                @else
+                                                                    <p class="text-muted">No announcements found.</p>
+                                                                @endif
+                                                            @endif
                                                         </li>
                                                     @endforeach
                                                 </ul>

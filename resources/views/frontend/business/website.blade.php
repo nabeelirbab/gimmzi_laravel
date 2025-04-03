@@ -979,7 +979,7 @@
                                                 <div class="card h-100" style="border-radius: 1rem">
                                                     @if (empty($d->main_image))
                                                         <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
-                                                            alt="" srcset="">
+                                                            alt="dummy-img" style="height: 200px;">
                                                     @else
                                                         <img src="{{ env('APP_URL') . $d->main_image }}"
                                                             alt="Business Image" class="card-img-top"
@@ -1005,8 +1005,16 @@
                         </div>
 
                         <!-- Indicators (Circles Below the Carousel) -->
+                        <!-- Indicators (Circles Below the Carousel) -->
                         <div class="mt-3 d-flex justify-content-center mb-3" style="margin-bottom: 20px !important;">
-                            @foreach ($businesses->chunk(4) as $index => $chunk)
+                            @php
+                                $chunks =
+                                    isset($data['deals']) && $data['deals']->isNotEmpty()
+                                        ? $data['deals']->chunk(4)
+                                        : $allLocations->chunk(4);
+                            @endphp
+
+                            @foreach ($chunks as $index => $chunk)
                                 <button type="button" data-bs-target="#locationCarousel"
                                     data-bs-slide-to="{{ $index }}"
                                     class="{{ $index == 0 ? 'active ' : '' }}btn btn-info rounded-circle p-2 mx-2 circular-button"
@@ -1014,6 +1022,7 @@
                                     aria-label="Slide {{ $index + 1 }}"></button>
                             @endforeach
                         </div>
+
                     </div>
 
                 </div>
@@ -1072,9 +1081,18 @@
                                                             <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
                                                                 alt="icon"
                                                                 style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
-                                                            {{ $business->location_name }} <br>
-                                                            {{ $business->city }} {{ $business->state }}
-                                                            {{ $business->zip_code }}
+                                                            @if (
+                                                                !empty($business->location_name) ||
+                                                                    !empty($business->city) ||
+                                                                    !empty($business->state) ||
+                                                                    !empty($business->zip_code))
+                                                                {{ $business->location_name ?? '' }}
+                                                                {{ $business->city ?? '' }}
+                                                                {{ $business->state ?? '' }}
+                                                                {{ $business->zip_code ?? '' }}
+                                                            @else
+                                                                <span>No address found</span>
+                                                            @endif
                                                         </p>
                                                     </div>
                                                 </div>
@@ -1086,8 +1104,16 @@
                         </div>
 
                         <!-- Indicators (Circles Below the Carousel) -->
+                        <!-- Indicators (Circles Below the Carousel) -->
                         <div class="mt-3 d-flex justify-content-center mb-3" style="margin-bottom: 20px !important;">
-                            @foreach ($businesses->chunk(4) as $index => $chunk)
+                            @php
+                                $chunks =
+                                    isset($data['deals']) && $data['deals']->isNotEmpty()
+                                        ? $data['deals']->chunk(4)
+                                        : $allLocations->chunk(4);
+                            @endphp
+
+                            @foreach ($chunks as $index => $chunk)
                                 <button type="button" data-bs-target="#locationCarousel"
                                     data-bs-slide-to="{{ $index }}"
                                     class="{{ $index == 0 ? 'active ' : '' }}btn btn-info rounded-circle p-2 mx-2 circular-button"
@@ -1095,6 +1121,7 @@
                                     aria-label="Slide {{ $index + 1 }}"></button>
                             @endforeach
                         </div>
+
                     </div>
 
                 </div>
@@ -1105,86 +1132,7 @@
     </div>
     </div>
 
-    <!-- Modal for Image Carousel -->
-    {{-- <div class="modal fade" id="imageCarouselModal" tabindex="-1" aria-labelledby="imageCarouselModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content custom-modal-content">
-                <div class="modal-header custom-modal-header">
-                    <button type="button" class="btn-close custom-close-button" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="modal-body p-0">
-                    <!-- Carousel -->
-                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                        <!-- Dynamic Carousel Indicators -->
-                        <div class="carousel-indicators">
-                            @foreach ($business_photos as $index => $photo)
-                                @if ($index < 5)
-                                    <button type="button" data-bs-target="#carouselExampleIndicators"
-                                        data-bs-slide-to="{{ $index }}"
-                                        class="{{ $index == 0 ? 'active' : '' }}"
-                                        aria-current="{{ $index == 0 ? 'true' : 'false' }}"
-                                        aria-label="Slide {{ $index + 1 }}"></button>
-                                @endif
-                            @endforeach
-                        </div>
 
-                        <!-- Dynamic Carousel Items -->
-                        <div class="carousel-inner">
-                            @foreach ($business_photos as $index => $photo)
-                                @if ($index < 5)
-                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                        <img src="{{ $photo->getUrl() }}" class="d-block w-100"
-                                            alt="Image {{ $index + 1 }}">
-                                    </div>
-                                @endif
-                            @endforeach
-                        </div>
-
-                        <!-- Carousel Navigation -->
-                        <button class="carousel-control-prev" type="button"
-                            data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                            <img src="{{ asset('frontend_assets/images/left-arrow.svg') }}" alt="Previous">
-                        </button>
-                        <button class="carousel-control-next" type="button"
-                            data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                            <img src="{{ asset('frontend_assets/images/right-arrow.svg') }}" alt="Next">
-                        </button>
-
-                        <style>
-                            .carousel-control-next,
-                            .carousel-control-prev {
-                                background-color: white;
-                                border-radius: 50%;
-                                width: 30px;
-                                height: 30px;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                            }
-
-                            .carousel-control-next {
-                                right: -60px;
-                            }
-
-                            .carousel-control-prev {
-                                left: -60px;
-                            }
-
-                            .carousel-control-next img,
-                            .carousel-control-prev img {
-                                width: 20px;
-                                height: 20px;
-                            }
-                        </style>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
     <div class="modal fade" id="imageCarouselModal" tabindex="-1" aria-labelledby="imageCarouselModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">

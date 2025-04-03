@@ -802,20 +802,24 @@
                                                 </div>
                                             @endforeach
 
-                                            @if (empty(collect($data['deals'])) || empty(collect($data['loyalty'])))
+                                            @if (collect($data['deals'])->isEmpty() && collect($data['loyalty'])->isEmpty())
+                                                <!-- No Deals and Loyalty Message -->
+                                                <div class="mt-4">
+                                                    <button class="btn btn-primary btn-block w-100"
+                                                        style="background-color: #26a1d6">
+                                                        No deal and loyalty found
+                                                    </button>
+                                                </div>
+                                            @else
                                                 <!-- Add to Wallet Button -->
                                                 <div class="mt-4">
                                                     <button class="btn btn-primary btn-block w-100"
                                                         style="background-color: #26a1d6" id="addToWalletBtn">
-                                                        Add to My Wallet {{ collect($data['deals']) }}</button>
-                                                </div>
-                                            @else
-                                                <div class="mt-4">
-                                                    <button class="btn btn-primary btn-block w-100"
-                                                        style="background-color: #26a1d6">
-                                                        No deal and loyalty found</button>
+                                                        Add to My Wallet
+                                                    </button>
                                                 </div>
                                             @endif
+
 
                                             <!-- Card with List -->
                                             @php

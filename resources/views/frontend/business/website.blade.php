@@ -793,20 +793,24 @@
                                                 </div>
                                             @endforeach
 
-                                            @if (empty(collect($data['deals'])) || empty(collect($data['loyalty'])))
+                                            @if (collect($data['deals'])->isEmpty() && collect($data['loyalty'])->isEmpty())
+                                                <!-- No Deals and Loyalty Message -->
+                                                <div class="mt-4">
+                                                    <button class="btn btn-primary btn-block w-100"
+                                                        style="background-color: #26a1d6">
+                                                        No deal and loyalty found
+                                                    </button>
+                                                </div>
+                                            @else
                                                 <!-- Add to Wallet Button -->
                                                 <div class="mt-4">
                                                     <button class="btn btn-primary btn-block w-100"
                                                         style="background-color: #26a1d6" id="addToWalletBtn">
-                                                        Add to My Wallet {{ collect($data['deals']) }}</button>
-                                                </div>
-                                            @else
-                                                <div class="mt-4">
-                                                    <button class="btn btn-primary btn-block w-100"
-                                                        style="background-color: #26a1d6">
-                                                        No deal and loyalty found</button>
+                                                        Add to My Wallet
+                                                    </button>
                                                 </div>
                                             @endif
+
 
                                             <!-- Card with List -->
                                             @php
@@ -819,14 +823,75 @@
                                                     });
                                             @endphp
                                             <div class="card mt-4" style="width: 100%;">
+                                                @php
+                                                    // Define weekdays list for checking
+                                                    $weekDays = [
+                                                        'Monday',
+                                                        'Tuesday',
+                                                        'Wednesday',
+                                                        'Thursday',
+                                                        'Friday',
+                                                        'Saturday',
+                                                        'Sunday',
+                                                    ];
+                                                @endphp
+
                                                 <ul class="list-group list-group-flush">
                                                     @foreach ($groupedBoards as $title => $boards)
                                                         <li class="list-group-item">
-                                                            <p style="color:#17B26A !important;">{{ $title }}
-                                                            </p>
-                                                            @foreach ($boards as $message_board)
-                                                                <p>{!! $message_board->description !!}</p>
-                                                            @endforeach
+                                                            <h5
+                                                                style="color:#17B26A; font-weight:bold; margin-bottom: 10px;">
+                                                                {{ $title }}</h5>
+
+                                                            @php
+                                                                // Is this a weekday group?
+                                                                $isWeekdayGroup = in_array($title, $weekDays);
+                                                            @endphp
+
+                                                            @if ($isWeekdayGroup)
+                                                                {{-- Handle weekday sublisting --}}
+                                                                <ul style="padding-left: 20px; margin: 0;">
+                                                                    @foreach ($boards as $item)
+                                                                        @php
+                                                                            $desc = strip_tags($item->description);
+                                                                            $desc = str_replace(
+                                                                                ['â€“', 'â€™', 'â€œ', 'â€', 'â€¦'],
+                                                                                ['–', "'", '"', '"', '...'],
+                                                                                $desc,
+                                                                            );
+                                                                        @endphp
+                                                                        @if (!empty(trim($desc)))
+                                                                            <li style="margin-bottom: 6px;">
+                                                                                {{ $desc }}</li>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </ul>
+                                                            @else
+                                                                {{-- Handle normal category --}}
+                                                                @php
+                                                                    $cleanedItems = collect($boards)
+                                                                        ->map(function ($item) {
+                                                                            $desc = strip_tags($item->description);
+                                                                            return str_replace(
+                                                                                ['â€“', 'â€™', 'â€œ', 'â€', 'â€¦'],
+                                                                                ['–', "'", '"', '"', '...'],
+                                                                                trim($desc),
+                                                                            );
+                                                                        })
+                                                                        ->filter();
+                                                                @endphp
+
+                                                                @if ($cleanedItems->isNotEmpty())
+                                                                    <ul style="padding-left: 20px; margin: 0;">
+                                                                        @foreach ($cleanedItems as $desc)
+                                                                            <li style="margin-bottom: 6px;">
+                                                                                {{ $desc }}</li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                @else
+                                                                    <p class="text-muted">No announcements found.</p>
+                                                                @endif
+                                                            @endif
                                                         </li>
                                                     @endforeach
                                                 </ul>
@@ -949,7 +1014,7 @@
                                                 <div class="card h-100" style="border-radius: 1rem">
                                                     @if (empty($d->main_image))
                                                         <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
-                                                            alt="" srcset="">
+                                                            alt="dummy-img" style="height: 200px;">
                                                     @else
                                                         <img src="{{ env('APP_URL') . $d->main_image }}"
                                                             alt="Business Image" class="card-img-top"
@@ -975,8 +1040,16 @@
                         </div>
 
                         <!-- Indicators (Circles Below the Carousel) -->
+                        <!-- Indicators (Circles Below the Carousel) -->
                         <div class="mt-3 d-flex justify-content-center mb-3" style="margin-bottom: 20px !important;">
-                            @foreach ($businesses->chunk(4) as $index => $chunk)
+                            @php
+                                $chunks =
+                                    isset($data['deals']) && $data['deals']->isNotEmpty()
+                                        ? $data['deals']->chunk(4)
+                                        : $allLocations->chunk(4);
+                            @endphp
+
+                            @foreach ($chunks as $index => $chunk)
                                 <button type="button" data-bs-target="#locationCarousel"
                                     data-bs-slide-to="{{ $index }}"
                                     class="{{ $index == 0 ? 'active ' : '' }}btn btn-info rounded-circle p-2 mx-2 circular-button"
@@ -984,6 +1057,7 @@
                                     aria-label="Slide {{ $index + 1 }}"></button>
                             @endforeach
                         </div>
+
                     </div>
 
                 </div>
@@ -1042,9 +1116,18 @@
                                                             <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
                                                                 alt="icon"
                                                                 style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
-                                                            {{ $business->location_name }} <br>
-                                                            {{ $business->city }} {{ $business->state }}
-                                                            {{ $business->zip_code }}
+                                                            @if (
+                                                                !empty($business->location_name) ||
+                                                                    !empty($business->city) ||
+                                                                    !empty($business->state) ||
+                                                                    !empty($business->zip_code))
+                                                                {{ $business->location_name ?? '' }}
+                                                                {{ $business->city ?? '' }}
+                                                                {{ $business->state ?? '' }}
+                                                                {{ $business->zip_code ?? '' }}
+                                                            @else
+                                                                <span>No address found</span>
+                                                            @endif
                                                         </p>
                                                     </div>
                                                 </div>
@@ -1056,8 +1139,16 @@
                         </div>
 
                         <!-- Indicators (Circles Below the Carousel) -->
+                        <!-- Indicators (Circles Below the Carousel) -->
                         <div class="mt-3 d-flex justify-content-center mb-3" style="margin-bottom: 20px !important;">
-                            @foreach ($businesses->chunk(4) as $index => $chunk)
+                            @php
+                                $chunks =
+                                    isset($data['deals']) && $data['deals']->isNotEmpty()
+                                        ? $data['deals']->chunk(4)
+                                        : $allLocations->chunk(4);
+                            @endphp
+
+                            @foreach ($chunks as $index => $chunk)
                                 <button type="button" data-bs-target="#locationCarousel"
                                     data-bs-slide-to="{{ $index }}"
                                     class="{{ $index == 0 ? 'active ' : '' }}btn btn-info rounded-circle p-2 mx-2 circular-button"
@@ -1065,6 +1156,7 @@
                                     aria-label="Slide {{ $index + 1 }}"></button>
                             @endforeach
                         </div>
+
                     </div>
 
                 </div>
@@ -1075,86 +1167,7 @@
     </div>
     </div>
 
-    <!-- Modal for Image Carousel -->
-    {{-- <div class="modal fade" id="imageCarouselModal" tabindex="-1" aria-labelledby="imageCarouselModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content custom-modal-content">
-                <div class="modal-header custom-modal-header">
-                    <button type="button" class="btn-close custom-close-button" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="modal-body p-0">
-                    <!-- Carousel -->
-                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                        <!-- Dynamic Carousel Indicators -->
-                        <div class="carousel-indicators">
-                            @foreach ($business_photos as $index => $photo)
-                                @if ($index < 5)
-                                    <button type="button" data-bs-target="#carouselExampleIndicators"
-                                        data-bs-slide-to="{{ $index }}"
-                                        class="{{ $index == 0 ? 'active' : '' }}"
-                                        aria-current="{{ $index == 0 ? 'true' : 'false' }}"
-                                        aria-label="Slide {{ $index + 1 }}"></button>
-                                @endif
-                            @endforeach
-                        </div>
 
-                        <!-- Dynamic Carousel Items -->
-                        <div class="carousel-inner">
-                            @foreach ($business_photos as $index => $photo)
-                                @if ($index < 5)
-                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                        <img src="{{ $photo->getUrl() }}" class="d-block w-100"
-                                            alt="Image {{ $index + 1 }}">
-                                    </div>
-                                @endif
-                            @endforeach
-                        </div>
-
-                        <!-- Carousel Navigation -->
-                        <button class="carousel-control-prev" type="button"
-                            data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                            <img src="{{ asset('frontend_assets/images/left-arrow.svg') }}" alt="Previous">
-                        </button>
-                        <button class="carousel-control-next" type="button"
-                            data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                            <img src="{{ asset('frontend_assets/images/right-arrow.svg') }}" alt="Next">
-                        </button>
-
-                        <style>
-                            .carousel-control-next,
-                            .carousel-control-prev {
-                                background-color: white;
-                                border-radius: 50%;
-                                width: 30px;
-                                height: 30px;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                            }
-
-                            .carousel-control-next {
-                                right: -60px;
-                            }
-
-                            .carousel-control-prev {
-                                left: -60px;
-                            }
-
-                            .carousel-control-next img,
-                            .carousel-control-prev img {
-                                width: 20px;
-                                height: 20px;
-                            }
-                        </style>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
     <div class="modal fade" id="imageCarouselModal" tabindex="-1" aria-labelledby="imageCarouselModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">

@@ -72,7 +72,7 @@ class WalletController extends Controller
                 return response()->json(['status' => false, 'message' => 'Server Error! Please try again.'], 500);
             }
         } else {
-            return response()->json(['status' => false, 'message' => 'Sign in to save this deal and redeem rewards!'], 401);
+            return response()->json(['status' => false, 'message' => 'Sign in to save this deal or loyalty rewards!'], 401);
         }
     }
 }

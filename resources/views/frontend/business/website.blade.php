@@ -605,22 +605,13 @@
                                 <div class="d-flex align-items-center"
                                     style="background-color: #F2F4F7; padding: 8px; border-radius: 8px; cursor: pointer;">
                                     <img src="{{ asset('frontend_assets/images/phone-icon.svg') }}" alt="phone-icon">
-                                    <p id="phone-number" style="margin-left: 7px;"
-                                        data-phone="{{ $business->business_phone }}">
-                                        @auth
-                                            @php
-                                                $businessProfileId = \App\Models\BusinessProfile::where(
-                                                    'merchant_id',
-                                                    Auth::user()->id,
-                                                )->pluck('id');
-                                                $businessLocation = \App\Models\BusinessLocation::where(
-                                                    'business_profile_id',
-                                                    $businessProfileId,
-                                                )->first();
-                                            @endphp
-                                        @endauth
+                                    <p id="phone-number" class="m-0" role="button" data-bs-toggle="modal"
+                                        data-bs-target="#contactModal"
+                                        data-phone="{{ $businessLocation->business_phone ?? $business->business_phone }}"
+                                        style="margin-left: 7px;cursor: pointer;">
                                         {{ $businessLocation->business_phone ?? $business->business_phone }}
                                     </p>
+
                                 </div>
 
                                 <div class="d-flex align-items-center rounded-2"
@@ -874,46 +865,44 @@
 
 
 
-                    <div class="container mt-5 border rounded-3">
-                        <!-- Rounded Container -->
-                        <div class="rounded p-4">
-                            <ul class="nav nav-pills" id="myTabs" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#home"
-                                        role="tab" aria-controls="home" aria-selected="true">Overview</a>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#profile"
-                                        role="tab" aria-controls="profile" aria-selected="false">Location</a>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="contact-tab" data-bs-toggle="pill" href="#contact"
-                                        role="tab" aria-controls="contact" aria-selected="false">Our Story</a>
-                                </li>
-                            </ul>
-                            <hr>
-                            <!-- Tab Content -->
-                            <div class="tab-content mt-3" id="myTabContent">
-                                <div class="tab-pane fade show active" id="home" role="tabpanel"
-                                    aria-labelledby="home-tab">
-                                    <p class="color:#475467;">{!! $business->business_overview !!}</p>
-                                </div>
-                                <div class="tab-pane fade" id="profile" role="tabpanel"
-                                    aria-labelledby="profile-tab">
-                                    <div id="map"></div>
-                                </div>
-                                <div class="tab-pane fade" id="contact" role="tabpanel"
-                                    aria-labelledby="contact-tab">
-                               <p id="contactContent" style="color: #000">
-                                        <img src="{{ asset($business->main_image) }}" alt="business-img">
+                <div class="container mt-5 border rounded-3">
+                    <!-- Rounded Container -->
+                    <div class="rounded p-4">
+                        <ul class="nav nav-pills" id="myTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#home"
+                                    role="tab" aria-controls="home" aria-selected="true">Overview</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#profile"
+                                    role="tab" aria-controls="profile" aria-selected="false">Location</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="contact-tab" data-bs-toggle="pill" href="#contact"
+                                    role="tab" aria-controls="contact" aria-selected="false">Our Story</a>
+                            </li>
+                        </ul>
+                        <hr>
+                        <!-- Tab Content -->
+                        <div class="tab-content mt-3" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel"
+                                aria-labelledby="home-tab">
+                                <p class="color:#475467;">{!! $business->business_overview !!}</p>
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div id="map"></div>
+                            </div>
+                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                <p id="contactContent" style="color: #000">
+                                    <img src="{{ asset($business->main_image) }}" alt="business-img">
 
-                                        <br>
-                                        {!! $business->business_story !!}
-                                    </p>
-                                </div>
+                                    <br>
+                                    {!! $business->business_story !!}
+                                </p>
                             </div>
                         </div>
                     </div>
+                </div>
 
             </div>
 
@@ -1575,13 +1564,24 @@
         // Call the initMap function once the script is loaded
         google.maps.event.addDomListener(window, 'load', initMap);
 
-        document.getElementById('phone-number').addEventListener('click', function() {
-            var phoneNumber = this.getAttribute('data-phone'); // Get the phone number from the data attribute
-            document.getElementById('modal-phone').innerText = 'Phone: ' + phoneNumber; // Display it in the modal
-            document.getElementById('call-link').setAttribute('href', 'tel:' + phoneNumber); // Set the call link
-            var myModal = new bootstrap.Modal(document.getElementById('contactModal'));
-            myModal.show();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneElement = document.getElementById('phone-number');
+            console.log(phoneElement);
+            if (phoneElement) {
+                phoneElement.addEventListener('click', function() {
+                    var phoneNumber = this.getAttribute(
+                        'data-phone'); // Get the phone number from the data attribute
+                    document.getElementById('modal-phone').innerText = 'Phone: ' +
+                        phoneNumber; // Display it in the modal
+                    document.getElementById('call-link').setAttribute('href', 'tel:' +
+                        phoneNumber); // Set the call link
+                    var myModal = new bootstrap.Modal(document.getElementById('contactModal'));
+                    myModal.show();
+                });
+            }
         });
+
 
         $(document).ready(function() {
             lightbox.option({

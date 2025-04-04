@@ -702,14 +702,22 @@
                             <!-- Left Content (60%) -->
                             <div class="col-md-7 col-12">
                                 <!-- First Image -->
-                                @foreach ($business_photos as $index => $photo)
-                                    @if ($index == 0)
-                                        <!-- Display first image -->
-                                        <img src="{{ $photo->getUrl() }}" alt="image"
-                                            class="img-fluid mb-3 custom-image rounded-3" data-bs-toggle="modal"
-                                            data-bs-target="#imageCarouselModal" onclick="setActiveSlide(0)">
-                                    @endif
-                                @endforeach
+                                {{-- {{ dd($business_photos) }} --}}
+                                @if ($business_photos && $business_photos->count() > 0)
+                                    @foreach ($business_photos as $index => $photo)
+                                        @if ($index == 0)
+                                            <!-- Display first image -->
+                                            <img src="{{ $photo->getUrl() }}" alt="image"
+                                                class="img-fluid mb-3 custom-image rounded-3" data-bs-toggle="modal"
+                                                data-bs-target="#imageCarouselModal" onclick="setActiveSlide(0)">
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
+                                        alt="image" class="img-fluid mb-3 custom-image rounded-3"
+                                        data-bs-toggle="modal" data-bs-target="#imageCarouselModal"
+                                        onclick="setActiveSlide(0)">
+                                @endif
 
                                 <!-- Second Row with 5 rounded images -->
                                 <div class="row mt-3">

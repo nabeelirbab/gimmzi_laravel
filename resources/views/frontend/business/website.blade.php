@@ -960,17 +960,26 @@
                         <div class="tab-content mt-3" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel"
                                 aria-labelledby="home-tab">
-                                <p class="color:#475467;">{!! $business->business_overview !!}</p>
+                                <p class="color:#475467;">
+                                    @if ($business->business_overview == null)
+                                        <span style="color: #98A2B3;">No overview found</span>
+                                    @else
+                                        {!! $business->business_overview !!}
+                                    @endif
+                                </p>
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <div id="map"></div>
                             </div>
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                 <p id="contactContent" style="color: #000">
-                                    <img src="{{ asset($business->main_image) }}" alt="business-img">
-
-                                    <br>
-                                    {!! $business->business_story !!}
+                                    @if ($business->main_image == null)
+                                        <span style="color: #98A2B3;">No business story</span>
+                                    @else
+                                        <img src="{{ asset($business->main_image) }}" alt="business-img">
+                                        <br>
+                                        {!! $business->business_story !!}
+                                    @endif
                                 </p>
                             </div>
                         </div>
@@ -1463,74 +1472,56 @@
             });
         });
 
-        document.getElementById("addToWalletBtn").addEventListener("click", function() {
-            const selectedOffer = document.querySelector('input[name="offer"]:checked');
+        const addToWalletBtn = document.getElementById("addToWalletBtn");
+        if (addToWalletBtn) {
+            document.getElementById("addToWalletBtn").addEventListener("click", function() {
+                const selectedOffer = document.querySelector('input[name="offer"]:checked');
 
-            if (selectedOffer) {
-                let loyaltyId = null;
-                let dealId = null;
-                let businessId = selectedOffer.closest('.form-check').getAttribute('data-business-id');
+                if (selectedOffer) {
+                    let loyaltyId = null;
+                    let dealId = null;
+                    let businessId = selectedOffer.closest('.form-check').getAttribute('data-business-id');
 
-                // Check if the selected offer is a loyalty program or a deal
-                if (selectedOffer.closest('.form-check').hasAttribute('data-loyalty-id')) {
-                    loyaltyId = selectedOffer.closest('.form-check').getAttribute('data-loyalty-id');
-                } else if (selectedOffer.closest('.form-check').hasAttribute('data-deal-id')) {
-                    dealId = selectedOffer.closest('.form-check').getAttribute('data-deal-id');
-                }
+                    // Check if the selected offer is a loyalty program or a deal
+                    if (selectedOffer.closest('.form-check').hasAttribute('data-loyalty-id')) {
+                        loyaltyId = selectedOffer.closest('.form-check').getAttribute('data-loyalty-id');
+                    } else if (selectedOffer.closest('.form-check').hasAttribute('data-deal-id')) {
+                        dealId = selectedOffer.closest('.form-check').getAttribute('data-deal-id');
+                    }
 
-                // Send Ajax request with either loyalty_id or deal_id
-                fetch('{{ route('wallet.add') }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            loyalty_id: loyaltyId,
-                            deal_id: dealId,
-                            business_id: businessId
+                    // Send Ajax request with either loyalty_id or deal_id
+                    fetch('{{ route('wallet.add') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                loyalty_id: loyaltyId,
+                                deal_id: dealId,
+                                business_id: businessId
+                            })
                         })
-                    })
-                    .then(response => response.json()) // Convert the response to JSON
-                    .then(data => {
-                        if (data.status) { // Check if the response status is true
-                            toastr.success(data.message); // Show success message from response
-                        } else {
-                            toastr.error('Something went wrong: ' + data
-                                .message); // Error message from response
-                        }
-                    })
-                    .catch(error => {
-                        toastr.error('Something went wrong', error);
-                    });
-            } else {
-                alert("Please select a loyalty program or deal.");
-            }
-        });
+                        .then(response => response.json()) // Convert the response to JSON
+                        .then(data => {
+                            if (data.status) { // Check if the response status is true
+                                toastr.success(data.message); // Show success message from response
+                            } else {
+                                toastr.error('Something went wrong: ' + data
+                                    .message); // Error message from response
+                            }
+                        })
+                        .catch(error => {
+                            toastr.error('Something went wrong', error);
+                        });
+                } else {
+                    alert("Please select a loyalty program or deal.");
+                }
+            });
+        }
 
-
-        // Initialize the map when the page loads
-        // function initMap() {
-        //     // Define the map center (latitude and longitude)
-        //     const center = {
-        //         lat: 40.730610,
-        //         lng: -73.935242
-        //     }; // Example: New York City
-
-        //     // Create a new map centered at the specified location
-        //     const map = new google.maps.Map(document.getElementById("map"), {
-        //         center: center,
-        //         zoom: 12,
-        //     });
-
-        //     // Add a marker at the center of the map
-        //     const marker = new google.maps.Marker({
-        //         position: center,
-        //         map: map,
-        //         title: "Hello, Google Maps!",
-        //     });
-        // }
         var businessLocations = @json($businessLocations);
+        console.log("businessLocations:", businessLocations);
 
         function initMap() {
             // Check if businessLocations is populated

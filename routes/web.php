@@ -169,7 +169,7 @@ Route::get('accept-hotel-badge-request/{badge_id}', [AuthConsumerController::cla
 
 Route::post('consumer-login', [AuthConsumerController::class, 'consumerLogin'])->name('frontend.consumer-login');
 Route::group(['middleware' => 'consumerAuth'], function () {
-    Route::get('consumer-dashboard', [AuthConsumerController::class, 'consumerDashboard'])->name('frontend.consumer-dashboard');
+    Route::get('consumer-dashboard/{active_tab?}', [AuthConsumerController::class, 'consumerDashboard'])->name('frontend.consumer-dashboard');
     Route::get('consumer-logout', [AuthConsumerController::class, 'consumerLogout'])->name('frontend.consumer-logout');
     Route::get('deactivate-account', [SmartRentalController::class, 'deactivateAccount'])->name('frontend.deactivate-account');
 });

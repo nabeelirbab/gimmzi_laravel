@@ -33,7 +33,6 @@
         margin: 0 0 5px 0;
         font-size: 16px;
         color: #333;
-
     }
 
     .business-info .business-name {
@@ -56,13 +55,10 @@
     #searchResultsModal {
         position: absolute;
         top: 100%;
-        /* Position directly below search input */
         left: 0;
         right: 0;
         width: auto;
-        /* Or set specific width */
         max-width: 100%;
-        /* Prevent exceeding header width */
         margin: 0 auto;
         background: white;
         border: 1px solid #ddd;
@@ -75,45 +71,46 @@
     #searchForm {
         position: relative;
         width: 100%;
-        /* Match header width */
-        max-width:
-            /* your header's max width */
-        ;
     }
 
     /* Add to your CSS file */
     .modal-backdrop {
         display: none !important;
     }
+
+    /* Loading and error states */
+    .search-loading,
+    .no-results,
+    .search-error {
+        padding: 15px;
+        text-align: center;
+        color: #666;
+    }
 </style>
+
 <header class="new-main-head inner-headers">
     <div class="top-hdr">
         <div class="top-hdr-wraps">
             <div class="container">
                 <div class="top-heading">Small Businesses, Big Rewards!</div>
-
             </div>
         </div>
     </div>
     <div class="top-btm">
         <div class="container">
-
             <nav class="navbar navbar-expand-lg">
-
                 <a class="navbar-brand" href="/explore" target="_blank">
                     <img loading="lazy" src="{{ asset('frontend_assets/images/newlogo.png') }}" alt="logo">
                 </a>
                 <button class="navbar-toggler navbar-toggler-main" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
-                    <!-- <span class="navbar-toggler-icon"></span> -->
                     <span class="stick"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <button class="navbar-toggler navbar-toggler-main" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                        <!-- <span class="navbar-toggler-icon"></span> -->
                         <span class="stick"></span>
                     </button>
                     <ul class="navbar-nav m-auto">
@@ -125,7 +122,6 @@
                             <div class="hdr-submenu sub-menu">
                                 <div class="hdr-sub-head">Gimmzi Market Universe</div>
                                 <ul class="submenu-list">
-
                                     <li><a target="_blank"
                                             href="{{ route('frontend.market-universe', ['category' => 'all', 'type' => 'loyaltyRewards']) }}">All
                                             Categories</a></li>
@@ -163,17 +159,12 @@
                                                 Partner</div>
                                             <ul class="submenu-list2">
                                                 <li>
-                                                    {{-- <a target="_blank" href="{{ route('frontend.travel-tourism.list') }}">Browse All
-                                                        Travel & Tourism Listings</a> --}}
                                                     <a style="mouse-pointer:none">Browse All Travel & Tourism Listings
                                                         <span style="color:rgb(238, 77, 77)">(Coming soon)</span> </a>
-
                                                 </li>
                                                 <li><a>Browse Vacation Homes<span style="color:rgb(238, 77, 77)">(Coming
                                                             soon)</span> </a></li>
                                                 <li>
-                                                    {{-- <a target="_blank" href="{{ route('frontend.travel-tourism.list') }}">Browse Hotels
-                                                        and Resorts</a> --}}
                                                     <a>Browse Hotels and Resorts <span
                                                             style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
                                                 </li>
@@ -189,10 +180,8 @@
                                                             style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
                                                 </li>
                                                 <li>
-                                                    {{-- <a target="_blank" href="{{ route('frontend.apartment.list') }}">Browse Apartment
-                                                        Communities <span style="color:rgb(238, 77, 77)">(Coming soon)</span></a> --}}
-                                                    <a>Browse Apartment
-                                                        Communities <span style="color:rgb(238, 77, 77)">(Coming
+                                                    <a>Browse Apartment Communities <span
+                                                            style="color:rgb(238, 77, 77)">(Coming
                                                             soon)</span></a>
                                                 </li>
                                                 <li>
@@ -200,14 +189,12 @@
                                                             style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
                                                 </li>
                                                 <li>
-                                                    <a>Check to see if my Apartment Community
-                                                        is
-                                                        in the Gimmzi Network <span
-                                                            style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
+                                                    <a>Check to see if my Apartment Community is in the Gimmzi Network
+                                                        <span style="color:rgb(238, 77, 77)">(Coming soon)</span></a>
                                                 </li>
                                                 <li>
-                                                    <a>Check to see if my COA or HOA is in the
-                                                        Gimmzi Network <span style="color:rgb(238, 77, 77)">(Coming
+                                                    <a>Check to see if my COA or HOA is in the Gimmzi Network <span
+                                                            style="color:rgb(238, 77, 77)">(Coming
                                                             soon)</span></a>
                                                 </li>
                                             </ul>
@@ -219,7 +206,6 @@
                         <li class="menu-item-has-children">
                             <a href="javascript:void(0)">Become a Partner</a>
                             <div class="hdr-submenu2 sub-menu">
-                                {{-- <div class="row rowspan"> --}}
                                 <div class="col-lg-12">
                                     <div class="hdr-submenu-blk-lft">
                                         <div class="hdr-sub-head">Small Business Partner</div>
@@ -229,51 +215,11 @@
                                         </ul>
                                         <div class="log-blk">
                                             <p>Existing Small Business Partner? <a class="login-button"
-                                                    data-bs-toggle="modal" data-bs-target="#loginModal"
+                                                    data-bs-toggle="modal" data-bs-target="#businessLoginModal"
                                                     href="javascript:void(0)">Log in</a></p>
                                         </div>
                                     </div>
                                 </div>
-
-                                {{-- <div class="col-lg-4">
-                                        <div class="hdr-submenu-blk-lft">
-                                            <div class="hdr-sub-head">Travel & Tourism Partner</div>
-                                            <ul class="submenu-list2">
-                                                <li>
-                                                    <a href="javascript:void(0)">Pricing</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0)">Schedule a Demo</a>
-                                                </li>
-                                            </ul>
-                                            <div class="log-blk">
-                                                <p>Existing Travel & Tourism Partner? <a class="login-button"
-                                                        data-bs-toggle="modal" data-bs-target="#loginModal"
-                                                        href="javascript:void(0)">Log
-                                                        in</a></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="hdr-submenu-blk-lft">
-                                            <div class="hdr-sub-head">Community Partner</div>
-                                            <ul class="submenu-list2">
-                                                <li>
-                                                    <a href="javascript:void(0)">Pricing</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0)">Schedule a Demo</a>
-                                                </li>
-                                            </ul>
-                                            <div class="log-blk">
-                                                <p>Existing Community Partner? <a class="login-button"
-                                                        data-bs-toggle="modal" data-bs-target="#loginModal"
-                                                        href="javascript:void(0)">Log in</a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-                                {{-- </div> --}}
                             </div>
                         </li>
                     </ul>
@@ -285,7 +231,6 @@
                             <form id="searchForm">
                                 <div class="hdr-frm-innr">
                                     <input type="text" name="search" placeholder="Find on Gimmzi" required>
-                                    {{-- <input type="submit" value="" class="search-submit"> --}}
                                 </div>
                                 <a href="javascript:void(0)" class="search-btn">
                                     <img loading="lazy" src="{{ asset('frontend_assets/images/srch.svg') }}"
@@ -294,27 +239,21 @@
                             </form>
                             <div id="searchResultsModal" class="search-modal" style="display: none;">
                                 <div class="search-modal-content mt-2">
-
-                                    <div class="search-modal-body" id="resultContainer">
-                                    </div>
+                                    <div class="search-modal-body" id="resultContainer"></div>
                                 </div>
                             </div>
                         </div>
-                        {{-- <a href="javascript:void(0)" class="search-btn">
-                            <img loading="lazy" src="{{ asset('frontend_assets/images/srch.svg') }}" alt="search icon"
-                                class="search-icon">
-                        </a> --}}
                     </div>
                     <ul class="hdr-ul">
                         <li class="hdr-li">
                             @if (Auth::check())
-                                <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor">
+                                <a href="{{ route('frontend.consumer-dashboard',['active_tab' => 'user']) }}" class="hdr-ul-anchor">
                                     <img loading="lazy" src="{{ asset('frontend_assets/images/user.svg') }}"
                                         alt="user icon">
                                 </a>
                             @else
-                                <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor"
-                                    data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <a href="{{ route('frontend.consumer-dashboard',['active_tab' => 'user']) }}" class="hdr-ul-anchor"
+                                    data-bs-toggle="modal" data-bs-target="#consumerLoginModal">
                                     <img loading="lazy" src="{{ asset('frontend_assets/images/user.svg') }}"
                                         alt="user icon">
                                 </a>
@@ -322,13 +261,13 @@
                         </li>
                         <li class="hdr-li">
                             @if (Auth::check())
-                                <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor">
+                                <a href="{{ route('frontend.consumer-dashboard',['active_tab' => 'favourite']) }}" class="hdr-ul-anchor">
                                     <img loading="lazy" src="{{ asset('frontend_assets/images/favourite.svg') }}"
                                         alt="favourite icon">
                                 </a>
                             @else
                                 <a href="javascript:void(0);" class="hdr-ul-anchor login-required"
-                                    data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    data-bs-toggle="modal" data-bs-target="#consumerLoginModal">
                                     <img loading="lazy" src="{{ asset('frontend_assets/images/favourite.svg') }}"
                                         alt="favourite icon">
                                 </a>
@@ -337,62 +276,21 @@
 
                         <li class="hdr-li">
                             @if (Auth::check())
-                                <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor">
+                                <a href="{{ route('frontend.consumer-dashboard',['active_tab' => 'wallet']) }}" class="hdr-ul-anchor">
                                     <img loading="lazy" src="{{ asset('frontend_assets/images/wallet.svg') }}"
                                         alt="wallet icon">
                                 </a>
                             @else
-                                <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor"
-                                    data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <a href="{{ route('frontend.consumer-dashboard',['active_tab' => 'wallet']) }}" class="hdr-ul-anchor"
+                                    data-bs-toggle="modal" data-bs-target="#consumerLoginModal">
                                     <img loading="lazy" src="{{ asset('frontend_assets/images/wallet.svg') }}"
                                         alt="wallet icon">
                                 </a>
                             @endif
                         </li>
                     </ul>
-                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                    <script>
-                        $(document).ready(function() {
-                            $('.add-to-wallet').click(function() {
-                                let businessId = $(this).data('business-id');
-                                let type = $(this).data('type');
-                                let dealId = $(this).data('deal-id');
-
-                                $.ajax({
-                                    url: "{{ route('wallet.add') }}", // Laravel route
-                                    type: "POST",
-                                    data: {
-                                        _token: "{{ csrf_token() }}", // Laravel CSRF token
-                                        business_id: businessId,
-                                        type: type,
-                                        deal_id: dealId
-                                    },
-                                    success: function(response) {
-                                        if (response.status) { // Check if the response status is true
-                                            toastr.success(response
-                                                .message); // Show success message from response
-                                        } else {
-                                            toastr.warning(response.message); // Show warning message if needed
-                                        }
-                                    },
-                                    error: function(xhr) {
-                                        let errorMessage =
-                                            'Something went wrong! Please try again.'; // Default error message
-                                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                                            errorMessage = xhr.responseJSON
-                                                .message; // Use server-provided error message
-                                        }
-                                        toastr.error(errorMessage);
-                                    }
-                                });
-                            });
-                        });
-                    </script>
-
                 </div>
-
             </nav>
-
         </div>
         <button class="navbar-toggler" id="navoverlay" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -411,95 +309,202 @@
         </div>
     </div>
 
-    <div class="modal prrprty_tab_mdl fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog homemodal">
+    {{-- Business Owner Login Modal --}}
+    <div class="modal fade userLoginPopup travel_auth_popup lg" id="businessLoginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <img src="{{ asset('frontend_assets/images/cancell-one.svg') }}" class="cancell-one11">
-                    </button>
-                    <div class="text-center mt-4 mb-4 popup-logo">
-                        <img src="{{ asset('frontend_assets/images/logosmart-reward.svg') }}" />
+                <div class="modal-head">
+                    <div class="modal_main_logo"><a href="#"><img
+                                src="{{ asset('frontend_assets/images/logo-marchant.png') }}" alt=""></a>
                     </div>
-                    <div class="property-manager property-manager-con">
-                        <nav>
-                            <div class="nav nav-tabs property-manager-tab" id="nav-tab" role="tablist">
-                                <a class="nav-link active user_type" id="nav-home-tab" data-bs-toggle="tab"
-                                    data-bs-target="#nav-home" role="tab" aria-controls="nav-home"
-                                    aria-selected="true">
-                                    <span class="tab_ttle">Provider Portal</span>
-                                    <ul class="provider_type_lstng" style="display:none;">
-                                        <li class="portalName" style="cursor: default">Apartment portal</li>
-                                        <li class="portalName" style="cursor: default">Travel & Tourism Portal</li>
-                                    </ul>
-                                    <span class="caret_dwn"></span>
-                                </a>
-                                <a class="nav-link user_type" id="nav-profile-tab" data-bs-toggle="tab"
-                                    data-bs-target="#nav-profile" role="tab" aria-controls="nav-profile"
-                                    aria-selected="false">
-                                    <span class="tab_ttle">My Smart Rewards</span>
-                                </a>
+                    <button type="button" class="cmn_close_popup_btn" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="close-btn-img"><img src="{{ asset('frontend_assets/images/close.png') }}"
+                                alt=""></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="login_popup_body">
+                        {{ Form::open(['route' => 'frontend.merchant.login', 'method' => 'POST', 'class' => 'kt-form parsley-validate']) }}
+                        <div class="">
+                            <div class="title_h1">Log in</div>
+                            <div class="form_grp">
+                                <label style="color:black;">Your email address <span class="reqrd">*</span></label>
+                                <input type="text" class="form_input" placeholder="Enter your Email"
+                                    name="email" id="email-input">
                             </div>
-                        </nav>
-                        <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                                aria-labelledby="nav-home-tab">
-                                {{ Form::open([
-                                    'route' => 'frontend.property-manager-login',
-                                    'method' => 'POST',
-                                    'class' => 'kt-form parsley-validate',
-                                    'style' => 'color:red;',
-                                    'id' => 'loginFormid',
-                                ]) }}
-                                <input type="hidden" name="user_type" value="" id="provider_user_type">
-                                <div class="email-text-one">
-                                    <input type="email" placeholder="Email or Username" name="email" required />
-                                    @if ($errors->has('email'))
-                                        <div class="error">{{ $errors->first('email') }}</div>
-                                    @endif
-                                </div>
-                                <div class="email-text-one">
-                                    <input type="password" placeholder="Password" name="password" required />
-                                    @if ($errors->has('password'))
-                                        <div class="error">{{ $errors->first('password') }}</div>
-                                    @endif
-                                </div>
-                                @if ($errors->has('user_type'))
-                                    <div class="error">{{ $errors->first('user_type') }}</div>
-                                @endif
-                                <div class="login-top-one1">
-                                    <button class="login-button-one" type="submit">LOGIN</button>
-                                </div>
-                                {{ Form::close() }}
+                            <div class="form_grp form_grp_submit">
+                                <button class="cmn_theme_btn">Next</button>
                             </div>
-                            <div class="tab-pane fade" id="nav-profile" role="tabpanel"
-                                aria-labelledby="nav-profile-tab">
-                                {{ Form::open([
-                                    'route' => 'frontend.consumer-login',
-                                    'method' => 'POST',
-                                    'class' => 'kt-form parsley-validate',
-                                    'style' => 'color:red;',
-                                ]) }}
-                                <input type="hidden" name="user_type" value="My Smart Reward" id="user_type">
-                                <div class="email-text-one">
-                                    <input type="email" placeholder="Email or Username" name="email" required />
-                                    @if ($errors->has('email'))
-                                        <div class="error">{{ $errors->first('email') }}</div>
+                            <div class="form_grp form_grp_dcl_text">
+                                By creating an account, you agree to our <a href="#">Privacy policy</a> and <a
+                                    href="#">Terms of use</a>.
+                            </div>
+                        </div>
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Business Owner Password Modal --}}
+    <div class="modal fade userLoginPopup travel_auth_popup lg" id="businessPasswordModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-head">
+                    <div class="modal_main_logo"><a href="#"><img
+                                src="{{ asset('frontend_assets/images/logo-marchant.png') }}" alt=""></a>
+                    </div>
+                    <button type="button" class="cmn_close_popup_btn" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="close-btn-img"><img src="{{ asset('frontend_assets/images/close.png') }}"
+                                alt=""></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="login_popup_body">
+                        {{ Form::open(['route' => 'frontend.merchant.login_password', 'method' => 'POST', 'class' => 'kt-form parsley-validate']) }}
+                        <div class="">
+                            <a href="#" class="back_btn prev-step"> <span id="m_email">
+                                    @if (!empty(Session::get('email_address')))
+                                        {{ Session::get('email_address') }}
                                     @endif
+                                </span></a>
+                            <div class="title_h1">Enter your password</div>
+                            <div class="form_grp">
+                                <label style="color:black;">Password</label>
+                                <div class="pasrwd-field">
+                                    <div class="pass-icon-set">
+                                        <img src="{{ asset('frontend_assets/images/eye-show.png') }}" alt=""
+                                            class="pass-icon-eye">
+                                        <img src="{{ asset('frontend_assets/images/eye-hidden.png') }}"
+                                            alt="" class="pass-icon-eye-off">
+                                    </div>
+                                    <input type="password" class="pass-input-field form_input" placeholder="Password"
+                                        name="password">
                                 </div>
-                                <div class="email-text-one">
-                                    <input type="password" placeholder="Password" name="password" required />
-                                    @if ($errors->has('password'))
-                                        <div class="error">{{ $errors->first('password') }}</div>
-                                    @endif
+                            </div>
+                            <div class="form_grp form_grp_submit">
+                                <button class="cmn_theme_btn">Log in</button>
+                            </div>
+                            <div class="form_grp form_grp_dcl_text form_frgt_pass_link" id="businessForgetPassword">
+                                <a href="javascript:void(0)">Forgot your password?</a>
+                            </div>
+                        </div>
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Consumer Login Modal --}}
+    <div class="modal fade userLoginPopup travel_auth_popup lg" id="consumerLoginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-head">
+                    <div class="modal_main_logo"><a href="#"><img
+                                src="{{ asset('frontend_assets/images/logosmart-reward.svg') }}" alt=""></a>
+                    </div>
+                    <button type="button" class="cmn_close_popup_btn" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="close-btn-img"><img src="{{ asset('frontend_assets/images/close.png') }}"
+                                alt=""></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="login_popup_body">
+                        {{ Form::open(['route' => 'frontend.consumer-login', 'method' => 'POST', 'class' => 'kt-form parsley-validate']) }}
+                        <div class="">
+                            <div class="title_h1">Log in</div>
+                            <div class="form_grp">
+                                <label style="color:black;">Your email address <span class="reqrd">*</span></label>
+                                <input type="text" class="form_input" placeholder="Enter your Email"
+                                    name="email" id="consumer-email">
+                            </div>
+                            <div class="form_grp">
+                                <label style="color:black;">Password</label>
+                                <div class="pasrwd-field">
+                                    <div class="pass-icon-set">
+                                        <img src="{{ asset('frontend_assets/images/eye-show.png') }}" alt=""
+                                            class="pass-icon-eye">
+                                        <img src="{{ asset('frontend_assets/images/eye-hidden.png') }}"
+                                            alt="" class="pass-icon-eye-off">
+                                    </div>
+                                    <input type="password" class="pass-input-field form_input" placeholder="Password"
+                                        name="password">
                                 </div>
-                                <a href="#" style="padding-left: 310px;" id="consumerforgetpassword">Forgot
-                                    Password?</a>
-                                <div class="login-top-one1">
-                                    <button class="login-button-one" type="submit">LOGIN</button>
+                            </div>
+                            <div class="form_grp form_grp_dcl_text form_frgt_pass_link" id="consumerForgetPassword">
+                                <a href="javascript:void(0)">Forgot your password?</a>
+                            </div>
+                            <div class="form_grp form_grp_submit">
+                                <button class="cmn_theme_btn">Log in</button>
+                            </div>
+                            <div class="form_grp form_grp_dcl_text">
+                                By creating an account, you agree to our <a href="#">Privacy policy</a> and <a
+                                    href="#">Terms of use</a>.
+                            </div>
+                        </div>
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Forgot Password Modal --}}
+    <div class="modal fade userLoginPopup travel_auth_popup lg" id="forgetPasswordModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-head">
+                    <div class="modal_main_logo"><a href="#"><img
+                                src="{{ asset('frontend_assets/images/logosmart-reward.svg') }}" alt=""></a>
+                    </div>
+                    <button type="button" class="cmn_close_popup_btn" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="close-btn-img"><img src="{{ asset('frontend_assets/images/close.png') }}"
+                                alt=""></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="login_popup_body">
+                        <div>
+                            <form id="forgetPasswordForm" name="forgetPasswordForm">
+                                @csrf
+                                <input type="hidden" name="user_type" id="forgetPasswordUserType" value="">
+                                <div class="title_h1">Forgot your password?</div>
+                                <div class="imp_text">Enter your email address and we'll send you a link to reset your
+                                    password.</div>
+                                <div class="form_grp">
+                                    <label>Your email address</label>
+                                    <input type="text" class="form_input" placeholder="Enter your Email"
+                                        name="email" id="forgetPasswordEmail" required>
                                 </div>
-                                {{ Form::close() }}
+                                <div class="form_grp form_grp_submit pw-submit-btn">
+                                    <button type="submit" class="cmn_theme_btn" id="sendResetLink">Send reset
+                                        link</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Error Modals --}}
+    <div class="modal fade userLoginPopup travel_auth_popup lg" id="loginErrorModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-head">
+                    <div class="modal_main_logo"><a href="#"><img
+                                src="{{ asset('frontend_assets/images/logosmart-reward.svg') }}" alt=""></a>
+                    </div>
+                    <button type="button" class="cmn_close_popup_btn" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="close-btn-img"><img src="{{ asset('frontend_assets/images/close.png') }}"
+                                alt=""></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="login_popup_body">
+                        <div>
+                            <div class="step_msg"><strong id="errorMessage">Unable to log in. Please try
+                                    again.</strong></div>
+                            <div class="form_grp form_grp_submit pw-submit-btn">
+                                <button class="cmn_theme_btn" id="retryLogin">Try again</button>
                             </div>
                         </div>
                     </div>
@@ -507,58 +512,243 @@
             </div>
         </div>
     </div>
+
+    {{-- Reset Password Modal --}}
+    <div class="modal fade userLoginPopup travel_auth_popup lg" id="resetPasswordModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-head">
+                    <div class="modal_main_logo"><a href="#"><img
+                                src="{{ asset('frontend_assets/images/logosmart-reward.svg') }}" alt=""></a>
+                    </div>
+                    <button type="button" class="cmn_close_popup_btn" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="close-btn-img"><img src="{{ asset('frontend_assets/images/close.png') }}"
+                                alt=""></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="login_popup_body">
+                        <form id="resetPasswordForm" name="resetPasswordForm" method="post">
+                            @csrf
+                            <input type="hidden" name="token" id="resetPasswordToken">
+                            <div class="title_h1">Reset Your Password</div>
+                            <div class="form_grp">
+                                <label>New Password</label>
+                                <div class="pasrwd-field">
+                                    <div class="pass-icon-set">
+                                        <img src="{{ asset('frontend_assets/images/eye-show.png') }}" alt=""
+                                            class="pass-icon-eye">
+                                        <img src="{{ asset('frontend_assets/images/eye-hidden.png') }}"
+                                            alt="" class="pass-icon-eye-off">
+                                    </div>
+                                    <input type="password" class="pass-input-field form_input"
+                                        placeholder="New Password" name="new_password" id="newPassword" required>
+                                </div>
+                            </div>
+                            <div class="form_grp">
+                                <label>Confirm Password</label>
+                                <div class="pasrwd-field">
+                                    <div class="pass-icon-set">
+                                        <img src="{{ asset('frontend_assets/images/eye-show.png') }}" alt=""
+                                            class="pass-icon-eye">
+                                        <img src="{{ asset('frontend_assets/images/eye-hidden.png') }}"
+                                            alt="" class="pass-icon-eye-off">
+                                    </div>
+                                    <input type="password" class="pass-input-field form_input"
+                                        placeholder="Confirm Password" name="confirm_password" id="confirmPassword"
+                                        required>
+                                </div>
+                            </div>
+                            <div id="resetPasswordMessage" class="form_grp" style="color: red; display: none;"></div>
+                            <div class="form_grp form_grp_submit pw-submit-btn">
+                                <button type="submit" class="cmn_theme_btn">Reset Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+@push('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.login-required').click(function(e) {
+            // Initialize all modals
+            const businessLoginModal = new bootstrap.Modal(document.getElementById('businessLoginModal'));
+            const businessPasswordModal = new bootstrap.Modal(document.getElementById('businessPasswordModal'));
+            const consumerLoginModal = new bootstrap.Modal(document.getElementById('consumerLoginModal'));
+            const forgetPasswordModal = new bootstrap.Modal(document.getElementById('forgetPasswordModal'));
+            const loginErrorModal = new bootstrap.Modal(document.getElementById('loginErrorModal'));
+            const resetPasswordModal = new bootstrap.Modal(document.getElementById('resetPasswordModal'));
+
+            // Handle forget password links
+            $(document).on('click', '#businessForgetPassword, #consumerForgetPassword', function(e) {
                 e.preventDefault();
-                const modal = new bootstrap.Modal(document.getElementById('loginModal'));
-                modal.show();
+                const userType = $(this).is('#businessForgetPassword') ? 'business' : 'consumer';
+
+                // Close current modal
+                if (userType === 'business') {
+                    businessPasswordModal.hide();
+                } else {
+                    consumerLoginModal.hide();
+                }
+
+                // Set user type and show forget password modal
+                $('#forgetPasswordUserType').val(userType);
+                forgetPasswordModal.show();
             });
 
-            let searchTimer;
-            const searchDelay = 500; // milliseconds delay after typing stops
+            // Handle forget password form submission
+            $("#forgetPasswordForm").submit(function(e) {
+                e.preventDefault();
+                const email = $("#forgetPasswordEmail").val();
+                const userType = $("#forgetPasswordUserType").val();
 
-            // Key-up event handler for live search
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: userType === 'business' ?
+                        "{{ route('frontend.business_owner.merchant-forget-password') }}" :
+                        "{{ route('frontend.consumer-forget-password') }}",
+                    type: 'POST',
+                    data: {
+                        'email': email
+                    },
+                    beforeSend: function() {
+                        $('#sendResetLink').prop('disabled', true).text('Sending...');
+                    },
+                    success: function(response) {
+                        if (response.status == 2) {
+                            $('#forgetPasswordForm')[0].reset();
+                            forgetPasswordModal.hide();
+                            toastr.success('Reset link sent to your email address');
+                        } else {
+                            $('#errorMessage').text(response.message || 'An error occurred');
+                            loginErrorModal.show();
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMessage = 'Something went wrong! Please try again.';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        $('#errorMessage').text(errorMessage);
+                        loginErrorModal.show();
+                    },
+                    complete: function() {
+                        $('#sendResetLink').prop('disabled', false).text('Send reset link');
+                    }
+                });
+            });
+
+            // Handle reset password form submission
+            $("#resetPasswordForm").submit(function(e) {
+                e.preventDefault();
+                const newPassword = $("#newPassword").val();
+                const confirmPassword = $("#confirmPassword").val();
+                const token = $("#resetPasswordToken").val();
+
+                if (newPassword !== confirmPassword) {
+                    $('#resetPasswordMessage').text('Passwords do not match').show();
+                    return;
+                }
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: "",
+                    type: 'POST',
+                    data: {
+                        'token': token,
+                        'new_password': newPassword,
+                        'confirm_password': confirmPassword
+                    },
+                    beforeSend: function() {
+                        $('#resetPasswordForm button[type="submit"]').prop('disabled', true)
+                            .text('Processing...');
+                    },
+                    success: function(response) {
+                        if (response.status) {
+                            $('#resetPasswordForm')[0].reset();
+                            resetPasswordModal.hide();
+                            toastr.success(response.message);
+
+                            // Show appropriate login modal based on user type
+                            if (response.user_type === 'business') {
+                                businessLoginModal.show();
+                            } else {
+                                consumerLoginModal.show();
+                            }
+                        } else {
+                            $('#resetPasswordMessage').text(response.message).show();
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMessage = 'Something went wrong! Please try again.';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        $('#resetPasswordMessage').text(errorMessage).show();
+                    },
+                    complete: function() {
+                        $('#resetPasswordForm button[type="submit"]').prop('disabled', false)
+                            .text('Reset Password');
+                    }
+                });
+            });
+
+            // Handle retry login button
+            $('#retryLogin').click(function() {
+                loginErrorModal.hide();
+                consumerLoginModal.show();
+            });
+
+            // Search functionality
+            let searchTimer;
+            const searchDelay = 500;
+
             $('input[name="search"]').on('keyup', function(e) {
                 clearTimeout(searchTimer);
-
                 const searchQuery = $(this).val().trim();
 
-                // Only search if query has at least 3 characters
                 if (searchQuery.length < 3) {
                     $('#searchResultsModal').hide();
                     return;
                 }
 
-                // If Enter key is pressed, submit immediately
                 if (e.key === 'Enter') {
                     performSearch(searchQuery);
                     return;
                 }
 
-                // Set timer for delayed search
                 searchTimer = setTimeout(() => {
                     performSearch(searchQuery);
                 }, searchDelay);
             });
 
-            // Search button click handler
             $('.search-btn').click(function(e) {
                 e.preventDefault();
                 const searchQuery = $('input[name="search"]').val().trim();
                 performSearch(searchQuery);
             });
 
-            // Form submission handler
             $('#searchForm').submit(function(e) {
                 e.preventDefault();
                 $('.search-btn').click();
             });
 
-            // Function to perform the search
             function performSearch(query) {
                 if (!query) {
                     $('#searchResultsModal').hide();
@@ -572,41 +762,36 @@
                         name: query
                     },
                     beforeSend: function() {
-                        // Show loading indicator
                         $('#resultContainer').html('<div class="search-loading">Searching...</div>');
                         $('#searchResultsModal').show();
                     },
                     success: function(response) {
                         if (response.success && response.data.length > 0) {
                             let html = '';
-
                             response.data.forEach(business => {
                                 html += `
                                 <a href="/merchant/${business.id}" class="search-result-item">
-                                    <div class="search-result-item">
-                                        <div class="business-image">
-                                            <img src="${business.logo_image || business.main_image_url || 'default-image.jpg'}" 
-                                                alt="${business.business_name}">
-                                        </div>
-                                        <div class="business-info">
-                                            <h4 class="business-name">${business.business_name}</h4>
-                                            ${business.main_location ? `
-                                                                                                                                                                                        <div class="business-location">
-                                                                                                                                                                                            <span class="location-address">${business.main_location.address}</span>,
-                                                                                                                                                                                            <span class="location-city">${business.main_location.city}</span>
-                                                                                                                                                                                        </div>
-                                                                                                                                                                                        ` : ''}
-                                            ${business.distance ? `
-                                                                                                                                                                                        <div class="business-distance">
-                                                                                                                                                                                            ${Math.round(business.distance)} meters away
-                                                                                                                                                                                        </div>
-                                                                                                                                                                                        ` : ''}
-                                        </div>
+                                    <div class="business-image">
+                                        <img src="${business.logo_image || business.main_image_url || '{{ asset('frontend_assets/images/default-business.png') }}'}" 
+                                            alt="${business.business_name}">
+                                    </div>
+                                    <div class="business-info">
+                                        <h4 class="business-name">${business.business_name}</h4>
+                                        ${business.main_location ? `
+                                                            <div class="business-location">
+                                                                <span class="location-address">${business.main_location.address}</span>,
+                                                                <span class="location-city">${business.main_location.city}</span>
+                                                            </div>
+                                                        ` : ''}
+                                        ${business.distance ? `
+                                                            <div class="business-distance">
+                                                                ${Math.round(business.distance)} meters away
+                                                            </div>
+                                                        ` : ''}
                                     </div>
                                 </a>
-                                `;
+                            `;
                             });
-
                             $('#resultContainer').html(html);
                             $('#searchResultsModal').show();
                         } else {
@@ -623,32 +808,35 @@
                 });
             }
 
-            // Close modal handlers (keep your existing ones)
-            $('.close-search-modal').click(function() {
-                $('#searchResultsModal').hide();
-            });
-
-            $(window).click(function(e) {
-                if ($(e.target).is('#searchResultsModal')) {
+            // Close search modal when clicking outside
+            $(document).click(function(e) {
+                if (!$(e.target).closest('#searchForm, #searchResultsModal').length) {
                     $('#searchResultsModal').hide();
                 }
             });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const loginTriggers = document.querySelectorAll('.trigger-login-modal');
 
-            loginTriggers.forEach(el => {
-                el.addEventListener('click', function(e) {
-                    e.preventDefault();
+            // Handle password visibility toggle
+            $('.pass-icon-set').click(function() {
+                const input = $(this).siblings('.pass-input-field');
+                const eye = $(this).find('.pass-icon-eye');
+                const eyeOff = $(this).find('.pass-icon-eye-off');
 
-                    // Bootstrap 5 modal trigger
-                    const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-                    loginModal.show();
-                });
+                if (input.attr('type') === 'password') {
+                    input.attr('type', 'text');
+                    eye.hide();
+                    eyeOff.show();
+                } else {
+                    input.attr('type', 'password');
+                    eye.show();
+                    eyeOff.hide();
+                }
             });
+
+            // Check for password reset token on page load
+            @if (!empty(Session::get('reset_token')))
+                $('#resetPasswordToken').val('{{ Session::get('reset_token') }}');
+                resetPasswordModal.show();
+            @endif
         });
     </script>
-
-</header>
+@endpush

@@ -2,13 +2,14 @@
     <div class="acc_hd">
         <div class="container">
             <div class="acc_hd_row">
-                <a href="#" class="cat_btn"><img src="{{asset('frontend_assets/images/hamburger-icon-blk.svg')}}" alt="hamburger icon"> Categories</a>
+                <a href="#" class="cat_btn"><img src="{{ asset('frontend_assets/images/hamburger-icon-blk.svg') }}"
+                        alt="hamburger icon"> Categories</a>
                 <div class="srch_bar">
                     <form action="#">
                         <input type="text" placeholder="Zip Code, Town, or City">
                         <input type="submit">
                     </form>
-                  </div>
+                </div>
             </div>
         </div>
     </div>
@@ -17,17 +18,24 @@
         <nav>
             <div class="container">
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#nav-wallet" type="button" role="tab">My Wallet</button>
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-badges" type="button" role="tab">My Badges</button>
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-favorites" type="button" role="tab">My Favorites</button>
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-family-friends" type="button" role="tab">My Smart Family and Friends</button>
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-inbox" type="button" role="tab">Inbox</button>
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-account" type="button" role="tab">Account</button>
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-referral" type="button" role="tab">Referral Program</button>
-                  </div>
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#nav-wallet" type="button"
+                        role="tab">My Wallet</button>
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-badges" type="button"
+                        role="tab">My Badges</button>
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-favorites" type="button"
+                        role="tab">My Favorites</button>
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-family-friends" type="button"
+                        role="tab">My Smart Family and Friends</button>
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-inbox" type="button"
+                        role="tab">Inbox</button>
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-account" type="button"
+                        role="tab">Account</button>
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-referral" type="button"
+                        role="tab">Referral Program</button>
+                </div>
             </div>
         </nav>
-          <div class="tab-content container" id="nav-tabContent">
+        <div class="tab-content container" id="nav-tabContent">
 
             <div class="tab-pane fade show active" id="nav-wallet" role="tabpanel">
                 <div class="key_scores">
@@ -35,13 +43,13 @@
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Points Available</span>
-                                <span class="score_pnt">{{number_format($user->point)}}</span>
+                                <span class="score_pnt">{{ number_format($user->point) }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Deals in Wallets</span>
-                                <span class="score_pnt">{{$deal_count}}</span>
+                                <span class="score_pnt">{{ $deal_count }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
@@ -59,13 +67,13 @@
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Next Point Cycle</span>
-                                <span class="score_pnt">{{$point_cycle}}</span>
+                                <span class="score_pnt">{{ $point_cycle }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Enrolled Loyalty Punch Cards</span>
-                                <span class="score_pnt">{{$loyalty_count}}</span>
+                                <span class="score_pnt">{{ $loyalty_count }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
@@ -83,14 +91,14 @@
                     </div>
                 </div>
                 <div class="key_rwd_text title_h3">Smart Rewards Member Since: {{ $member_since }}</div>
-                <livewire:frontend.consumer.consumer-profile-wallet/>
+                <livewire:frontend.consumer.consumer-profile-wallet />
 
             </div>
 
-            
-            
-            
-            
+
+
+
+
 
             <div class="tab-pane fade" id="nav-badges" role="tabpanel">
                 <div class="key_scores">
@@ -98,13 +106,13 @@
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Points Available</span>
-                                <span class="score_pnt">{{number_format($user->point)}}</span>
+                                <span class="score_pnt">{{ number_format($user->point) }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Deals in Wallets</span>
-                                <span class="score_pnt">{{$deal_count}}</span>
+                                <span class="score_pnt">{{ $deal_count }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
@@ -122,13 +130,13 @@
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Next Point Cycle</span>
-                                <span class="score_pnt">{{$point_cycle}}</span>
+                                <span class="score_pnt">{{ $point_cycle }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Enrolled Loyalty Punch Cards</span>
-                                <span class="score_pnt">{{$loyalty_count}}</span>
+                                <span class="score_pnt">{{ $loyalty_count }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
@@ -147,8 +155,8 @@
                 </div>
                 <div class="key_rwd_text title_h3">Smart Rewards Member Since: {{ $member_since }}</div>
                 {{-- <img src="{{asset('frontend_assets/images/badge-logo1.png')}}" alt="logo" class="badge_top_logo"> --}}
-                <livewire:frontend.consumer.consumer-profile-badges/>
-               
+                <livewire:frontend.consumer.consumer-profile-badges />
+
             </div>
 
 
@@ -158,13 +166,13 @@
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Points Available</span>
-                                <span class="score_pnt">{{number_format($user->point)}}</span>
+                                <span class="score_pnt">{{ number_format($user->point) }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Deals in Wallets</span>
-                                <span class="score_pnt">{{$deal_count}}</span>
+                                <span class="score_pnt">{{ $deal_count }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
@@ -182,13 +190,13 @@
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Next Point Cycle</span>
-                                <span class="score_pnt">{{$point_cycle}}</span>
+                                <span class="score_pnt">{{ $point_cycle }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Enrolled Loyalty Punch Cards</span>
-                                <span class="score_pnt">{{$loyalty_count}}</span>
+                                <span class="score_pnt">{{ $loyalty_count }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
@@ -206,8 +214,8 @@
                     </div>
                 </div>
                 <div class="key_rwd_text title_h3">Smart Rewards Member Since: {{ $member_since }}</div>
-                <livewire:frontend.consumer.consumer-profile-fevorites/>
-                
+                <livewire:frontend.consumer.consumer-profile-fevorites />
+
             </div>
             <div class="tab-pane fade" id="nav-family-friends" role="tabpanel">
                 <div class="key_scores">
@@ -215,13 +223,13 @@
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Points Available</span>
-                                <span class="score_pnt">{{number_format($user->point)}}</span>
+                                <span class="score_pnt">{{ number_format($user->point) }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Deals in Wallets</span>
-                                <span class="score_pnt">{{$deal_count}}</span>
+                                <span class="score_pnt">{{ $deal_count }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
@@ -239,13 +247,13 @@
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Next Point Cycle</span>
-                                <span class="score_pnt">{{$point_cycle}}</span>
+                                <span class="score_pnt">{{ $point_cycle }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Enrolled Loyalty Punch Cards</span>
-                                <span class="score_pnt">{{$loyalty_count}}</span>
+                                <span class="score_pnt">{{ $loyalty_count }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
@@ -267,7 +275,8 @@
                 <div class="ff_info_list">
                     <div class="row">
                         <div class="col-lg-6 ff_info_lt">
-                            <div class="title_h3">My Smart Family and Family <span style="color: red;">(Coming Soon)</span></div>
+                            <div class="title_h3">My Smart Family and Family <span style="color: red;">(Coming
+                                    Soon)</span></div>
                             <p>Introducing the My Smart Family and Friends Program — your
                                 ticket to earning more points and strengthening your Gimmzi
                                 community! Refer family and friends to join Gimmzi. Earn more
@@ -290,20 +299,33 @@
                         </div>
                         <div class="col-lg-6 ff_info_rt">
                             <div class="ff_info_box">
-                                <div class="title_h3">Share using your unique link below with your family and friends:</div>
+                                <div class="title_h3">Share using your unique link below with your family and friends:
+                                </div>
                                 <div class="copylinkf cmn_form_elem">
                                     <form action="javascript:void(0);">
                                         <input type="text" value="" readonly>
-                                        <button class="cmn_theme_btn"><img src="{{asset('frontend_assets/images/copy-icon-w.svg')}}" alt="copy" style="color:rgb(85, 84, 84) !important;">Copy</button>
+                                        <button class="cmn_theme_btn"><img
+                                                src="{{ asset('frontend_assets/images/copy-icon-w.svg') }}"
+                                                alt="copy" style="color:rgb(85, 84, 84) !important;">Copy</button>
                                     </form>
                                 </div>
                                 <div class="ff_info_scl">
                                     <ul>
-                                        <li><a href="#" ><img src="{{asset('frontend_assets/images/fb-icon-un.svg')}}" alt="social icons"></a></li>
-                                        <li><a href="#" ><img src="{{asset('frontend_assets/images/email-icon-un.svg')}}" alt="social icons"></a></li>
-                                        <li><a href="#" ><img src="{{asset('frontend_assets/images/linked-in-icon-un.svg')}}" alt="social icons"></a></li>
-                                        <li><a href="#" ><img src="{{asset('frontend_assets/images/x-icon-un.svg')}}" alt="social icons"></a></li>
-                                        <li><a href="#" ><img src="{{asset('frontend_assets/images/whatsapp-icon-un.svg')}}" alt="social icons"></a></li>
+                                        <li><a href="#"><img
+                                                    src="{{ asset('frontend_assets/images/fb-icon-un.svg') }}"
+                                                    alt="social icons"></a></li>
+                                        <li><a href="#"><img
+                                                    src="{{ asset('frontend_assets/images/email-icon-un.svg') }}"
+                                                    alt="social icons"></a></li>
+                                        <li><a href="#"><img
+                                                    src="{{ asset('frontend_assets/images/linked-in-icon-un.svg') }}"
+                                                    alt="social icons"></a></li>
+                                        <li><a href="#"><img
+                                                    src="{{ asset('frontend_assets/images/x-icon-un.svg') }}"
+                                                    alt="social icons"></a></li>
+                                        <li><a href="#"><img
+                                                    src="{{ asset('frontend_assets/images/whatsapp-icon-un.svg') }}"
+                                                    alt="social icons"></a></li>
                                     </ul>
                                 </div>
                                 <div class="ff_info_btm">
@@ -318,7 +340,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 {{-- <div class="badge_table_sec">
                     <div class="badge_table_sec_label cmn_theme_btn">My List of Family and Friends</div>
                     <div class="cmn_table_elem">
@@ -370,13 +392,13 @@
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Points Available</span>
-                                <span class="score_pnt">{{number_format($user->point)}}</span>
+                                <span class="score_pnt">{{ number_format($user->point) }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Deals in Wallets</span>
-                                <span class="score_pnt">{{$deal_count}}</span>
+                                <span class="score_pnt">{{ $deal_count }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
@@ -394,13 +416,13 @@
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Next Point Cycle</span>
-                                <span class="score_pnt">{{$point_cycle}}</span>
+                                <span class="score_pnt">{{ $point_cycle }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Enrolled Loyalty Punch Cards</span>
-                                <span class="score_pnt">{{$loyalty_count}}</span>
+                                <span class="score_pnt">{{ $loyalty_count }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
@@ -479,13 +501,13 @@
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Points Available</span>
-                                <span class="score_pnt">{{number_format($user->point)}}</span>
+                                <span class="score_pnt">{{ number_format($user->point) }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Deals in Wallets</span>
-                                <span class="score_pnt">{{$deal_count}}</span>
+                                <span class="score_pnt">{{ $deal_count }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
@@ -503,13 +525,13 @@
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Next Point Cycle</span>
-                                <span class="score_pnt">{{$point_cycle}}</span>
+                                <span class="score_pnt">{{ $point_cycle }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Enrolled Loyalty Punch Cards</span>
-                                <span class="score_pnt">{{$loyalty_count}}</span>
+                                <span class="score_pnt">{{ $loyalty_count }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
@@ -527,7 +549,7 @@
                     </div>
                 </div>
 
-                <livewire:frontend.consumer.consumer-account/>
+                <livewire:frontend.consumer.consumer-account />
             </div>
 
 
@@ -538,13 +560,13 @@
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Points Available</span>
-                                <span class="score_pnt">{{number_format($user->point)}}</span>
+                                <span class="score_pnt">{{ number_format($user->point) }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Deals in Wallets</span>
-                                <span class="score_pnt">{{$deal_count}}</span>
+                                <span class="score_pnt">{{ $deal_count }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
@@ -562,13 +584,13 @@
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Next Point Cycle</span>
-                                <span class="score_pnt">{{$point_cycle}}</span>
+                                <span class="score_pnt">{{ $point_cycle }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
                             <div class="ks_box">
                                 <span>Enrolled Loyalty Punch Cards</span>
-                                <span class="score_pnt">{{$loyalty_count}}</span>
+                                <span class="score_pnt">{{ $loyalty_count }}</span>
                             </div>
                         </div>
                         <div class="col-lg-3 ks_col">
@@ -590,8 +612,9 @@
                     <div class="row">
                         <div class="col-lg-8 ref_prg_lt">
                             <div class="ref_prg_title">
-                                <img src="{{asset('frontend_assets/images/site-icon.png')}}" alt="site-icon">
-                                <div class="title_h1">immzi Referral Program <span style="color: red;">(Coming Soon)</span></div>
+                                <img src="{{ asset('frontend_assets/images/site-icon.png') }}" alt="site-icon">
+                                <div class="title_h1">immzi Referral Program <span style="color: red;">(Coming
+                                        Soon)</span></div>
                             </div>
                             <p>Ready to earn? Earn
                                 by referring businesses to join our
@@ -697,9 +720,9 @@
                     </div>
                 </div> --}}
             </div>
-          </div>
+        </div>
     </div>
-    
+
 
     <!-- test popup section start -->
     <div class="cmn_gap">
@@ -719,3 +742,60 @@
 
 
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Script loaded');
+
+        // Get the current URL and extract the last segment
+        const url = window.location.pathname; // e.g., "/consumer-dashboard/favourite"
+        console.log('URL:', url);
+        const urlSegments = url.split('/').filter(segment => segment); // Split and remove empty segments
+        const activeTab = urlSegments[urlSegments.length - 1] ||
+        'account'; // Last segment or default to 'account'
+        console.log('Active Tab from URL:', activeTab);
+
+        // Map URL segments to tab targets
+        const tabMap = {
+            'wallet': '#nav-wallet',
+            'badges': '#nav-badges',
+            'favourite': '#nav-favorites', // Maps 'favourite' URL to '#nav-favorites'
+            'family-friends': '#nav-family-friends',
+            'inbox': '#nav-inbox',
+            'account': '#nav-account',
+            'referral': '#nav-referral'
+        };
+
+        // Get the target tab ID from the map, default to '#nav-account' if not found
+        const targetTabId = tabMap[activeTab] || '#nav-account';
+        console.log('Target Tab ID:', targetTabId);
+
+        // Find the corresponding tab button and activate it
+        const tabButton = document.querySelector(`button[data-bs-target="${targetTabId}"]`);
+        if (tabButton) {
+            // Remove 'active' and 'show' classes from all buttons and panes
+            document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('show', 'active');
+            });
+
+            // Add 'active' class to the target button
+            tabButton.classList.add('active');
+
+            // Activate the corresponding tab content
+            const tabContent = document.querySelector(targetTabId);
+            if (tabContent) {
+                tabContent.classList.add('show', 'active');
+            }
+
+            // Use Bootstrap's Tab API to ensure proper initialization (optional)
+            try {
+                const tab = new bootstrap.Tab(tabButton);
+                tab.show();
+            } catch (e) {
+                console.error('Bootstrap Tab API failed:', e);
+            }
+        } else {
+            console.warn('No tab button found for target:', targetTabId);
+        }
+    });
+</script>

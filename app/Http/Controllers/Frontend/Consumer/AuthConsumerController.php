@@ -60,7 +60,7 @@ class AuthConsumerController extends Controller
             return redirect()->back()->with('error', 'Consumer not found or not active.');
         }
     }
-    public function consumerDashboard()
+    public function consumerDashboard($activeTab='profile')
     {
         $user = Auth::user();
         $consumerBuilding = BuildingUnit::where('consumer_id', $user->id)->with('buildings')->with('user')->get();
@@ -71,7 +71,14 @@ class AuthConsumerController extends Controller
         // $user-> 
         //  = MerchantLocation::with('businessLocation')->first();
         //  dd($providerType);
-        return view('frontend.consumer.consumer-dashboard', compact('user', 'consumerBuilding', 'providerTypeName1', 'providerTypeName2', 'providerTypeName3'));
+        // $activeTab = $request->input('active_tab', 'profile');
+        // if (!in_array($activetab, ['profile', 'favorites', 'wallet'])) {
+        //     $active_tab = 'profile'; // default to profile if invalid
+        // }
+        $validTabs = ['wallet', 'badges', 'favorites', 'family-friends', 'inbox', 'account', 'referral'];
+    $activeTab = in_array($activeTab, $validTabs) ? $activeTab : 'wallet';
+    
+        return view('frontend.consumer.consumer-dashboard', compact('user', 'consumerBuilding', 'providerTypeName1', 'providerTypeName2', 'providerTypeName3','activeTab'));
     }
 
     public function consumerLogout()

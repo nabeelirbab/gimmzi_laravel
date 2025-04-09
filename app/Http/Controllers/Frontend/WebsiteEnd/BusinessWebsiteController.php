@@ -19,10 +19,22 @@ use App\Models\ConsumerFavouriteTravelTourism;
 
 class BusinessWebsiteController extends Controller
 {
-    public function index($id)
+    public function index($id,$location_slug = null)
     {
         $business = BusinessProfile::find($id); 
-        
+       
+        if ($location_slug) {
+            $parts = explode('|', $location_slug);
+            $location = [
+                'name' => str_replace('-', ' ', $parts[0]),
+                'address' => str_replace('-', ' ', $parts[1]),
+                'lat' => $parts[2],
+                'lng' => $parts[3]
+            ];
+        } else {
+            $location = null;
+        }
+      
         // $message_board = MerchantDisplayBoard::where('business_id', $id)->first();
         $providerType = ProviderSubType::get();
         $businessLocation = BusinessLocation::where('business_profile_id', $id)->first();
@@ -105,8 +117,8 @@ class BusinessWebsiteController extends Controller
                     ->get();
 
         //dd($message_boards);
-        //dd($businessLocations,  $businessProfile, $business_photos, $businesses, $alreadyFav, $data, $businessLocations);
-        return view('frontend.business.website', compact('business', 'message_boards', 'providerType', 'business_photos', 'businesses','alreadyFav','data','businessLocations','allLocations'));
+        // dd($businessLocations,  $businessProfile, $business_photos, $businesses, $alreadyFav, $data, $businessLocations);
+        return view('frontend.business.website', compact('business', 'message_boards', 'providerType', 'business_photos', 'businesses','alreadyFav','data','businessLocations','allLocations','location'));
     } 
 
     public function searchBusinessProfile(Request $request){

@@ -80,7 +80,7 @@ Route::get('get-merchant-plan-add-ons', [BusinessOwnerController::class, 'getPla
 Route::get('payment-info', [BusinessOwnerController::class, 'paymentInfo'])->name('frontend.business_owner.payment_info');
 
 //merchant website page preview 
-Route::get('merchant/{id}', [BusinessWebsiteController::class, 'index'])->name('frontend.merchant.website');
+Route::get('merchant/{id}/{location_slug?}', [BusinessWebsiteController::class, 'index'])->name('frontend.merchant.website');
 Route::get('search/business-profile', [BusinessWebsiteController::class, 'searchBusinessProfile'])->name('search.business.profile');
 
 Route::group(['middleware' => 'merchantAuth'], function () {

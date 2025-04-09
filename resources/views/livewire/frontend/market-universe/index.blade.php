@@ -344,236 +344,255 @@
                         <div class="filter-sec-rit-btm">
                             <div class="row rowspan">
                                 @forelse ($business_profiles as $business)
-                                    <div class="col-xxl-4 col-lg-6 filcols">
-                                        <div class="filter-card">
-                                            <div class="universe-figs">
-                                                <div class="purchase-wishlst">
-                                                    <a href="javascript:void(0)" class="cmn-purchase">
-                                                        <img loading="lazy"
-                                                            src="{{ asset('frontend_assets/images/hrtss.svg') }}"
-                                                            alt="save icon">
-                                                    </a>
-                                                    <span>Save</span>
-                                                </div>
-                                                <div class="purchase-wishlst share-blkss" data-bs-toggle="modal"
-                                                    data-bs-target="#shareModal{{ $business->id }}">
-                                                    <a href="javascript:void(0)" class="cmn-purchase">
-                                                        <img loading="lazy"
-                                                            src="{{ asset('frontend_assets/images/shrss.svg') }}"
-                                                            alt="share info1 icon">
-                                                    </a>
-                                                    <span>Share</span>
-                                                </div>
-                                                <figure class="purchase-fig">
-                                                    <a href="{{ route('frontend.merchant.website', $business->id) }}">
-                                                        <img loading="lazy" src="{{ $business->main_image_url }}"
-                                                            alt="fruits1 image">
-                                                    </a>
-                                                </figure>
-                                            </div>
-                                            <div class="universe-con">
-                                                <div class="universe-top-con">
-                                                    <div class="universe-top-head">
+                                    @foreach ($business->locations->where('status', 1) as $location)
+                                        <div class="col-xxl-4 col-lg-6 filcols">
+                                            <div class="filter-card">
+                                                <div class="universe-figs">
+                                                    <div class="purchase-wishlst">
+                                                        <a href="javascript:void(0)" class="cmn-purchase">
+                                                            <img loading="lazy"
+                                                                src="{{ asset('frontend_assets/images/hrtss.svg') }}"
+                                                                alt="save icon">
+                                                        </a>
+                                                        <span>Save</span>
+                                                    </div>
+                                                    <div class="purchase-wishlst share-blkss" data-bs-toggle="modal"
+                                                        data-bs-target="#shareModal{{ $business->id }}">
+                                                        <a href="javascript:void(0)" class="cmn-purchase">
+                                                            <img loading="lazy"
+                                                                src="{{ asset('frontend_assets/images/shrss.svg') }}"
+                                                                alt="share info1 icon">
+                                                        </a>
+                                                        <span>Share</span>
+                                                    </div>
+                                                    <figure class="purchase-fig">
+                                                        @php
+                                                            $location_slug = implode('|', [
+                                                                Str::slug($location->location_name ?? ''),
+                                                                Str::slug($location->address ?? ''),
+                                                                $location->latitude ?? '0',
+                                                                $location->longitude ?? '0',
+                                                            ]);
+                                                        @endphp
                                                         <a
-                                                            href="{{ route('frontend.merchant.website', $business->id) }}">{{ $business->business_name }}</a>
-                                                    </div>
-                                                    <div class="universe-top-btm-head">
-                                                        @if ($business->formatted_location)
-                                                            <p>{{ $business->formatted_location }}</p>
-                                                            @if (optional($business->locations->where('location_type', 'Headquarters')->where('status', 1)->first())->latitude)
-                                                                @php
-                                                                    $lat_long_array[] = [
-                                                                        $business->locations
-                                                                            ->where('location_type', 'Headquarters')
-                                                                            ->where('status', 1)
-                                                                            ->first()->latitude,
-                                                                        $business->locations
-                                                                            ->where('location_type', 'Headquarters')
-                                                                            ->where('status', 1)
-                                                                            ->first()->longitude,
-                                                                        $business->locations
-                                                                            ->where('location_type', 'Headquarters')
-                                                                            ->where('status', 1)
-                                                                            ->first()->location_name,
-                                                                        $business->locations
-                                                                            ->where('location_type', 'Headquarters')
-                                                                            ->where('status', 1)
-                                                                            ->first()->address,
-                                                                    ];
-                                                                @endphp
-                                                                <span>{{ $this->haversineDistance($business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->latitude, $business->locations->where('location_type', 'Headquarters')->where('status', 1)->first()->longitude) }}
-                                                                    mi</span>
-                                                            @endif
-                                                        @endif
-                                                    </div>
+                                                            href="{{ route('frontend.merchant.website', [
+                                                                'id' => $business->id,
+                                                                'location_slug' => $location_slug,
+                                                            ]) }}">
+                                                            <img loading="lazy" src="{{ $business->main_image_url }}"
+                                                                alt="fruits1 image">
+                                                        </a>
+                                                    </figure>
                                                 </div>
-
-                                                @if ($business->loyalty->where('status', 1)->where('end_on', '>', Carbon\Carbon::today()->format('Y-m-d'))->isNotEmpty())
-                                                    @foreach ($business->loyalty->where('status', 1)->where('end_on', '>', Carbon\Carbon::today()->format('Y-m-d')) as $key => $item)
-                                                        <div class="universe-mdl-con universe-btm-con">
-                                                            <form>
-                                                                <label>
-                                                                    <input type="radio">
-                                                                    <div class="universe-con-radio">
-                                                                        <p> {{ $item->program_name }}</p>
-                                                                        <span>Earn up to 20 points per purchase</span>
-                                                                    </div>
-                                                                </label>
-                                                            </form>
+                                                <div class="universe-con">
+                                                    <div class="universe-top-con">
+                                                        <div class="universe-top-head">
+                                                            {{-- <a
+                                                                href="{{ route('frontend.merchant.website', $business->id) }}">
+                                                                {{ $business->business_name }}
+                                                            </a> --}}
+                                                            @php
+                                                                $location_slug = implode('|', [
+                                                                    Str::slug($location->location_name ?? ''),
+                                                                    Str::slug($location->address ?? ''),
+                                                                    $location->latitude ?? '0',
+                                                                    $location->longitude ?? '0',
+                                                                ]);
+                                                            @endphp
+                                                            <a
+                                                                href="{{ route('frontend.merchant.website', [
+                                                                    'id' => $business->id,
+                                                                    'location_slug' => $location_slug,
+                                                                ]) }}">
+                                                                {{ $business->business_name }}
+                                                            </a>
                                                         </div>
-                                                    @endforeach
-                                                @endif
+                                                        <div class="universe-top-btm-head">
+                                                            <p>{{ $location->location_name }} -
+                                                                {{ $location->address }}
+                                                            </p>
+                                                            {{-- @if ($location->latitude)
+                                                                <span>{{ $this->haversineDistance($location->latitude, $location->longitude) }}
+                                                                    mi</span>
+                                                            @endif --}}
+                                                        </div>
+                                                    </div>
 
-                                                @if ($business->deals->where('status', 1)->where('end_Date', '>', Carbon\Carbon::today()->format('Y-m-d'))->isNotEmpty())
-                                                    @foreach ($business->deals->where('status', 1)->where('end_Date', '>', Carbon\Carbon::today()->format('Y-m-d')) as $key2 => $item)
-                                                        @if ($loop->iteration <= 2)
-                                                            <div class="universe-btm-con">
+                                                    @if ($business->loyalty->where('status', 1)->where('end_on', '>', Carbon\Carbon::today()->format('Y-m-d'))->isNotEmpty())
+                                                        @foreach ($business->loyalty->where('status', 1)->where('end_on', '>', Carbon\Carbon::today()->format('Y-m-d')) as $key => $item)
+                                                            <div class="universe-mdl-con universe-btm-con">
                                                                 <form>
                                                                     <label>
                                                                         <input type="radio">
                                                                         <div class="universe-con-radio">
-                                                                            <p><strong>{{ $item->suggested_description ?? '-' }}</strong>
-                                                                            </p>
-                                                                            <p>{{ $item->point }} points to redeem</p>
+                                                                            <p> {{ $item->program_name }}</p>
+                                                                            <span>Earn up to 20 points per
+                                                                                purchase</span>
                                                                         </div>
                                                                     </label>
                                                                 </form>
                                                             </div>
-                                                        @endif
-                                                    @endforeach
-                                                @endif
-
-                                                <div class="universe-btn-grp">
-                                                    @if ($business->loyalty->where('status', 1)->where('end_on', '>', Carbon\Carbon::today()->format('Y-m-d'))->isNotEmpty())
-                                                        <a href="javascript:void(0)"
-                                                            class="enroll-btn universebtn">Enroll</a>
+                                                        @endforeach
                                                     @endif
+
                                                     @if ($business->deals->where('status', 1)->where('end_Date', '>', Carbon\Carbon::today()->format('Y-m-d'))->isNotEmpty())
-                                                        <a href="javascript:void(0)" wire:click='CheckConsumer'
-                                                            class="wallet-btn universebtn">Add to
-                                                            Wallet</a>
+                                                        @foreach ($business->deals->where('status', 1)->where('end_Date', '>', Carbon\Carbon::today()->format('Y-m-d')) as $key2 => $item)
+                                                            @if ($loop->iteration <= 2)
+                                                                <div class="universe-btm-con">
+                                                                    <form>
+                                                                        <label>
+                                                                            <input type="radio">
+                                                                            <div class="universe-con-radio">
+                                                                                <p><strong>{{ $item->suggested_description ?? '-' }}</strong>
+                                                                                </p>
+                                                                                <p>{{ $item->point }} points to redeem
+                                                                                </p>
+                                                                            </div>
+                                                                        </label>
+                                                                    </form>
+                                                                </div>
+                                                            @endif
+                                                        @endforeach
                                                     @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Social Sharing Modal -->
-                                    <div class="modal fade" id="shareModal{{ $business->id }}" tabindex="-1"
-                                        aria-labelledby="shareModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered custom-modal"
-                                            style="max-width: 900px; width: 90%;">
-                                            <div class="modal-content container-fluid position-relative">
-                                                <button type="button"
-                                                    class="btn-close position-absolute top-0 end-0 m-3"
-                                                    data-bs-dismiss="modal" aria-label="Close">
-                                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                                </button>
 
-                                                <div class="modal-body text-center">
-                                                    <div
-                                                        class="row align-items-center social-modal-header text-center text-md-start">
-                                                        <div class="col-12 col-md-3 text-center mb-2 mb-md-0">
-                                                            <img src="{{ asset('frontend_assets/images/modal_logo.png') }}"
-                                                                alt="Business Logo" class="img-fluid"
-                                                                style="max-width: 60px; height: auto;">
-                                                        </div>
-                                                        <div class="col-12 col-md-6">
-                                                            <div class="business_name fw-bold">
-                                                                {{ $business->business_name }}</div>
-                                                            <div class="business_address">
-                                                                @if (!empty($business->street_address))
-                                                                    {{ $business->street_address }},
-                                                                    {{ $business->city }},
-                                                                    {{ $business->states->name }},
-                                                                    {{ $business->zip_code }}
-                                                                @endif
-                                                            </div>
-                                                            <div class="mt-2">{{ $business->business_phone }}</div>
-                                                        </div>
-                                                    </div>
-
-                                                    <hr>
-
-                                                    <small class="social-share-small text-muted">Share this business,
-                                                        earn
-                                                        points!</small>
-                                                    <p class="small-text text-secondary">Start Earning Points and make
-                                                        every share
-                                                        count!</p>
-
-                                                    <div class="row g-0">
-                                                        <div
-                                                            class="col-12 col-md-5 d-flex align-items-center justify-content-center p-2 bg-light">
-                                                            <img loading="lazy"
-                                                                src="{{ asset($business->main_image_url) }}"
-                                                                alt="{{ $business->business_name }}" width="234"
-                                                                height="166" class="img-fluid rounded">
-                                                        </div>
-
-                                                        <div
-                                                            class="col-12 col-md-7 d-flex flex-column social-container p-3">
-                                                            <div class="social-row">
-                                                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
-                                                                    target="_blank" class="social-btn">
-                                                                    <img src="{{ asset('frontend_assets/images/facebook.svg') }}"
-                                                                        alt="Facebook" class="icon-img">
-                                                                    <span>Facebook</span>
-                                                                </a>
-                                                                <a href="https://x.com/intent/tweet?text={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
-                                                                    target="_blank" class="social-btn">
-                                                                    <img src="{{ asset('frontend_assets/images/X.svg') }}"
-                                                                        alt="X" class="icon-img">
-                                                                    <span>X</span>
-                                                                </a>
-                                                            </div>
-
-                                                            <div class="social-row">
-                                                                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
-                                                                    target="_blank" class="social-btn">
-                                                                    <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
-                                                                        alt="LinkedIn" class="icon-img">
-                                                                    <span>LinkedIn</span>
-                                                                </a>
-
-                                                                <a href="https://api.whatsapp.com/send?text={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
-                                                                    target="_blank" class="social-btn">
-                                                                    <img src="{{ asset('frontend_assets/images/whatsapp.svg') }}"
-                                                                        alt="WhatsApp" class="icon-img">
-                                                                    <span>WhatsApp</span>
-                                                                </a>
-                                                            </div>
-
-                                                            <div class="social-row">
-                                                                <a href="#" data-bs-toggle="modal"
-                                                                    data-bs-target="#shareSocialModal"
-                                                                    class="social-btn email-share-btn"
-                                                                    data-link="{{ url('merchant/' . $business->id) }}">
-                                                                    <img src="{{ asset('frontend_assets/images/email.svg') }}"
-                                                                        alt="Email" class="icon-img">
-                                                                    <span>Email</span>
-                                                                </a>
-
-                                                                <a href="#"
-                                                                    onclick="copyToClipboard('{{ url('merchant/' . $business->id) }}'); return false;"
-                                                                    class="social-btn">
-                                                                    <img src="{{ asset('frontend_assets/images/copy.svg') }}"
-                                                                        alt="Copy Link" class="icon-img">
-                                                                    <span>Copy Link</span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div
-                                                        class="bg-light text-secondary text-center py-2 mt-3 rounded footer-text">
-                                                        Earn 1 point for each listing you share on Facebook, X (formerly
-                                                        Twitter),
-                                                        and LinkedIn (10 point limit per day).
+                                                    <div class="universe-btn-grp">
+                                                        @if ($business->loyalty->where('status', 1)->where('end_on', '>', Carbon\Carbon::today()->format('Y-m-d'))->isNotEmpty())
+                                                            <a href="javascript:void(0)"
+                                                                class="enroll-btn universebtn">Enroll</a>
+                                                        @endif
+                                                        @if ($business->deals->where('status', 1)->where('end_Date', '>', Carbon\Carbon::today()->format('Y-m-d'))->isNotEmpty())
+                                                            <a href="javascript:void(0)" wire:click='CheckConsumer'
+                                                                class="wallet-btn universebtn">Add to
+                                                                Wallet</a>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <!-- Social Sharing Modal -->
+                                        <div class="modal fade" id="shareModal{{ $business->id }}" tabindex="-1"
+                                            aria-labelledby="shareModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered custom-modal"
+                                                style="max-width: 900px; width: 90%;">
+                                                <div class="modal-content container-fluid position-relative">
+                                                    <button type="button"
+                                                        class="btn-close position-absolute top-0 end-0 m-3"
+                                                        data-bs-dismiss="modal" aria-label="Close">
+                                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                                    </button>
+
+                                                    <div class="modal-body text-center">
+                                                        <div
+                                                            class="row align-items-center social-modal-header text-center text-md-start">
+                                                            <div class="col-12 col-md-3 text-center mb-2 mb-md-0">
+                                                                <img src="{{ asset('frontend_assets/images/modal_logo.png') }}"
+                                                                    alt="Business Logo" class="img-fluid"
+                                                                    style="max-width: 60px; height: auto;">
+                                                            </div>
+                                                            <div class="col-12 col-md-6">
+                                                                <div class="business_name fw-bold">
+                                                                    {{ $business->business_name }}</div>
+                                                                <div class="business_address">
+                                                                    @if (!empty($business->street_address))
+                                                                        {{ $business->street_address }},
+                                                                        {{ $business->city }},
+                                                                        {{ $business->states->name }},
+                                                                        {{ $business->zip_code }}
+                                                                    @endif
+                                                                </div>
+                                                                <div class="mt-2">{{ $business->business_phone }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <hr>
+
+                                                        <small class="social-share-small text-muted">Share this
+                                                            business,
+                                                            earn
+                                                            points!</small>
+                                                        <p class="small-text text-secondary">Start Earning Points and
+                                                            make
+                                                            every share
+                                                            count!</p>
+
+                                                        <div class="row g-0">
+                                                            <div
+                                                                class="col-12 col-md-5 d-flex align-items-center justify-content-center p-2 bg-light">
+                                                                <img loading="lazy"
+                                                                    src="{{ asset($business->main_image_url) }}"
+                                                                    alt="{{ $business->business_name }}"
+                                                                    width="234" height="166"
+                                                                    class="img-fluid rounded">
+                                                            </div>
+
+                                                            <div
+                                                                class="col-12 col-md-7 d-flex flex-column social-container p-3">
+                                                                <div class="social-row">
+                                                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
+                                                                        target="_blank" class="social-btn">
+                                                                        <img src="{{ asset('frontend_assets/images/facebook.svg') }}"
+                                                                            alt="Facebook" class="icon-img">
+                                                                        <span>Facebook</span>
+                                                                    </a>
+                                                                    <a href="https://x.com/intent/tweet?text={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
+                                                                        target="_blank" class="social-btn">
+                                                                        <img src="{{ asset('frontend_assets/images/X.svg') }}"
+                                                                            alt="X" class="icon-img">
+                                                                        <span>X</span>
+                                                                    </a>
+                                                                </div>
+
+                                                                <div class="social-row">
+                                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
+                                                                        target="_blank" class="social-btn">
+                                                                        <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
+                                                                            alt="LinkedIn" class="icon-img">
+                                                                        <span>LinkedIn</span>
+                                                                    </a>
+
+                                                                    <a href="https://api.whatsapp.com/send?text={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
+                                                                        target="_blank" class="social-btn">
+                                                                        <img src="{{ asset('frontend_assets/images/whatsapp.svg') }}"
+                                                                            alt="WhatsApp" class="icon-img">
+                                                                        <span>WhatsApp</span>
+                                                                    </a>
+                                                                </div>
+
+                                                                <div class="social-row">
+                                                                    <a href="#" data-bs-toggle="modal"
+                                                                        data-bs-target="#shareSocialModal"
+                                                                        class="social-btn email-share-btn"
+                                                                        data-link="{{ url('merchant/' . $business->id) }}">
+                                                                        <img src="{{ asset('frontend_assets/images/email.svg') }}"
+                                                                            alt="Email" class="icon-img">
+                                                                        <span>Email</span>
+                                                                    </a>
+
+                                                                    <a href="#"
+                                                                        onclick="copyToClipboard('{{ url('merchant/' . $business->id) }}'); return false;"
+                                                                        class="social-btn">
+                                                                        <img src="{{ asset('frontend_assets/images/copy.svg') }}"
+                                                                            alt="Copy Link" class="icon-img">
+                                                                        <span>Copy Link</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div
+                                                            class="bg-light text-secondary text-center py-2 mt-3 rounded footer-text">
+                                                            Earn 1 point for each listing you share on Facebook, X
+                                                            (formerly
+                                                            Twitter)
+                                                            ,
+                                                            and LinkedIn (10 point limit per day).
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 @empty
                                     <p class="universe-top-head d-flex justify-content-center">No Result found</p>
                                 @endforelse

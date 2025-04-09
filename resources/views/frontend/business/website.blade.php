@@ -452,22 +452,32 @@
                         <div class="col-md-6 col-12 mb-4 mb-md-0 ps-0"> <!-- Change here for mobile-first approach -->
                             <div class="d-flex flex-column">
                                 <h2>{{ $business->business_name }}</h2>
-                                @if ($business->street_address != '')
-                                    <p style="margin-top: 10px;">
+                                <p style="margin-top: 10px;">
+
+                                    @if (isset($location) && is_array($location))
                                         <img src="{{ asset('frontend_assets/images/location.svg') }}" alt="icon">
-                                        {{ $business->street_address }}, {{ $business->city }},
-                                        {{ $business->states->name }}, {{ $business->zip_code }}
-                                    </p>
-                                @elseif($business->mailing_address != '')
-                                    <p style="margin-top: 10px;">
-                                        <img src="{{ asset('frontend_assets/images/location-icon-rental-1.svg') }}"
-                                            alt="icon">
-                                        {{ $business->mailing_address }}, {{ $business->mailing_city }},
-                                        {{ $business->mailingstates->name }}, {{ $business->mailing_zipcode }}
-                                    </p>
-                                @else
-                                    <li></li>
-                                @endif
+                                        {{ $location['name'] }}, {{ $location['address'] }}
+                                    @else
+                                        @if ($business->street_address != '')
+                                            <p style="margin-top: 10px;">
+                                                <img src="{{ asset('frontend_assets/images/location.svg') }}"
+                                                    alt="icon">
+                                                {{ $business->street_address }}, {{ $business->city }},
+                                                {{ $business->states->name }}, {{ $business->zip_code }}
+                                            </p>
+                                        @elseif($business->mailing_address != '')
+                                            <p style="margin-top: 10px;">
+                                                <img src="{{ asset('frontend_assets/images/location-icon-rental-1.svg') }}"
+                                                    alt="icon">
+                                                {{ $business->mailing_address }}, {{ $business->mailing_city }},
+                                                {{ $business->mailingstates->name }}, {{ $business->mailing_zipcode }}
+                                            </p>
+                                        @else
+                                            <li></li>
+                                        @endif
+                                    @endif
+                                </p>
+
                             </div>
                         </div>
                         <!-- Social Sharing Modal -->

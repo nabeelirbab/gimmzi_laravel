@@ -209,7 +209,7 @@ class Index extends Component
                 $deals->where('status', 1);
             });
         }
-
+  
         return view('livewire.frontend.market-universe.index', [
             'business_profiles' => $business_profiles
                 ->with(['states', 'deals', 'loyalty', 'locations'])

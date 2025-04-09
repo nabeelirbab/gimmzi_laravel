@@ -43,7 +43,8 @@ class MerchantSettingsController extends Controller
             $query->with('title')->where('active', 0)->whereIn('title_id', $usertitle); })->where('location_id',$location->location_id)->get();
         $merchant_location = MerchantLocation::with('businessLocation.states', 'merchantUser')->where('user_id', Auth::user()->id)->get();
         $business_locations = BusinessLocation::with('states')->where('business_profile_id', Auth::user()->business_id)->where('status', 1)->get();
-
+        // dd(auth()->user()->business_id);
+        // dd($business_locations, $merchant_location, $adduser, $getusers, $displayboard, $merchant_board);
         return view('frontend.merchant_owner.settings.corporate-lead-setting', compact('getusers', 'displayboard', 'adduser', 'merchant_board', 'merchant_location', 'business_locations', 'location'));
     }
 

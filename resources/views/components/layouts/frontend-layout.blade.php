@@ -158,7 +158,7 @@
                         <!-- <span class="navbar-toggler-icon"></span> -->
                         <span class="stick"></span>
                     </button>
-                    <ul class="navbar-nav ms-auto top-navication">
+                    <ul class="navbar-nav ms-auto top-navication">  
                         <li class=""><button class="login-button" data-bs-toggle="modal"
                                 data-bs-target="#loginModal">Login</button></li>
                         {{-- <li class=""><button data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>

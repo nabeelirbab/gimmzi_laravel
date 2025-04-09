@@ -21,7 +21,7 @@ class CmsController extends Controller
     {
         $cms = Cms::where('slug','terms_and_condition_page')->first();
         $terms_condition = TermsAndCondition::where('cms_id',$cms->id)->first();
-
+        //  dd($terms_condition);
         return view('frontend.terms', compact('terms_condition'));
     }
 }

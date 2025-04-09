@@ -80,6 +80,11 @@
             /* your header's max width */
         ;
     }
+
+    /* Add to your CSS file */
+    .modal-backdrop {
+        display: none !important;
+    }
 </style>
 <header class="new-main-head inner-headers">
     <div class="top-hdr">
@@ -302,22 +307,47 @@
                     </div>
                     <ul class="hdr-ul">
                         <li class="hdr-li">
-                            <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor">
-                                <img loading="lazy" src="{{ asset('frontend_assets/images/user.svg') }}"
-                                    alt="user icon">
-                            </a>
+                            @if (Auth::check())
+                                <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor">
+                                    <img loading="lazy" src="{{ asset('frontend_assets/images/user.svg') }}"
+                                        alt="user icon">
+                                </a>
+                            @else
+                                <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor"
+                                    data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    <img loading="lazy" src="{{ asset('frontend_assets/images/user.svg') }}"
+                                        alt="user icon">
+                                </a>
+                            @endif
                         </li>
                         <li class="hdr-li">
-                            <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor">
-                                <img loading="lazy" src="{{ asset('frontend_assets/images/favourite.svg') }}"
-                                    alt="favourite icon">
-                            </a>
+                            @if (Auth::check())
+                                <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor">
+                                    <img loading="lazy" src="{{ asset('frontend_assets/images/favourite.svg') }}"
+                                        alt="favourite icon">
+                                </a>
+                            @else
+                                <a href="javascript:void(0);" class="hdr-ul-anchor login-required"
+                                    data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    <img loading="lazy" src="{{ asset('frontend_assets/images/favourite.svg') }}"
+                                        alt="favourite icon">
+                                </a>
+                            @endif
                         </li>
+
                         <li class="hdr-li">
-                            <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor">
-                                <img loading="lazy" src="{{ asset('frontend_assets/images/wallet.svg') }}"
-                                    alt="wallet icon">
-                            </a>
+                            @if (Auth::check())
+                                <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor">
+                                    <img loading="lazy" src="{{ asset('frontend_assets/images/wallet.svg') }}"
+                                        alt="wallet icon">
+                                </a>
+                            @else
+                                <a href="{{ route('frontend.consumer-dashboard') }}" class="hdr-ul-anchor"
+                                    data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    <img loading="lazy" src="{{ asset('frontend_assets/images/wallet.svg') }}"
+                                        alt="wallet icon">
+                                </a>
+                            @endif
                         </li>
                     </ul>
                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -380,8 +410,114 @@
             </a>
         </div>
     </div>
+
+    <div class="modal prrprty_tab_mdl fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog homemodal">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <img src="{{ asset('frontend_assets/images/cancell-one.svg') }}" class="cancell-one11">
+                    </button>
+                    <div class="text-center mt-4 mb-4 popup-logo">
+                        <img src="{{ asset('frontend_assets/images/logosmart-reward.svg') }}" />
+                    </div>
+                    <div class="property-manager property-manager-con">
+                        <nav>
+                            <div class="nav nav-tabs property-manager-tab" id="nav-tab" role="tablist">
+                                <a class="nav-link active user_type" id="nav-home-tab" data-bs-toggle="tab"
+                                    data-bs-target="#nav-home" role="tab" aria-controls="nav-home"
+                                    aria-selected="true">
+                                    <span class="tab_ttle">Provider Portal</span>
+                                    <ul class="provider_type_lstng" style="display:none;">
+                                        <li class="portalName" style="cursor: default">Apartment portal</li>
+                                        <li class="portalName" style="cursor: default">Travel & Tourism Portal</li>
+                                    </ul>
+                                    <span class="caret_dwn"></span>
+                                </a>
+                                <a class="nav-link user_type" id="nav-profile-tab" data-bs-toggle="tab"
+                                    data-bs-target="#nav-profile" role="tab" aria-controls="nav-profile"
+                                    aria-selected="false">
+                                    <span class="tab_ttle">My Smart Rewards</span>
+                                </a>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                aria-labelledby="nav-home-tab">
+                                {{ Form::open([
+                                    'route' => 'frontend.property-manager-login',
+                                    'method' => 'POST',
+                                    'class' => 'kt-form parsley-validate',
+                                    'style' => 'color:red;',
+                                    'id' => 'loginFormid',
+                                ]) }}
+                                <input type="hidden" name="user_type" value="" id="provider_user_type">
+                                <div class="email-text-one">
+                                    <input type="email" placeholder="Email or Username" name="email" required />
+                                    @if ($errors->has('email'))
+                                        <div class="error">{{ $errors->first('email') }}</div>
+                                    @endif
+                                </div>
+                                <div class="email-text-one">
+                                    <input type="password" placeholder="Password" name="password" required />
+                                    @if ($errors->has('password'))
+                                        <div class="error">{{ $errors->first('password') }}</div>
+                                    @endif
+                                </div>
+                                @if ($errors->has('user_type'))
+                                    <div class="error">{{ $errors->first('user_type') }}</div>
+                                @endif
+                                <div class="login-top-one1">
+                                    <button class="login-button-one" type="submit">LOGIN</button>
+                                </div>
+                                {{ Form::close() }}
+                            </div>
+                            <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                                aria-labelledby="nav-profile-tab">
+                                {{ Form::open([
+                                    'route' => 'frontend.consumer-login',
+                                    'method' => 'POST',
+                                    'class' => 'kt-form parsley-validate',
+                                    'style' => 'color:red;',
+                                ]) }}
+                                <input type="hidden" name="user_type" value="My Smart Reward" id="user_type">
+                                <div class="email-text-one">
+                                    <input type="email" placeholder="Email or Username" name="email" required />
+                                    @if ($errors->has('email'))
+                                        <div class="error">{{ $errors->first('email') }}</div>
+                                    @endif
+                                </div>
+                                <div class="email-text-one">
+                                    <input type="password" placeholder="Password" name="password" required />
+                                    @if ($errors->has('password'))
+                                        <div class="error">{{ $errors->first('password') }}</div>
+                                    @endif
+                                </div>
+                                <a href="#" style="padding-left: 310px;" id="consumerforgetpassword">Forgot
+                                    Password?</a>
+                                <div class="login-top-one1">
+                                    <button class="login-button-one" type="submit">LOGIN</button>
+                                </div>
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script>
         $(document).ready(function() {
+            $('.login-required').click(function(e) {
+                e.preventDefault();
+                const modal = new bootstrap.Modal(document.getElementById('loginModal'));
+                modal.show();
+            });
+
             let searchTimer;
             const searchDelay = 500; // milliseconds delay after typing stops
 
@@ -455,16 +591,16 @@
                                         <div class="business-info">
                                             <h4 class="business-name">${business.business_name}</h4>
                                             ${business.main_location ? `
-                                                                                                                    <div class="business-location">
-                                                                                                                        <span class="location-address">${business.main_location.address}</span>,
-                                                                                                                        <span class="location-city">${business.main_location.city}</span>
-                                                                                                                    </div>
-                                                                                                                    ` : ''}
+                                                                                                                                                                                        <div class="business-location">
+                                                                                                                                                                                            <span class="location-address">${business.main_location.address}</span>,
+                                                                                                                                                                                            <span class="location-city">${business.main_location.city}</span>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                        ` : ''}
                                             ${business.distance ? `
-                                                                                                                    <div class="business-distance">
-                                                                                                                        ${Math.round(business.distance)} meters away
-                                                                                                                    </div>
-                                                                                                                    ` : ''}
+                                                                                                                                                                                        <div class="business-distance">
+                                                                                                                                                                                            ${Math.round(business.distance)} meters away
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                        ` : ''}
                                         </div>
                                     </div>
                                 </a>
@@ -499,4 +635,20 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const loginTriggers = document.querySelectorAll('.trigger-login-modal');
+
+            loginTriggers.forEach(el => {
+                el.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Bootstrap 5 modal trigger
+                    const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                    loginModal.show();
+                });
+            });
+        });
+    </script>
+
 </header>

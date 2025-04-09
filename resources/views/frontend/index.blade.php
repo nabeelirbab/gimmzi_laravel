@@ -3,7 +3,7 @@
     @push('style')
         <style>
             .error {
-                color: red;
+                color: red; 
             }
         </style>
     @endpush

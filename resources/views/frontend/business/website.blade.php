@@ -627,7 +627,8 @@
                                 style="gap: 24px; margin-right:20px;">
                                 <div class="d-flex align-items-center"
                                     style="background-color: #F2F4F7; padding: 8px; border-radius: 8px; cursor: pointer;">
-                                    <img src="{{ asset('frontend_assets/images/phone-icon.png') }}" alt="phone-icon" style="width:20px;">
+                                    <img src="{{ asset('frontend_assets/images/phone-icon.png') }}" alt="phone-icon"
+                                        style="width:20px;">
                                     <p id="phone-number" class="m-0" role="button" data-bs-toggle="modal"
                                         data-bs-target="#contactModal"
                                         data-phone="{{ $getBusinessLocation->business_phone }}"
@@ -785,7 +786,7 @@
                                                         </label>
                                                         <small class="d-block text-muted"
                                                             style="display: block; color:#26a1d6 !important; line-height: 18px;">
-                                                            Earn up to {{ $deal->off_percentage }} on your purchase
+                                                            Earn up to {{ $deal->point }} points on your purchase
                                                         </small>
                                                     </div>
                                                     <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"
@@ -814,7 +815,8 @@
                                                         </label>
                                                         <small class="d-block text-muted"
                                                             style="display: block; color:#26a1d6 !important; line-height: 18px;">
-                                                            Earn up to {{ $loyalty->off_percentage }} on your purchase
+                                                            Earn up to {{ $loyalty->program_points }} points on your
+                                                            purchase
                                                         </small>
                                                     </div>
                                                     <img src="{{ asset('frontend_assets/images/tooltip.svg') }}"

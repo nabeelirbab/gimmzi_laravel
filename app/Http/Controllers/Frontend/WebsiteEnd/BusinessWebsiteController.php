@@ -100,18 +100,32 @@ class BusinessWebsiteController extends Controller
         //     ->whereNotNull(['latitude', 'longitude'])
         //     ->where('status', 1)
         //     ->get();
-        $allLocations = BusinessProfile::where('status', 1)
-        ->with(['locations' => function ($query) use ($location_id) {
-            
-                $query->where('id', '!=', $location_id);
-            
-        }])
-        ->where('id', $id)
-        ->inRandomOrder()
-        ->limit(8)
-        ->get();
-        // dd($allLocations[0]->locations);
-        $getBusinessLocation = BusinessLocation::where('id', $location_id)->first();
+        if($location_id){
+            $allLocations = BusinessProfile::where('status', 1)
+            ->with(['locations' => function ($query) use ($location_id) {
+                
+                    $query->where('id', '!=', $location_id);
+                
+            }])
+            ->where('id', $id)
+            ->inRandomOrder()
+            ->limit(8)
+            ->get();
+            // dd($allLocations[0]->locations);
+            $getBusinessLocation = BusinessLocation::where('business_profile_id', $id)->first();
+        } else {
+            $getBusinessLocation = BusinessLocation::where('business_profile_id', $id)->first();
+            $allLocations = BusinessProfile::where('status', 1)
+            ->with(['locations' => function ($query) use ($id) {
+                
+                    $query->where('business_profile_id', $id);
+                
+            }])
+            ->where('id', $id)
+            ->inRandomOrder()
+            ->limit(8)
+            ->get();
+        }
         //dd($message_boards);
         // dd($businessLocations,  $businessProfile, $business_photos, $businesses, $alreadyFav, $data, $businessLocations);
         return view('frontend.business.website', compact('business', 'message_boards', 'providerType', 'business_photos', 'businesses','alreadyFav','data','businessLocations','allLocations','getBusinessLocation'));

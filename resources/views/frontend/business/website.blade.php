@@ -627,7 +627,7 @@
                                 style="gap: 24px; margin-right:20px;">
                                 <div class="d-flex align-items-center"
                                     style="background-color: #F2F4F7; padding: 8px; border-radius: 8px; cursor: pointer;">
-                                    <img src="{{ asset('frontend_assets/images/phone-icon.svg') }}" alt="phone-icon">
+                                    <img src="{{ asset('frontend_assets/images/phone-icon.png') }}" alt="phone-icon" style="width:20px;">
                                     <p id="phone-number" class="m-0" role="button" data-bs-toggle="modal"
                                         data-bs-target="#contactModal"
                                         data-phone="{{ $getBusinessLocation->business_phone }}"

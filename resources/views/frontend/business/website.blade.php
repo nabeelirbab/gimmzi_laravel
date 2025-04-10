@@ -615,10 +615,10 @@
                             </div>
                         </div>
                         @php
-                            $getBusinessLocation = \App\Models\BusinessLocation::where(
-                                'business_profile_id',
-                                $business->id,
-                            )->first();
+                            // $getBusinessLocation = \App\Models\BusinessLocation::where(
+                            //     'business_profile_id',
+                            //     $business->id,
+                            // )->first();
                         @endphp
                         {{-- {{ dd($getBusinessLocation) }} --}}
                         <!-- Right Section: Buttons -->
@@ -1140,38 +1140,32 @@
                                 <div class="carousel-item {{ $chunkIndex == 0 ? 'active' : '' }}">
                                     <div class="row">
                                         @foreach ($chunk as $business)
-                                            <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
-                                                <div class="card h-100" style="border-radius: 1rem">
-                                                    @if (empty($d->main_image))
-                                                        <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
-                                                            alt="Business Image" class="card-img-top"
-                                                            alt="Provider Image" style="height: 200px;">
-                                                    @else
-                                                        <img src="{{ env('APP_URL') . $d->main_image }}"
-                                                            alt="Business Image" class="card-img-top"
-                                                            alt="Provider Image" style="height: 200px;">
-                                                    @endif
-                                                    <div class="card-body">
-                                                        <p class="card-text">
-                                                            <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
-                                                                alt="icon"
-                                                                style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
-                                                            @if (
-                                                                !empty($business->location_name) ||
-                                                                    !empty($business->city) ||
-                                                                    !empty($business->state) ||
-                                                                    !empty($business->zip_code))
-                                                                {{ $business->location_name ?? '' }}
-                                                                {{ $business->city ?? '' }}
-                                                                {{ $business->state ?? '' }}
-                                                                {{ $business->zip_code ?? '' }}
-                                                            @else
-                                                                <span>No address found</span>
-                                                            @endif
-                                                        </p>
+                                            @foreach ($business->locations as $location)
+                                                <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
+                                                    <div class="card h-100" style="border-radius: 1rem">
+                                                        @if (empty($d->main_image))
+                                                            <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
+                                                                alt="Business Image" class="card-img-top"
+                                                                alt="Provider Image" style="height: 200px;">
+                                                        @else
+                                                            <img src="{{ env('APP_URL') . $d->main_image }}"
+                                                                alt="Business Image" class="card-img-top"
+                                                                alt="Provider Image" style="height: 200px;">
+                                                        @endif
+                                                        <div class="card-body">
+                                                            <p class="card-text">
+                                                                <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
+                                                                    alt="icon"
+                                                                    style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
+
+                                                                {{ $location->location_name ?? '' }},
+                                                                {{ $location->address }}
+
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            @endforeach
                                         @endforeach
                                     </div>
                                 </div>

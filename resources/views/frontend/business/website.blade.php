@@ -1153,15 +1153,23 @@
                                                                 alt="Provider Image" style="height: 200px;">
                                                         @endif
                                                         <div class="card-body">
-                                                            <p class="card-text">
-                                                                <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
-                                                                    alt="icon"
-                                                                    style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
+                                                            <a href="{{ route('frontend.merchant.website', [
+                                                                'id' => $business->id,
+                                                                'location_id' => $location->id,
+                                                            ]) }}"
+                                                                class="card-text"
+                                                                style="text-decoration: none; color: inherit;">
 
-                                                                {{ $location->location_name ?? '' }},
-                                                                {{ $location->address }}
+                                                                <p class="card-text">
+                                                                    <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
+                                                                        alt="icon"
+                                                                        style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
 
-                                                            </p>
+                                                                    {{ $location->location_name ?? '' }},
+                                                                    {{ $location->address }}
+
+                                                                </p>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>

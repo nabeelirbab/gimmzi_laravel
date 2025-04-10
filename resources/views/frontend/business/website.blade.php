@@ -1548,7 +1548,22 @@
         }
 
         var businessLocations = @json($businessLocations);
-        console.log("businessLocations:", businessLocations);
+        var getBusinessLocation = @json($getBusinessLocation);
+
+        // Initialize allLocations with businessLocations
+        var allLocations = businessLocations.slice(); // Create a copy to avoid mutating the original
+
+        // Add getBusinessLocation only if it exists
+        if (getBusinessLocation) {
+            allLocations.push(getBusinessLocation);
+        }
+        console.log("business locations:", businessLocations);
+        console.log("all business locations:", allLocations);
+        console.log('getBusinessLOcation', getBusinessLocation);
+        var firstLocation = getBusinessLocation; // Get the first location from the array
+        var firstLat = parseFloat(firstLocation.latitude);
+        var firstLng = parseFloat(firstLocation.longitude);
+        console.log('first location', firstLocation, firstLat, firstLng);
 
         function initMap() {
             // Check if businessLocations is populated
@@ -1557,10 +1572,10 @@
             // Create a map object and specify the DOM element for display
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: {
-                    lat: 40.730610, // Default center, adjust later based on locations
-                    lng: -73.935242
+                    lat: firstLat, // Default center, adjust later based on locations
+                    lng: firstLng
                 },
-                zoom: 4
+                zoom: 10
             });
 
             // Array to store all markers
@@ -1569,7 +1584,8 @@
             // Dynamically add markers with info windows based on businessLocations array
             var markers = {}; // Object to store markers with location.id as keys
 
-            businessLocations.forEach(function(location) {
+
+            allLocations.forEach(function(location) {
                 var lat = parseFloat(location.latitude);
                 var lng = parseFloat(location.longitude);
 

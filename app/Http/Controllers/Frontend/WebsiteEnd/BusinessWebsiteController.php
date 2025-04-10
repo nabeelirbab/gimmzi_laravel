@@ -112,7 +112,7 @@ class BusinessWebsiteController extends Controller
             ->limit(8)
             ->get();
             // dd($allLocations[0]->locations);
-            $getBusinessLocation = BusinessLocation::where('business_profile_id', $id)->first();
+            $getBusinessLocation = BusinessLocation::where('id', $location_id)->first();
         } else {
             $getBusinessLocation = BusinessLocation::where('business_profile_id', $id)->first();
             $allLocations = BusinessProfile::where('status', 1)
@@ -126,7 +126,7 @@ class BusinessWebsiteController extends Controller
             ->limit(8)
             ->get();
         }
-        //dd($message_boards);
+        // dd($getBusinessLocation);
         // dd($businessLocations,  $businessProfile, $business_photos, $businesses, $alreadyFav, $data, $businessLocations);
         return view('frontend.business.website', compact('business', 'message_boards', 'providerType', 'business_photos', 'businesses','alreadyFav','data','businessLocations','allLocations','getBusinessLocation'));
     } 

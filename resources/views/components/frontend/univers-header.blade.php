@@ -86,6 +86,71 @@
         text-align: center;
         color: #666;
     }
+
+    .travel_auth_popup .cmn_close_popup_btn {
+        /* background-color: #182230 !important; */
+        /* color: #fff; */
+    }
+
+    .close-btn-img img {
+        max-width: 100%;
+    }
+
+    .travel_auth_popup .cmn_close_popup_btn {
+        background-color: #182230 !important;
+        /* color: #fff; */
+    }
+
+    .close-btn-img {
+        width: 17px;
+        filter: brightness(0) invert(1);
+        line-height: 0;
+    }
+
+    .modal-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        pointer-events: auto;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0, 0, 0, .2);
+        border-radius: .3rem;
+        outline: 0;
+    }
+
+    .cmn_close_popup_btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        width: 48px;
+        height: 48px;
+        right: 16px;
+        top: 16px;
+        background: #F2F4F7 !important;
+        border-radius: 70px;
+        border: 0px;
+        z-index: 1;
+    }
+
+    .travel_auth_popup .modal_main_logo {
+        margin: 0 auto;
+    }
+
+    .login_popup_body .form_grp_submit button {
+        height: 60px;
+        font-size: 32px;
+    }
 </style>
 
 <header class="new-main-head inner-headers">
@@ -247,13 +312,15 @@
                     <ul class="hdr-ul">
                         <li class="hdr-li">
                             @if (Auth::check())
-                                <a href="{{ route('frontend.consumer-dashboard',['active_tab' => 'user']) }}" class="hdr-ul-anchor">
+                                <a href="{{ route('frontend.consumer-dashboard', ['active_tab' => 'user']) }}"
+                                    class="hdr-ul-anchor">
                                     <img loading="lazy" src="{{ asset('frontend_assets/images/user.svg') }}"
                                         alt="user icon">
                                 </a>
                             @else
-                                <a href="{{ route('frontend.consumer-dashboard',['active_tab' => 'user']) }}" class="hdr-ul-anchor"
-                                    data-bs-toggle="modal" data-bs-target="#consumerLoginModal">
+                                <a href="{{ route('frontend.consumer-dashboard', ['active_tab' => 'user']) }}"
+                                    class="hdr-ul-anchor" data-bs-toggle="modal"
+                                    data-bs-target="#consumerLoginModal">
                                     <img loading="lazy" src="{{ asset('frontend_assets/images/user.svg') }}"
                                         alt="user icon">
                                 </a>
@@ -261,7 +328,8 @@
                         </li>
                         <li class="hdr-li">
                             @if (Auth::check())
-                                <a href="{{ route('frontend.consumer-dashboard',['active_tab' => 'favourite']) }}" class="hdr-ul-anchor">
+                                <a href="{{ route('frontend.consumer-dashboard', ['active_tab' => 'favourite']) }}"
+                                    class="hdr-ul-anchor">
                                     <img loading="lazy" src="{{ asset('frontend_assets/images/favourite.svg') }}"
                                         alt="favourite icon">
                                 </a>
@@ -276,13 +344,15 @@
 
                         <li class="hdr-li">
                             @if (Auth::check())
-                                <a href="{{ route('frontend.consumer-dashboard',['active_tab' => 'wallet']) }}" class="hdr-ul-anchor">
+                                <a href="{{ route('frontend.consumer-dashboard', ['active_tab' => 'wallet']) }}"
+                                    class="hdr-ul-anchor">
                                     <img loading="lazy" src="{{ asset('frontend_assets/images/wallet.svg') }}"
                                         alt="wallet icon">
                                 </a>
                             @else
-                                <a href="{{ route('frontend.consumer-dashboard',['active_tab' => 'wallet']) }}" class="hdr-ul-anchor"
-                                    data-bs-toggle="modal" data-bs-target="#consumerLoginModal">
+                                <a href="{{ route('frontend.consumer-dashboard', ['active_tab' => 'wallet']) }}"
+                                    class="hdr-ul-anchor" data-bs-toggle="modal"
+                                    data-bs-target="#consumerLoginModal">
                                     <img loading="lazy" src="{{ asset('frontend_assets/images/wallet.svg') }}"
                                         alt="wallet icon">
                                 </a>
@@ -319,7 +389,7 @@
                     </div>
                     <button type="button" class="cmn_close_popup_btn" data-bs-dismiss="modal" aria-label="Close"><i
                             class="close-btn-img"><img src="{{ asset('frontend_assets/images/close.png') }}"
-                                alt=""></i></button>
+                                alt="close-btn"></i></button>
                 </div>
                 <div class="modal-body">
                     <div class="login_popup_body">
@@ -778,16 +848,16 @@
                                     <div class="business-info">
                                         <h4 class="business-name">${business.business_name}</h4>
                                         ${business.main_location ? `
-                                                            <div class="business-location">
-                                                                <span class="location-address">${business.main_location.address}</span>,
-                                                                <span class="location-city">${business.main_location.city}</span>
-                                                            </div>
-                                                        ` : ''}
+                                                                                                                                <div class="business-location">
+                                                                                                                                    <span class="location-address">${business.main_location.address}</span>,
+                                                                                                                                    <span class="location-city">${business.main_location.city}</span>
+                                                                                                                                </div>
+                                                                                                                            ` : ''}
                                         ${business.distance ? `
-                                                            <div class="business-distance">
-                                                                ${Math.round(business.distance)} meters away
-                                                            </div>
-                                                        ` : ''}
+                                                                                                                                <div class="business-distance">
+                                                                                                                                    ${Math.round(business.distance)} meters away
+                                                                                                                                </div>
+                                                                                                                            ` : ''}
                                     </div>
                                 </a>
                             `;

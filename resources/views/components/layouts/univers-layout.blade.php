@@ -46,7 +46,7 @@
         rel="stylesheet">
     <!-- <link rel="stylesheet" href="rental.css" /> -->
     <link rel="stylesheet" href="{{ asset('frontend_assets/wizard.css') }}" />
-
+    <link rel="stylesheet" href="{{ asset('frontend_assets/css/style-new.css') }}">
     @livewireStyles
     <style>
         .carousel-wrapper {

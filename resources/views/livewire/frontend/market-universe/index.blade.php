@@ -377,7 +377,7 @@
                                                         <a
                                                             href="{{ route('frontend.merchant.website', [
                                                                 'id' => $business->id,
-                                                                'location_slug' => $location_slug,
+                                                                'location_id' => $location->id,
                                                             ]) }}">
                                                             <img loading="lazy" src="{{ $business->main_image_url }}"
                                                                 alt="fruits1 image">

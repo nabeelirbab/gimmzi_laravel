@@ -454,9 +454,9 @@
                                 <h2>{{ $business->business_name }}</h2>
                                 <p style="margin-top: 10px;">
 
-                                    @if (isset($location) && is_array($location))
+                                    @if ($getBusinessLocation)
                                         <img src="{{ asset('frontend_assets/images/location.svg') }}" alt="icon">
-                                        {{ $location['name'] }}, {{ $location['address'] }}
+                                        {{ $getBusinessLocation->location_name }}, {{ $getBusinessLocation->address }}
                                     @else
                                         @if ($business->street_address != '')
                                             <p style="margin-top: 10px;">

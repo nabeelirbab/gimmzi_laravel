@@ -488,10 +488,10 @@
                             <div class="modal-dialog modal-dialog-centered custom-modal"
                                 style="max-width: 900px; width: 90%;">
                                 <div class="modal-content container-fluid position-relative">
-                                  
+
 
                                     <div class="modal-body text-center">
-                                          <!-- Close Button -->
+                                        <!-- Close Button -->
                                         <button type="button" class="btn-close position-absolute top-0 end-0 mt-3"
                                             data-bs-dismiss="modal" aria-label="Close">
                                             <i class="fa fa-times" aria-hidden="true"></i>
@@ -501,26 +501,29 @@
                                             class="row align-items-center social-modal-header text-center text-md-start">
                                             <div class="col-12 col-md-3 text-center mb-2 mb-md-0">
 
-                                               @if ($show_logo_image)
-                                                <img style="width: 100px;border-radius: 7%;"
-                                                    src="{{ $show_logo_image->getUrl() }}" />
+                                                @if ($show_logo_image)
+                                                    <img style="width: 100px;border-radius: 7%;"
+                                                        src="{{ $show_logo_image->getUrl() }}" />
                                                 @else
-                                                <img style="width: 200px;height: 147px;border-radius: 7%;"
-                                                    src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
+                                                    <img style="width: 200px;height: 147px;border-radius: 7%;"
+                                                        src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
                                                 @endif
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <div class="business_name fw-bold">{{ $business->business_name }}</div>
                                                 <div class="business_address">
                                                     @if ($getBusinessLocation)
-                                                    {{ $getBusinessLocation->address }}
-                                                    @else if (!empty($business->street_address))
+                                                        {{ $getBusinessLocation->address }}
+                                                    @else
+                                                        if (!empty($business->street_address))
                                                         {{ $business->street_address }}, {{ $business->city }},
                                                         {{ $business->states->name }}, {{ $business->zip_code }}
                                                     @endif
                                                 </div>
-                                                @if($getBusinessLocation->business_phone)
-                                                 <div class="mt-2">{{ $getBusinessLocation->business_phone }}</div>@endif
+                                                @if ($getBusinessLocation->business_phone)
+                                                    <div class="mt-2">{{ $getBusinessLocation->business_phone }}
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
 
@@ -627,31 +630,32 @@
                         <div class="col-md-6 col-12">
                             <div class="d-flex flex-md-row flex-column justify-content-md-end justify-content-center map-it-buttons"
                                 style="gap: 24px; margin-right:20px;">
-                                @if($getBusinessLocation->business_phone)
-                                <div class="d-flex align-items-center"
-                                    style="background-color: #F2F4F7; padding: 8px; border-radius: 8px; cursor: pointer;">
-                                    <img src="{{ asset('frontend_assets/images/phone-icon.png') }}" alt="phone-icon"
-                                        style="width:20px;">
-                                    <p id="phone-number" class="m-0" role="button" data-bs-toggle="modal"
-                                        data-bs-target="#contactModal"
-                                        data-phone="{{ $getBusinessLocation->business_phone }}"
-                                        style="margin-left: 7px;cursor: pointer;">
-                                        {{ $getBusinessLocation->business_phone }}
-                                    </p>
+                                @if ($getBusinessLocation->business_phone)
+                                    <div class="d-flex align-items-center"
+                                        style="background-color: #F2F4F7; padding: 8px; border-radius: 8px; cursor: pointer;">
+                                        <img src="{{ asset('frontend_assets/images/phone-icon.png') }}"
+                                            alt="phone-icon" style="width:20px;">
+                                        <p id="phone-number" class="m-0" role="button" data-bs-toggle="modal"
+                                            data-bs-target="#contactModal"
+                                            data-phone="{{ $getBusinessLocation->business_phone }}"
+                                            style="margin-left: 7px;cursor: pointer;">
+                                            {{ $getBusinessLocation->business_phone }}
+                                        </p>
 
-                                </div>
-                               @endif
-                               @if($getBusinessLocation->business_fax_number)
-                                <div class="d-flex align-items-center rounded-2"
-                                    style="background-color: #F2F4F7; padding: 10px;">
-                                    <a href="{{ $getBusinessLocation->business_fax_number ?? '#' }}" target="_blank"
-                                        style="color:#000 !important;">
-                                        <img src="{{ asset('frontend_assets/images/global-icon.png') }}"
-                                            alt="global-icon" style="width:24px !important;height:24px !important;">
-                                        <p style="margin-left: 7px;color:#000 !important;">visit website
-                                    </a>
-                                </div>
-                               @endif
+                                    </div>
+                                @endif
+                                @if ($getBusinessLocation->business_fax_number)
+                                    <div class="d-flex align-items-center rounded-2"
+                                        style="background-color: #F2F4F7; padding: 10px;">
+                                        <a href="{{ $getBusinessLocation->business_fax_number ?? '#' }}"
+                                            target="_blank" style="color:#000 !important;">
+                                            <img src="{{ asset('frontend_assets/images/global-icon.png') }}"
+                                                alt="global-icon"
+                                                style="width:24px !important;height:24px !important;">
+                                            <p style="margin-left: 7px;color:#000 !important;">visit website
+                                        </a>
+                                    </div>
+                                @endif
                                 <div class="d-flex align-items-center" style="cursor: pointer;"
                                     data-bs-toggle="modal" data-bs-target="#shareModal">
                                     <img src="{{ asset('frontend_assets/images/share.svg') }}" alt="">
@@ -1002,18 +1006,16 @@
                             </div>
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                 <p id="contactContent" style="color: #000">
-                                   @if ($show_story_image)
-                                    <img id="preview_logo"
-                                                style="width: 230px;height: 147px;border-radius: 7%;"
-                                                src="{{ $show_story_image->getUrl() }}" />
-                                     @else
-                                    <img id="preview_logo"
-                                                style="width: 230px;height: 147px;border-radius: 7%;"
-                                                src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
+                                    @if ($show_story_image)
+                                        <img id="preview_logo" style="width: 230px;height: 147px;border-radius: 7%;"
+                                            src="{{ $show_story_image->getUrl() }}" />
+                                    @else
+                                        <img id="preview_logo" style="width: 230px;height: 147px;border-radius: 7%;"
+                                            src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
                                     @endif
-                                   <br>
+                                    <br>
                                     {!! $business->business_story !!}
-                                    
+
                                 </p>
                             </div>
                         </div>
@@ -1022,97 +1024,7 @@
 
             </div>
 
-            @if ($data['deals']->isNotEmpty())
-                <div class="container mt-5">
-                    <!-- Header Row with H1 and Controls -->
-                    <div class="row align-items-center mb-4">
-                        <div class="col-6">
-                            <h1 class="h2">Other {{ $business->business_name }} Deals Locations</h1>
-
-                        </div>
-                        <div class="col-6 text-end">
-                            <button class="btn btn-info me-2" type="button" data-bs-target="#locationCarousel"
-                                data-bs-slide="prev">
-                                <!-- SVG for left arrow -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z" />
-                                </svg>
-                            </button>
-                            <button class="btn btn-info" type="button" data-bs-target="#locationCarousel"
-                                data-bs-slide="next">
-                                <!-- SVG for right arrow -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 8 4.646 3.354a.5.5 0 0 1 0-.708z" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Carousel -->
-
-                    <div id="locationCarousel" class="carousel slide" data-bs-ride="carousel">
-                        <!-- Carousel Items -->
-                        <div class="carousel-inner">
-                            @foreach ($data['deals']->chunk(4) as $index => $deal)
-                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                    <div class="row">
-                                        @foreach ($deal as $d)
-                                            <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
-                                                <div class="card h-100" style="border-radius: 1rem">
-                                                    @if (empty($d->main_image))
-                                                        <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
-                                                            alt="dummy-img" style="height: 200px;">
-                                                    @else
-                                                        <img src="{{ env('APP_URL') . $d->main_image }}"
-                                                            alt="Business Image" class="card-img-top"
-                                                            alt="Provider Image" style="height: 200px;">
-                                                    @endif
-                                                    <div class="card-body">
-                                                        <p class="card-text">
-                                                            {{ Str::limit($d->suggested_description, 50) ?? '' }} <br>
-                                                            <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
-                                                                alt="icon"
-                                                                style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
-
-                                                            {{ $d->available_location ?? 'address not found' }} <br>
-                                                            {{ $d->physical_location ?? '' }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-
-                        <!-- Indicators (Circles Below the Carousel) -->
-                        <!-- Indicators (Circles Below the Carousel) -->
-                        <div class="mt-3 d-flex justify-content-center mb-3" style="margin-bottom: 20px !important;">
-                            @php
-                                $chunks =
-                                    isset($data['deals']) && $data['deals']->isNotEmpty()
-                                        ? $data['deals']->chunk(4)
-                                        : $allLocations->chunk(4);
-                            @endphp
-
-                            @foreach ($chunks as $index => $chunk)
-                                <button type="button" data-bs-target="#locationCarousel"
-                                    data-bs-slide-to="{{ $index }}"
-                                    class="{{ $index == 0 ? 'active ' : '' }}btn btn-info rounded-circle p-2 mx-2 circular-button"
-                                    aria-current="{{ $index == 0 ? 'true' : 'false' }}"
-                                    aria-label="Slide {{ $index + 1 }}"></button>
-                            @endforeach
-                        </div>
-
-                    </div>
-
-                </div>
-            @else
+            @if ($allLocations)
                 <div class="container mt-5">
                     <!-- Header Row with H1 and Controls -->
                     <div class="row align-items-center mb-4">
@@ -1185,6 +1097,96 @@
                                                     </div>
                                                 </div>
                                             @endforeach
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Indicators (Circles Below the Carousel) -->
+                        <!-- Indicators (Circles Below the Carousel) -->
+                        <div class="mt-3 d-flex justify-content-center mb-3" style="margin-bottom: 20px !important;">
+                            @php
+                                $chunks =
+                                    isset($data['deals']) && $data['deals']->isNotEmpty()
+                                        ? $data['deals']->chunk(4)
+                                        : $allLocations->chunk(4);
+                            @endphp
+
+                            @foreach ($chunks as $index => $chunk)
+                                <button type="button" data-bs-target="#locationCarousel"
+                                    data-bs-slide-to="{{ $index }}"
+                                    class="{{ $index == 0 ? 'active ' : '' }}btn btn-info rounded-circle p-2 mx-2 circular-button"
+                                    aria-current="{{ $index == 0 ? 'true' : 'false' }}"
+                                    aria-label="Slide {{ $index + 1 }}"></button>
+                            @endforeach
+                        </div>
+
+                    </div>
+
+                </div>
+            @else
+                <div class="container mt-5">
+                    <!-- Header Row with H1 and Controls -->
+                    <div class="row align-items-center mb-4">
+                        <div class="col-6">
+                            <h1 class="h2">Other {{ $business->business_name }} Deals Locations</h1>
+
+                        </div>
+                        <div class="col-6 text-end">
+                            <button class="btn btn-info me-2" type="button" data-bs-target="#locationCarousel"
+                                data-bs-slide="prev">
+                                <!-- SVG for left arrow -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z" />
+                                </svg>
+                            </button>
+                            <button class="btn btn-info" type="button" data-bs-target="#locationCarousel"
+                                data-bs-slide="next">
+                                <!-- SVG for right arrow -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 8 4.646 3.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Carousel -->
+
+                    <div id="locationCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <!-- Carousel Items -->
+                        <div class="carousel-inner">
+                            @foreach ($data['deals']->chunk(4) as $index => $deal)
+                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                    <div class="row">
+                                        @foreach ($deal as $d)
+                                            <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
+                                                <div class="card h-100" style="border-radius: 1rem">
+                                                    @if (empty($d->main_image))
+                                                        <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
+                                                            alt="dummy-img" style="height: 200px;">
+                                                    @else
+                                                        <img src="{{ env('APP_URL') . $d->main_image }}"
+                                                            alt="Business Image" class="card-img-top"
+                                                            alt="Provider Image" style="height: 200px;">
+                                                    @endif
+                                                    <div class="card-body">
+                                                        <p class="card-text">
+                                                            {{ Str::limit($d->suggested_description, 50) ?? '' }} <br>
+                                                            <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
+                                                                alt="icon"
+                                                                style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
+
+                                                            {{ $d->available_location ?? 'address not found' }} <br>
+                                                            {{ $d->physical_location ?? '' }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endforeach
                                     </div>
                                 </div>

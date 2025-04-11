@@ -1064,38 +1064,40 @@
                                     <div class="row">
                                         @foreach ($chunk as $business)
                                             @foreach ($business->locations as $location)
-                                                <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
-                                                    <div class="card h-100" style="border-radius: 1rem">
-                                                        @if (empty($d->main_image))
-                                                            <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
-                                                                alt="Business Image" class="card-img-top"
-                                                                alt="Provider Image" style="height: 200px;">
-                                                        @else
-                                                            <img src="{{ env('APP_URL') . $d->main_image }}"
-                                                                alt="Business Image" class="card-img-top"
-                                                                alt="Provider Image" style="height: 200px;">
-                                                        @endif
-                                                        <div class="card-body">
-                                                            <a href="{{ route('frontend.merchant.website', [
-                                                                'id' => $business->id,
-                                                                'location_id' => $location->id,
-                                                            ]) }}"
-                                                                class="card-text"
-                                                                style="text-decoration: none; color: inherit;">
+                                                @if ($location->location_name !== $getBusinessLocation->location_name)
+                                                    <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
+                                                        <div class="card h-100" style="border-radius: 1rem">
+                                                            @if (empty($d->main_image))
+                                                                <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
+                                                                    alt="Business Image" class="card-img-top"
+                                                                    alt="Provider Image" style="height: 200px;">
+                                                            @else
+                                                                <img src="{{ env('APP_URL') . $d->main_image }}"
+                                                                    alt="Business Image" class="card-img-top"
+                                                                    alt="Provider Image" style="height: 200px;">
+                                                            @endif
+                                                            <div class="card-body">
+                                                                <a href="{{ route('frontend.merchant.website', [
+                                                                    'id' => $business->id,
+                                                                    'location_id' => $location->id,
+                                                                ]) }}"
+                                                                    class="card-text"
+                                                                    style="text-decoration: none; color: inherit;">
 
-                                                                <p class="card-text">
-                                                                    <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
-                                                                        alt="icon"
-                                                                        style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
+                                                                    <p class="card-text">
+                                                                        <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
+                                                                            alt="icon"
+                                                                            style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
 
-                                                                    {{ $location->location_name ?? '' }},
-                                                                    {{ $location->address }}
+                                                                        {{ $location->location_name ?? '' }},
+                                                                        {{ $location->address }}
 
-                                                                </p>
-                                                            </a>
+                                                                    </p>
+                                                                </a>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             @endforeach
                                         @endforeach
                                     </div>

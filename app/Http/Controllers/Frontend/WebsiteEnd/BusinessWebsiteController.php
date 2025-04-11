@@ -23,7 +23,6 @@ class BusinessWebsiteController extends Controller
     {
         $business = BusinessProfile::find($id); 
        
-      
         // $message_board = MerchantDisplayBoard::where('business_id', $id)->first();
         $providerType = ProviderSubType::get();
         $businessLocation = BusinessLocation::where('business_profile_id', $id)->first();
@@ -33,8 +32,11 @@ class BusinessWebsiteController extends Controller
         $show_story_image = Media::where(['model_id' => $id, 'collection_name' => 'BusinessStoryImage'])->first();
         $show_logo_image = Media::where(['model_id' => $id, 'collection_name' => 'businessProfileLogo'])->first();
         $businesses = BusinessProfile::where('id', '<>', $id)->withCount('deals')->with('states')->whereHas('deals')->where('status', 1)->get();
-       
-        $alreadyFav = ConsumerFavouriteTravelTourism::where('business_id',$business->id)->first();
+        if(Auth::user()){
+          $alreadyFav = ConsumerFavouriteTravelTourism::where('business_id',$business->id)->where('consumer_id',Auth::user()->id)->first();
+        }else{
+            $alreadyFav = null;
+        }
         if ($businessLocation && isset($businessLocation->id)) {
             $dealIds = DealLocation::where('location_id', $businessLocation->id)->pluck('deal_id');
         } else {

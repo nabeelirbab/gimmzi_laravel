@@ -203,6 +203,7 @@
             z-index: 1051 !important;
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('frontend_assets/css/style-new.css') }}">
 
     @php
         $lat_long_array = [];
@@ -319,7 +320,7 @@
                                     <div class="search-location">
                                         <input type="text" id="search-location" class="form-control"
                                             placeholder="Search by a location">
-                                        
+
                                     </div>
                                 </div>
 
@@ -475,13 +476,13 @@
                                             <div class="modal-dialog modal-dialog-centered custom-modal"
                                                 style="max-width: 900px; width: 90%;">
                                                 <div class="modal-content container-fluid position-relative">
-                                                   
+
                                                     <div class="modal-body text-center">
-                                                    <button type="button"
-                                                        class="btn-close position-absolute top-0 end-0 mt-3"
-                                                        data-bs-dismiss="modal" aria-label="Close">
-                                                        <i class="fa fa-times" aria-hidden="true"></i>
-                                                    </button>
+                                                        <button type="button"
+                                                            class="btn-close position-absolute top-0 end-0 mt-3"
+                                                            data-bs-dismiss="modal" aria-label="Close">
+                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                        </button>
 
                                                         <div
                                                             class="row align-items-center social-modal-header text-center text-md-start">
@@ -494,7 +495,7 @@
                                                                 <div class="business_name fw-bold">
                                                                     {{ $business->business_name }}</div>
                                                                 <div class="business_address">
-                                                                   {{ $location->address}}
+                                                                    {{ $location->address }}
                                                                 </div>
                                                                 <div class="mt-2">{{ $location->business_phone }}
                                                                 </div>

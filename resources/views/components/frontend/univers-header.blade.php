@@ -152,6 +152,143 @@
         font-size: 32px;
     }
 </style>
+<style>
+    .search-result-item {
+        display: flex;
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .search-result-item:hover {
+        background-color: #f9f9f9;
+    }
+
+    .business-image {
+        width: 60px;
+        height: 60px;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+
+    .business-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    .business-info {
+        flex: 1;
+    }
+
+    .business-name {
+        margin: 0 0 5px 0;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .business-location {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    .business-distance {
+        font-size: 13px;
+        color: #888;
+    }
+
+    /* Update your modal CSS */
+    #searchResultsModal {
+        position: absolute;
+        top: 100%;
+        /* Position directly below search input */
+        left: 0;
+        right: 0;
+        width: auto;
+        /* Or set specific width */
+        max-width: 100%;
+        /* Prevent exceeding header width */
+        margin: 0 auto;
+        background: white;
+        border: 1px solid #ddd;
+        border-top: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    /* Ensure parent has relative positioning */
+    #searchForm {
+        position: relative;
+        width: 100%;
+        /* Match header width */
+        max-width:
+            /* your header's max width */
+        ;
+    }
+
+    .close-btn-img img {
+        max-width: 100%;
+    }
+
+    .travel_auth_popup .cmn_close_popup_btn {
+        background-color: #182230 !important;
+        /* color: #fff; */
+    }
+
+    .close-btn-img {
+        width: 17px;
+        filter: brightness(0) invert(1);
+        line-height: 0;
+    }
+
+    .modal-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        pointer-events: auto;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0, 0, 0, .2);
+        border-radius: .3rem;
+        outline: 0;
+    }
+
+    .cmn_close_popup_btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        width: 48px;
+        height: 48px;
+        right: 16px;
+        top: 16px;
+        background: #F2F4F7 !important;
+        border-radius: 70px;
+        border: 0px;
+        z-index: 1;
+    }
+
+    .travel_auth_popup .modal_main_logo {
+        margin: 0 auto;
+    }
+
+    .login_popup_body .form_grp_submit button {
+        height: 60px;
+        font-size: 32px;
+    }
+</style>
 
 <header class="new-main-head inner-headers">
     <div class="top-hdr">
@@ -405,8 +542,9 @@
                                 <button class="cmn_theme_btn">Next</button>
                             </div>
                             <div class="form_grp form_grp_dcl_text">
-                                By creating an account, you agree to our <a href="#">Privacy policy</a> and <a
-                                    href="#">Terms of use</a>.
+                                By creating an account, you agree to our <a
+                                    href="{{ route('frontend.privacy-policy') }}">Privacy policy</a> and <a
+                                    href="{{ route('frontend.terms-of-use') }}">Terms of use</a>.
                             </div>
                         </div>
                         {{ Form::close() }}
@@ -848,16 +986,16 @@
                                     <div class="business-info">
                                         <h4 class="business-name">${business.business_name}</h4>
                                         ${business.main_location ? `
-                                                                                                                                <div class="business-location">
-                                                                                                                                    <span class="location-address">${business.main_location.address}</span>,
-                                                                                                                                    <span class="location-city">${business.main_location.city}</span>
-                                                                                                                                </div>
-                                                                                                                            ` : ''}
+                                                                                                                                            <div class="business-location">
+                                                                                                                                                <span class="location-address">${business.main_location.address}</span>,
+                                                                                                                                                <span class="location-city">${business.main_location.city}</span>
+                                                                                                                                            </div>
+                                                                                                                                        ` : ''}
                                         ${business.distance ? `
-                                                                                                                                <div class="business-distance">
-                                                                                                                                    ${Math.round(business.distance)} meters away
-                                                                                                                                </div>
-                                                                                                                            ` : ''}
+                                                                                                                                            <div class="business-distance">
+                                                                                                                                                ${Math.round(business.distance)} meters away
+                                                                                                                                            </div>
+                                                                                                                                        ` : ''}
                                     </div>
                                 </a>
                             `;
@@ -907,6 +1045,17 @@
                 $('#resetPasswordToken').val('{{ Session::get('reset_token') }}');
                 resetPasswordModal.show();
             @endif
+
+            // Close modal handlers (keep your existing ones)
+            $('.close-search-modal').click(function() {
+                $('#searchResultsModal').hide();
+            });
+
+            $(window).click(function(e) {
+                if ($(e.target).is('#searchResultsModal')) {
+                    $('#searchResultsModal').hide();
+                }
+            });
         });
     </script>
 @endpush

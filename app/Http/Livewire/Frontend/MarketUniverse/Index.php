@@ -21,7 +21,6 @@ class Index extends Component
 
     public function mount()
     {
-
         $this->category_lists = BusinessCategory::where('status', 1)->get();
 
         if (request()->category) {
@@ -135,7 +134,7 @@ class Index extends Component
     {   // Debugging line to check the value of location
         if (!empty($value)) {
             try {
-                $apiKey = 'AIzaSyBNL_1BSqiKF5qf0WqLbMT4xF1dB1Aux1M'; // Your existing key
+                $apiKey = env('GOOGLE_GEOCODE_API_KEY'); // Your existing key
                 $address = urlencode($value);
                 $url = "https://maps.googleapis.com/maps/api/geocode/json?address={$address}&key={$apiKey}";
                 

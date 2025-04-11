@@ -319,7 +319,7 @@
                                     <div class="search-location">
                                         <input type="text" id="search-location" class="form-control"
                                             placeholder="Search by a location">
-                                        <div id="map"></div>
+                                        
                                     </div>
                                 </div>
 
@@ -338,7 +338,7 @@
                         </div>
                         <div class="filter-mdl-blk" wire:ignore style="display: none;">
                             <div class="map">
-                                <div id="map-canvas" class="google-map"></div>
+                                <div id="map"></div>
                             </div>
                         </div>
                         <div class="filter-sec-rit-btm">
@@ -379,7 +379,7 @@
                                                                 'id' => $business->id,
                                                                 'location_id' => $location->id,
                                                             ]) }}">
-                                                            <img loading="lazy" src="{{ $business->main_image_url }}"
+                                                            <img loading="lazy" src="{{ $business->logo_image }}"
                                                                 alt="fruits1 image">
                                                         </a>
                                                     </figure>
@@ -402,7 +402,7 @@
                                                             <a
                                                                 href="{{ route('frontend.merchant.website', [
                                                                     'id' => $business->id,
-                                                                    'location_slug' => $location_slug,
+                                                                    'location_id' => $location->id,
                                                                 ]) }}">
                                                                 {{ $business->business_name }}
                                                             </a>
@@ -475,32 +475,28 @@
                                             <div class="modal-dialog modal-dialog-centered custom-modal"
                                                 style="max-width: 900px; width: 90%;">
                                                 <div class="modal-content container-fluid position-relative">
+                                                   
+                                                    <div class="modal-body text-center">
                                                     <button type="button"
-                                                        class="btn-close position-absolute top-0 end-0 m-3"
+                                                        class="btn-close position-absolute top-0 end-0 mt-3"
                                                         data-bs-dismiss="modal" aria-label="Close">
                                                         <i class="fa fa-times" aria-hidden="true"></i>
                                                     </button>
 
-                                                    <div class="modal-body text-center">
                                                         <div
                                                             class="row align-items-center social-modal-header text-center text-md-start">
                                                             <div class="col-12 col-md-3 text-center mb-2 mb-md-0">
-                                                                <img src="{{ asset('frontend_assets/images/modal_logo.png') }}"
+                                                                <img src="{{ $business->logo_image }}"
                                                                     alt="Business Logo" class="img-fluid"
-                                                                    style="max-width: 60px; height: auto;">
+                                                                    style="width: 160px; height: auto;border-radius: 7px">
                                                             </div>
                                                             <div class="col-12 col-md-6">
                                                                 <div class="business_name fw-bold">
                                                                     {{ $business->business_name }}</div>
                                                                 <div class="business_address">
-                                                                    @if (!empty($business->street_address))
-                                                                        {{ $business->street_address }},
-                                                                        {{ $business->city }},
-                                                                        {{ $business->states->name }},
-                                                                        {{ $business->zip_code }}
-                                                                    @endif
+                                                                   {{ $location->address}}
                                                                 </div>
-                                                                <div class="mt-2">{{ $business->business_phone }}
+                                                                <div class="mt-2">{{ $location->business_phone }}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -698,7 +694,7 @@
 
     @push('scripts')
         <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNL_1BSqiKF5qf0WqLbMT4xF1dB1Aux1M&libraries=places&callback=initMap"
+            src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_GEOCODE_API_KEY') }}&libraries=places&callback=initMap"
             async defer></script>
         <script>
             // Global variables
@@ -771,7 +767,7 @@
                         map.fitBounds(place.geometry.viewport);
                     } else {
                         map.setCenter(place.geometry.location);
-                        map.setZoom(17);
+                        map.setZoom(21);
                     }
 
                     // Update marker position

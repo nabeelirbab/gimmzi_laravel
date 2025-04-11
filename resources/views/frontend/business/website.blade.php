@@ -488,37 +488,39 @@
                             <div class="modal-dialog modal-dialog-centered custom-modal"
                                 style="max-width: 900px; width: 90%;">
                                 <div class="modal-content container-fluid position-relative">
-                                    <!-- Close Button -->
-                                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3"
-                                        data-bs-dismiss="modal" aria-label="Close">
-                                        <i class="fa fa-times" aria-hidden="true"></i>
-                                    </button>
+                                  
 
                                     <div class="modal-body text-center">
+                                          <!-- Close Button -->
+                                        <button type="button" class="btn-close position-absolute top-0 end-0 mt-3"
+                                            data-bs-dismiss="modal" aria-label="Close">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
                                         <!-- Business Info -->
                                         <div
                                             class="row align-items-center social-modal-header text-center text-md-start">
                                             <div class="col-12 col-md-3 text-center mb-2 mb-md-0">
 
-                                                @if ($business->business_logo != null)
-                                                    <img src="{{ asset($business->business_logo) }}"
-                                                        alt="Business Logo" class="img-fluid rounded-circle"
-                                                        style="max-width: 60px; height: auto;">
+                                               @if ($show_logo_image)
+                                                <img style="width: 100px;border-radius: 7%;"
+                                                    src="{{ $show_logo_image->getUrl() }}" />
                                                 @else
-                                                    <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
-                                                        alt="Business Logo" class="img-fluid rounded-circle"
-                                                        style="max-width: 60px; height: auto;">
+                                                <img style="width: 200px;height: 147px;border-radius: 7%;"
+                                                    src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
                                                 @endif
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <div class="business_name fw-bold">{{ $business->business_name }}</div>
                                                 <div class="business_address">
-                                                    @if (!empty($business->street_address))
+                                                    @if ($getBusinessLocation)
+                                                    {{ $getBusinessLocation->address }}
+                                                    @else if (!empty($business->street_address))
                                                         {{ $business->street_address }}, {{ $business->city }},
                                                         {{ $business->states->name }}, {{ $business->zip_code }}
                                                     @endif
                                                 </div>
-                                                <div class="mt-2">{{ $business->business_phone }}</div>
+                                                @if($getBusinessLocation->business_phone)
+                                                 <div class="mt-2">{{ $getBusinessLocation->business_phone }}</div>@endif
                                             </div>
                                         </div>
 
@@ -621,11 +623,11 @@
                             //     $business->id,
                             // )->first();
                         @endphp
-                        {{-- {{ dd($getBusinessLocation) }} --}}
                         <!-- Right Section: Buttons -->
                         <div class="col-md-6 col-12">
                             <div class="d-flex flex-md-row flex-column justify-content-md-end justify-content-center map-it-buttons"
                                 style="gap: 24px; margin-right:20px;">
+                                @if($getBusinessLocation->business_phone)
                                 <div class="d-flex align-items-center"
                                     style="background-color: #F2F4F7; padding: 8px; border-radius: 8px; cursor: pointer;">
                                     <img src="{{ asset('frontend_assets/images/phone-icon.png') }}" alt="phone-icon"
@@ -638,7 +640,8 @@
                                     </p>
 
                                 </div>
-
+                               @endif
+                               @if($getBusinessLocation->business_fax_number)
                                 <div class="d-flex align-items-center rounded-2"
                                     style="background-color: #F2F4F7; padding: 10px;">
                                     <a href="{{ $getBusinessLocation->business_fax_number ?? '#' }}" target="_blank"
@@ -648,7 +651,7 @@
                                         <p style="margin-left: 7px;color:#000 !important;">visit website
                                     </a>
                                 </div>
-
+                               @endif
                                 <div class="d-flex align-items-center" style="cursor: pointer;"
                                     data-bs-toggle="modal" data-bs-target="#shareModal">
                                     <img src="{{ asset('frontend_assets/images/share.svg') }}" alt="">
@@ -999,13 +1002,18 @@
                             </div>
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                 <p id="contactContent" style="color: #000">
-                                    @if ($business->business == null)
-                                        {!! $business->business_story !!}
-                                    @else
-                                        <img src="{{ asset($business->business_image) }}" alt="business-img">
-                                        <br>
-                                        {!! $business->business_story !!}
+                                   @if ($show_story_image)
+                                    <img id="preview_logo"
+                                                style="width: 230px;height: 147px;border-radius: 7%;"
+                                                src="{{ $show_story_image->getUrl() }}" />
+                                     @else
+                                    <img id="preview_logo"
+                                                style="width: 230px;height: 147px;border-radius: 7%;"
+                                                src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
                                     @endif
+                                   <br>
+                                    {!! $business->business_story !!}
+                                    
                                 </p>
                             </div>
                         </div>

@@ -358,7 +358,7 @@
                                                         <span>Save</span>
                                                     </div>
                                                     <div class="purchase-wishlst share-blkss" data-bs-toggle="modal"
-                                                        data-bs-target="#shareModal{{ $business->id }}">
+                                                        data-bs-target="#shareModal{{ $business->id }}-{{ $location->id }}">
                                                         <a href="javascript:void(0)" class="cmn-purchase">
                                                             <img loading="lazy"
                                                                 src="{{ asset('frontend_assets/images/shrss.svg') }}"
@@ -471,7 +471,8 @@
                                             </div>
                                         </div>
                                         <!-- Social Sharing Modal -->
-                                        <div class="modal fade" id="shareModal{{ $business->id }}" tabindex="-1"
+                                        <div class="modal fade"
+                                            id="shareModal{{ $business->id }}-{{ $location->id }}" tabindex="-1"
                                             aria-labelledby="shareModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered custom-modal"
                                                 style="max-width: 900px; width: 90%;">
@@ -526,7 +527,7 @@
                                                             <div
                                                                 class="col-12 col-md-7 d-flex flex-column social-container p-3">
                                                                 <div class="social-row">
-                                                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
+                                                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('frontend.merchant.website', ['id' => $business->id, 'location_id' => $location->id])) }}"
                                                                         target="_blank" class="social-btn">
                                                                         <img src="{{ asset('frontend_assets/images/facebook.svg') }}"
                                                                             alt="Facebook" class="icon-img">
@@ -541,7 +542,7 @@
                                                                 </div>
 
                                                                 <div class="social-row">
-                                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
+                                                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(route('frontend.merchant.website', ['id' => $business->id, 'location_id' => $location->id])) }}"
                                                                         target="_blank" class="social-btn">
                                                                         <img src="{{ asset('frontend_assets/images/linkedin.svg') }}"
                                                                             alt="LinkedIn" class="icon-img">
@@ -567,7 +568,7 @@
                                                                     </a>
 
                                                                     <a href="#"
-                                                                        onclick="copyToClipboard('{{ url('merchant/' . $business->id) }}'); return false;"
+                                                                        onclick="copyToClipboard('{{ url('merchant/' . $business->id . '/' . $location->id) }}'); return false;"
                                                                         class="social-btn">
                                                                         <img src="{{ asset('frontend_assets/images/copy.svg') }}"
                                                                             alt="Copy Link" class="icon-img">

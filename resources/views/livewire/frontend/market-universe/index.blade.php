@@ -533,7 +533,7 @@
                                                                             alt="Facebook" class="icon-img">
                                                                         <span>Facebook</span>
                                                                     </a>
-                                                                    <a href="https://x.com/intent/tweet?text={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
+                                                                    <a href="https://x.com/intent/tweet?text={{ urlencode(route('frontend.merchant.website', ['id' => $business->id, 'location_id' => $location->id])) }}"
                                                                         target="_blank" class="social-btn">
                                                                         <img src="{{ asset('frontend_assets/images/X.svg') }}"
                                                                             alt="X" class="icon-img">
@@ -549,7 +549,7 @@
                                                                         <span>LinkedIn</span>
                                                                     </a>
 
-                                                                    <a href="https://api.whatsapp.com/send?text={{ urlencode(route('frontend.merchant.website', ['id' => $business->id])) }}"
+                                                                    <a href="https://api.whatsapp.com/send?text={{ urlencode(route('frontend.merchant.website', ['id' => $business->id, 'location_id' => $location->id])) }}"
                                                                         target="_blank" class="social-btn">
                                                                         <img src="{{ asset('frontend_assets/images/whatsapp.svg') }}"
                                                                             alt="WhatsApp" class="icon-img">
@@ -561,7 +561,7 @@
                                                                     <a href="#" data-bs-toggle="modal"
                                                                         data-bs-target="#shareSocialModal"
                                                                         class="social-btn email-share-btn"
-                                                                        data-link="{{ url('merchant/' . $business->id) }}">
+                                                                        data-link="{{ url('merchant/' . $business->id . '/' . $location->id) }}">
                                                                         <img src="{{ asset('frontend_assets/images/email.svg') }}"
                                                                             alt="Email" class="icon-img">
                                                                         <span>Email</span>

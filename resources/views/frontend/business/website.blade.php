@@ -1091,75 +1091,81 @@
                     </div>
 
                     <!-- Carousel -->
-
+                    @php
+                        $filteredLocations = collect();
+                        foreach ($allLocations as $business) {
+                            foreach ($business->locations as $location) {
+                                if ($location->location_name !== $getBusinessLocation->location_name) {
+                                    $filteredLocations->push(['business' => $business, 'location' => $location]);
+                                }
+                            }
+                        }
+                    @endphp
                     <div id="locationCarousel" class="carousel slide" data-bs-ride="carousel">
                         <!-- Carousel Items -->
                         <div class="carousel-inner">
-                            @foreach ($allLocations->chunk(4) as $chunkIndex => $chunk)
+                            @foreach ($filteredLocations->chunk(4) as $chunkIndex => $chunk)
                                 <div class="carousel-item {{ $chunkIndex == 0 ? 'active' : '' }}">
                                     <div class="row">
-                                        @foreach ($chunk as $business)
-                                            @foreach ($business->locations as $location)
-                                                @if ($location->location_name !== $getBusinessLocation->location_name)
-                                                    <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
-                                                        <div class="card h-100" style="border-radius: 1rem">
-                                                            @if (empty($show_logo_image))
-                                                                <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
-                                                                    alt="Business Image" class="card-img-top"
-                                                                    alt="Provider Image" style="height: 200px;">
-                                                            @else
-                                                                <img src="{{ $show_logo_image->getUrl() }}"
-                                                                    alt="Business Image" class="card-img-top"
-                                                                    alt="Provider Image" style="height: 200px;">
-                                                            @endif
-                                                            <div class="card-body">
-                                                                <a href="{{ route('frontend.merchant.website', [
-                                                                    'id' => $business->id,
-                                                                    'location_id' => $location->id,
-                                                                ]) }}"
-                                                                    class="card-text"
-                                                                    style="text-decoration: none; color: inherit;">
-
-                                                                    <p class="card-text">
-                                                                        <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
-                                                                            alt="icon"
-                                                                            style=" width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
-
-                                                                        {{ $location->location_name ?? '' }},
-                                                                        {{ $location->address }}
-
-                                                                    </p>
-                                                                </a>
-                                                            </div>
-                                                        </div>
+                                        @foreach ($chunk as $item)
+                                            <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
+                                                <div class="card h-100" style="border-radius: 1rem">
+                                                    @if (empty($show_logo_image))
+                                                        <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
+                                                            alt="Business Image" class="card-img-top"
+                                                            style="height: 200px;">
+                                                    @else
+                                                        <img src="{{ $show_logo_image->getUrl() }}"
+                                                            alt="Business Image" class="card-img-top"
+                                                            style="height: 200px;">
+                                                    @endif
+                                                    <div class="card-body">
+                                                        <a href="{{ route('frontend.merchant.website', [
+                                                            'id' => $item['business']->id,
+                                                            'location_id' => $item['location']->id,
+                                                        ]) }}"
+                                                            class="card-text"
+                                                            style="text-decoration: none; color: inherit;">
+                                                            <p class="card-text">
+                                                                <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
+                                                                    alt="icon"
+                                                                    style="width: 23px;height: 23px; background-color: #80808047; padding: 3px;border-radius: 5px;">
+                                                                {{ $item['location']->location_name }},
+                                                                {{ $item['location']->address }}
+                                                            </p>
+                                                        </a>
                                                     </div>
-                                                @endif
-                                            @endforeach
+                                                </div>
+                                            </div>
                                         @endforeach
                                     </div>
                                 </div>
                             @endforeach
                         </div>
+                        <!-- Indicators (Circles Below the Carousel) -->
+                        @php
+                            // Flatten the locations again here to stay in sync with the carousel slides
+                            $filteredLocations = collect();
+                            foreach ($allLocations as $business) {
+                                foreach ($business->locations as $location) {
+                                    if ($location->location_name !== $getBusinessLocation->location_name) {
+                                        $filteredLocations->push(['business' => $business, 'location' => $location]);
+                                    }
+                                }
+                            }
 
-                        <!-- Indicators (Circles Below the Carousel) -->
-                        <!-- Indicators (Circles Below the Carousel) -->
+                            $chunks = $filteredLocations->chunk(4);
+                        @endphp
+
                         <div class="mt-3 d-flex justify-content-center mb-3" style="margin-bottom: 20px !important;">
-                            @php
-                                $chunks =
-                                    isset($data['deals']) && $data['deals']->isNotEmpty()
-                                        ? $data['deals']->chunk(4)
-                                        : $allLocations->chunk(4);
-                            @endphp
-
                             @foreach ($chunks as $index => $chunk)
                                 <button type="button" data-bs-target="#locationCarousel"
                                     data-bs-slide-to="{{ $index }}"
-                                    class="{{ $index == 0 ? 'active ' : '' }}btn btn-info rounded-circle p-2 mx-2 circular-button"
+                                    class="btn btn-info rounded-circle p-2 mx-2 circular-button"
                                     aria-current="{{ $index == 0 ? 'true' : 'false' }}"
                                     aria-label="Slide {{ $index + 1 }}"></button>
                             @endforeach
                         </div>
-
                     </div>
 
                 </div>

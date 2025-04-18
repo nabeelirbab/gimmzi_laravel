@@ -423,6 +423,35 @@
                 margin-right: 0;
             }
         }
+
+        .modal-backdrop {
+            backdrop-filter: blur(5px);
+            /* Adjust blur intensity as needed */
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Optional: Add slight darkening */
+        }
+
+        .custom-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Semi-transparent darkening */
+            backdrop-filter: blur(5px);
+            /* Blur effect */
+            z-index: 1040;
+            /* Below modal (Bootstrap modal z-index is 1050) */
+        }
+
+        /* Optional: Fallback for browsers without backdrop-filter */
+        @supports not (backdrop-filter: blur(5px)) {
+            .custom-backdrop {
+                background-color: rgba(0, 0, 0, 0.7);
+                /* Darker overlay as fallback */
+            }
+        }
     </style>
     <div class="allen-park-apartments-main-sec">
         <div class="allen-part-apartments-sec">
@@ -482,6 +511,7 @@
                             </div>
                         </div>
                         <!-- Social Sharing Modal -->
+
 
                         <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel"
                             aria-hidden="true">
@@ -620,6 +650,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="custom-backdrop" id="customBackdrop" style="display: none;"></div>
                         @php
                             // $getBusinessLocation = \App\Models\BusinessLocation::where(
                             //     'business_profile_id',
@@ -1442,6 +1473,7 @@
         </div>
     </div>
 
+
     <script>
         // When an offer is clicked, update the modal content
         document.querySelectorAll('.form-check').forEach(function(offerDiv) {
@@ -2214,5 +2246,41 @@
             const carousel = new bootstrap.Carousel(document.getElementById('carouselExampleIndicators'));
             carousel.to(slideIndex);
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const shareModal = document.getElementById('shareModal');
+            const contactModal = document.getElementById('contactModal');
+            const imageCarouselModal = document.getElementById('imageCarouselModal');
+            const customBackdrop = document.getElementById('customBackdrop');
+
+            // Function to show backdrop
+            function showBackdrop() {
+                customBackdrop.style.display = 'block';
+            }
+
+            // Function to hide backdrop
+            function hideBackdrop() {
+                customBackdrop.style.display = 'none';
+            }
+
+            // Share Modal events
+            if (shareModal) {
+                shareModal.addEventListener('show.bs.modal', showBackdrop);
+                shareModal.addEventListener('hide.bs.modal', hideBackdrop);
+            }
+
+            // Contact Modal events
+            if (contactModal) {
+                contactModal.addEventListener('show.bs.modal', showBackdrop);
+                contactModal.addEventListener('hide.bs.modal', hideBackdrop);
+            }
+
+            // Image Carousel Modal events
+            if (imageCarouselModal) {
+                imageCarouselModal.addEventListener('show.bs.modal', showBackdrop);
+                imageCarouselModal.addEventListener('hide.bs.modal', hideBackdrop);
+            }
+        });
     </script>
     </x-layouts.frontend-layout>

@@ -985,8 +985,12 @@
                                     role="tab" aria-controls="profile" aria-selected="false">Location</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="contact-tab" data-bs-toggle="pill" href="#contact"
-                                    role="tab" aria-controls="contact" aria-selected="false">Our Story</a>
+                                <a class="nav-link {{ $business->business_story ? '' : 'disabled' }}"
+                                    id="contact-tab" data-bs-toggle="pill" href="#contact" role="tab"
+                                    aria-controls="contact" aria-selected="false"
+                                    aria-disabled="{{ $business->business_story ? 'false' : 'true' }}">
+                                    Our Story
+                                </a>
                             </li>
                         </ul>
                         <hr>

@@ -1029,7 +1029,7 @@
                     <!-- Header Row with H1 and Controls -->
                     <div class="row align-items-center mb-4">
                         <div class="col-6">
-                            <h1 class="h2">Other Businesses Locations</h1>
+                            <h1 class="h2">Other {{ $business->business_name }} Locations</h1>
 
                         </div>
                         <div class="col-6 text-end">
@@ -1067,12 +1067,12 @@
                                                 @if ($location->location_name !== $getBusinessLocation->location_name)
                                                     <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
                                                         <div class="card h-100" style="border-radius: 1rem">
-                                                            @if (empty($d->main_image))
+                                                            @if (empty($show_logo_image))
                                                                 <img src="{{ env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
                                                                     alt="Business Image" class="card-img-top"
                                                                     alt="Provider Image" style="height: 200px;">
                                                             @else
-                                                                <img src="{{ env('APP_URL') . $d->main_image }}"
+                                                                <img src="{{ $show_logo_image->getUrl() }}"
                                                                     alt="Business Image" class="card-img-top"
                                                                     alt="Provider Image" style="height: 200px;">
                                                             @endif

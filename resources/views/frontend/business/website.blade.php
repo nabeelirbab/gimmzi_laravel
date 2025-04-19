@@ -1063,12 +1063,64 @@
             @if ($allLocations)
                 <div class="container mt-5">
                     <!-- Header Row with H1 and Controls -->
+                    @php
+                        $filteredLocations = collect();
+
+                        foreach ($allLocations as $businessItem) {
+                            foreach ($businessItem->locations as $location) {
+                                if ($location->location_name !== $getBusinessLocation->location_name) {
+                                    $filteredLocations->push(['business' => $businessItem, 'location' => $location]);
+                                }
+                            }
+                        }
+
+                        // Default heading
+                        $carouselHeading = 'Other ' . $business->business_name . ' Locations';
+
+                        // Fallback 1: Same category
+                        if ($filteredLocations->isEmpty()) {
+                            $sameCategoryBusinesses = \App\Models\BusinessProfile::where(
+                                'business_category_id',
+                                $business->business_category_id,
+                            )
+                                ->where('id', '!=', $business->id)
+                                ->with('locations')
+                                ->get();
+
+                            foreach ($sameCategoryBusinesses as $biz) {
+                                foreach ($biz->locations as $loc) {
+                                    $filteredLocations->push(['business' => $biz, 'location' => $loc]);
+                                }
+                            }
+
+                            if ($filteredLocations->isNotEmpty()) {
+                                $carouselHeading = 'Similar Businesses in the Same Category';
+                            } else {
+                                // Fallback 2: Any 10 businesses
+                                $closestBusinesses = \App\Models\BusinessProfile::with('locations')
+                                    ->where('id', '!=', $business->id)
+                                    ->limit(10)
+                                    ->get();
+
+                                foreach ($closestBusinesses as $biz) {
+                                    foreach ($biz->locations as $loc) {
+                                        $filteredLocations->push(['business' => $biz, 'location' => $loc]);
+                                    }
+                                }
+
+                                $carouselHeading = 'Businesses You May Also Like';
+                            }
+                        }
+
+                        $chunks = $filteredLocations->chunk(4);
+                    @endphp
+
                     <div class="row align-items-center mb-4">
-                        <div class="col-6">
-                            <h1 class="h2">Other {{ $business->business_name }} Locations</h1>
+                        <div class="col-8">
+                            <h1 class="h2">{{ $carouselHeading }}</h1>
 
                         </div>
-                        <div class="col-6 text-end">
+                        <div class="col-4 text-end">
                             <button class="btn btn-info me-2" type="button" data-bs-target="#locationCarousel"
                                 data-bs-slide="prev">
                                 <!-- SVG for left arrow -->
@@ -1093,37 +1145,6 @@
                     <!-- Carousel -->
 
                     <div id="locationCarousel" class="carousel slide" data-bs-ride="carousel">
-
-                        @php
-                            $filteredLocations = collect();
-                            foreach ($allLocations as $business) {
-                                foreach ($business->locations as $location) {
-                                    if ($location->location_name !== $getBusinessLocation->location_name) {
-                                        $filteredLocations->push(['business' => $business, 'location' => $location]);
-                                    }
-                                }
-                            }
-
-                            // Fallback: if no other locations exist, use businesses from the same category
-                            if ($filteredLocations->isEmpty()) {
-                                $sameCategoryBusinesses = \App\Models\BusinessProfile::where(
-                                    'business_category_id',
-                                    $business->business_category_id,
-                                )
-                                    ->where('id', '!=', $business->id)
-                                    ->with('locations')
-                                    ->get();
-
-                                foreach ($sameCategoryBusinesses as $biz) {
-                                    foreach ($biz->locations as $loc) {
-                                        $filteredLocations->push(['business' => $biz, 'location' => $loc]);
-                                    }
-                                }
-                            }
-
-                            $chunks = $filteredLocations->chunk(4);
-                        @endphp
-
                         @if ($chunks->isNotEmpty())
                             <!-- Carousel Items -->
                             <div class="carousel-inner">

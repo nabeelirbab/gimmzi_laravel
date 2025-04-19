@@ -1319,26 +1319,26 @@
                         <!-- Dynamic Carousel Indicators -->
                         <div class="carousel-indicators">
                             @foreach ($business_photos as $index => $photo)
-                                @if ($index < 5)
-                                    <button type="button" data-bs-target="#carouselExampleIndicators"
-                                        data-bs-slide-to="{{ $index }}"
-                                        class="{{ $index == 0 ? 'active' : '' }}"
-                                        aria-current="{{ $index == 0 ? 'true' : 'false' }}"
-                                        aria-label="Slide {{ $index + 1 }}"></button>
-                                @endif
+                                {{-- @if ($index < 5) --}}
+                                <button type="button" data-bs-target="#carouselExampleIndicators"
+                                    data-bs-slide-to="{{ $index }}"
+                                    class="{{ $index == 0 ? 'active' : '' }}"
+                                    aria-current="{{ $index == 0 ? 'true' : 'false' }}"
+                                    aria-label="Slide {{ $index + 1 }}"></button>
+                                {{-- @endif --}}
                             @endforeach
                         </div>
 
                         <!-- Dynamic Carousel Items -->
                         <div class="carousel-inner">
                             @foreach ($business_photos as $index => $photo)
-                                @if ($index < 5)
-                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}"
-                                        id="slide-{{ $index }}">
-                                        <img src="{{ $photo->getUrl() }}" class="d-block w-100"
-                                            alt="Image {{ $index + 1 }}">
-                                    </div>
-                                @endif
+                                {{-- @if ($index < 5) --}}
+                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}"
+                                    id="slide-{{ $index }}">
+                                    <img src="{{ $photo->getUrl() }}" class="d-block w-100"
+                                        alt="Image {{ $index + 1 }}">
+                                </div>
+                                {{-- @endif --}}
                             @endforeach
                         </div>
 
@@ -2262,33 +2262,36 @@
     </script>
     <script>
         function setActiveSlide(slideIndex) {
-            // Remove active class from all slides and indicators
-            document.querySelectorAll('.carousel-item').forEach(item => {
+            const carouselElement = document.getElementById('carouselExampleIndicators');
+
+            // Only modify items and indicators inside the image modal carousel
+            carouselElement.querySelectorAll('.carousel-item').forEach(item => {
                 item.classList.remove('active');
             });
 
-            document.querySelectorAll('.carousel-indicators button').forEach(button => {
+            carouselElement.querySelectorAll('.carousel-indicators button').forEach(button => {
                 button.classList.remove('active');
                 button.removeAttribute('aria-current');
             });
 
-            // Add active class to the selected slide and indicator
             const slide = document.getElementById(`slide-${slideIndex}`);
             if (slide) {
                 slide.classList.add('active');
             }
 
-            const indicator = document.querySelector(`.carousel-indicators button[data-bs-slide-to="${slideIndex}"]`);
+            const indicator = carouselElement.querySelector(
+                `.carousel-indicators button[data-bs-slide-to="${slideIndex}"]`);
             if (indicator) {
                 indicator.classList.add('active');
                 indicator.setAttribute('aria-current', 'true');
             }
 
-            // Initialize the carousel if not already initialized
-            const carousel = new bootstrap.Carousel(document.getElementById('carouselExampleIndicators'));
+            // Initialize or move carousel only within modal
+            const carousel = new bootstrap.Carousel(carouselElement);
             carousel.to(slideIndex);
         }
     </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const shareModal = document.getElementById('shareModal');

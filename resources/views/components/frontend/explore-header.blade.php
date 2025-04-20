@@ -586,58 +586,7 @@
             </a>
         </div>
     </div>
-    {{-- Consumer Login Modal --}}
-    <div class="modal fade userLoginPopup travel_auth_popup lg" id="consumerLoginModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-head">
-                    <div class="modal_main_logo"><a href="#"><img
-                                src="{{ asset('frontend_assets/images/logosmart-reward.svg') }}" alt=""></a>
-                    </div>
-                    <button type="button" class="cmn_close_popup_btn" data-bs-dismiss="modal" aria-label="Close"><i
-                            class="close-btn-img"><img src="{{ asset('frontend_assets/images/close.png') }}"
-                                alt=""></i></button>
-                </div>
-                <div class="modal-body">
-                    <div class="login_popup_body">
-                        {{ Form::open(['route' => 'frontend.consumer-login', 'method' => 'POST', 'class' => 'kt-form parsley-validate']) }}
-                        <div class="">
-                            <div class="title_h1">Log in</div>
-                            <div class="form_grp">
-                                <label style="color:black;">Your email address <span class="reqrd">*</span></label>
-                                <input type="text" class="form_input" placeholder="Enter your Email"
-                                    name="email" id="consumer-email">
-                            </div>
-                            <div class="form_grp">
-                                <label style="color:black;">Password</label>
-                                <div class="pasrwd-field">
-                                    <div class="pass-icon-set">
-                                        <img src="{{ asset('frontend_assets/images/eye-show.png') }}" alt=""
-                                            class="pass-icon-eye">
-                                        <img src="{{ asset('frontend_assets/images/eye-hidden.png') }}"
-                                            alt="" class="pass-icon-eye-off">
-                                    </div>
-                                    <input type="password" class="pass-input-field form_input" placeholder="Password"
-                                        name="password">
-                                </div>
-                            </div>
-                            <div class="form_grp form_grp_dcl_text form_frgt_pass_link" id="consumerForgetPassword">
-                                <a href="javascript:void(0)">Forgot your password?</a>
-                            </div>
-                            <div class="form_grp form_grp_submit">
-                                <button class="cmn_theme_btn">Log in</button>
-                            </div>
-                            <div class="form_grp form_grp_dcl_text">
-                                By creating an account, you agree to our <a href="{{ route('frontend.privacy-policy') }}">Privacy policy</a> and <a
-                                    href="{{ route('frontend.terms-of-use') }}">Terms of use</a>.
-                            </div>
-                        </div>
-                        {{ Form::close() }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -1098,10 +1098,7 @@
                                 //     $sameCategoryBusinesses[0]->category->category_name .
                                 //     ')';
 
-                                $carouselHeading =
-                                    'Similar category ' .
-                                    $sameCategoryBusinesses[0]->category->category_name .
-                                    ' Businesses';
+                                $carouselHeading = 'More ' . $sameCategoryBusinesses[0]->category->category_name . '';
                             } else {
                                 // Fallback 2: Any 10 businesses
                                 $closestBusinesses = \App\Models\BusinessProfile::with(['locations', 'category'])

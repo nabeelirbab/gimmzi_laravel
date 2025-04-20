@@ -1016,10 +1016,8 @@
                                     role="tab" aria-controls="profile" aria-selected="false">Location</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link {{ $business->business_story ? '' : 'disabled' }}"
-                                    id="contact-tab" data-bs-toggle="pill" href="#contact" role="tab"
-                                    aria-controls="contact" aria-selected="false"
-                                    aria-disabled="{{ $business->business_story ? 'false' : 'true' }}">
+                                <a class="nav-link" id="contact-tab" data-bs-toggle="pill" href="#contact"
+                                    role="tab" aria-controls="contact" aria-selected="false" aria-disabled="">
                                     Our Story
                                 </a>
                             </li>
@@ -1046,8 +1044,9 @@
                                         <img id="preview_logo" style="width: 230px;height: 147px;border-radius: 7%;"
                                             src="{{ $show_story_image->getUrl() }}" />
                                     @else
-                                        <img id="preview_logo" style="width: 230px;height: 147px;border-radius: 7%;"
-                                            src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
+                                        {{-- <img id="preview_logo" style="width: 230px;height: 147px;border-radius: 7%;"
+                                            src="{{ asset('frontend_assets/images/placeholderimage.png') }}" /> --}}
+                                        <span style="color: #98A2B3;">No business story found</span>
                                     @endif
                                     <br>
                                     {!! $business->business_story !!}

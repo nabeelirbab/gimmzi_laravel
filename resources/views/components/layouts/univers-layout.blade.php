@@ -126,6 +126,12 @@
         .select2-container {
             z-index: 100000;
         }
+
+        #blur-wrapper.blurred {
+            filter: blur(5px);
+            transition: filter 0.3s ease;
+
+        }
     </style>
 
     <!-- <link rel="stylesheet" href="custom.css"> </head> -->
@@ -134,16 +140,280 @@
 
 
 <body class="bodycls">
-    {{-- Header start --}}
-    <x-frontend.univers-header />
-    {{-- Header end --}}
+    <div id="blur-wrapper">
+        {{-- Header start --}}
+        <x-frontend.univers-header />
+        {{-- Header end --}}
 
-    {{ $slot }}
+        {{ $slot }}
 
-    {{-- Footer start --}}
-    <x-frontend.univers-footer />
-    {{-- Footer end --}}
+        {{-- Footer start --}}
+        <x-frontend.univers-footer />
+        {{-- Footer end --}}
+    </div>
 
+    {{-- added --}}
+    {{-- Business Owner Login Modal --}}
+    <div class="modal fade userLoginPopup travel_auth_popup lg" id="businessLoginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-head">
+                    <div class="modal_main_logo"><a href="#"><img
+                                src="{{ asset('frontend_assets/images/logo-marchant.png') }}" alt=""></a>
+                    </div>
+                    <button type="button" class="cmn_close_popup_btn" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="close-btn-img"><img src="{{ asset('frontend_assets/images/close.png') }}"
+                                alt="close-btn"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="login_popup_body">
+                        {{ Form::open(['route' => 'frontend.merchant.login', 'method' => 'POST', 'class' => 'kt-form parsley-validate']) }}
+                        <div class="">
+                            <div class="title_h1">Log in</div>
+                            <div class="form_grp">
+                                <label style="color:black;">Your email address <span class="reqrd">*</span></label>
+                                <input type="text" class="form_input" placeholder="Enter your Email" name="email"
+                                    id="email-input">
+                            </div>
+                            <div class="form_grp form_grp_submit">
+                                <button class="cmn_theme_btn">Next</button>
+                            </div>
+                            <div class="form_grp form_grp_dcl_text">
+                                By creating an account, you agree to our <a
+                                    href="{{ route('frontend.privacy-policy') }}">Privacy policy</a> and <a
+                                    href="{{ route('frontend.terms-of-use') }}">Terms of use</a>.
+                            </div>
+                        </div>
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Business Owner Password Modal --}}
+    <div class="modal fade userLoginPopup travel_auth_popup lg" id="businessPasswordModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-head">
+                    <div class="modal_main_logo"><a href="#"><img
+                                src="{{ asset('frontend_assets/images/logo-marchant.png') }}" alt=""></a>
+                    </div>
+                    <button type="button" class="cmn_close_popup_btn" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="close-btn-img"><img src="{{ asset('frontend_assets/images/close.png') }}"
+                                alt=""></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="login_popup_body">
+                        {{ Form::open(['route' => 'frontend.merchant.login_password', 'method' => 'POST', 'class' => 'kt-form parsley-validate']) }}
+                        <div class="">
+                            <a href="#" class="back_btn prev-step"> <span id="m_email">
+                                    @if (!empty(Session::get('email_address')))
+                                        {{ Session::get('email_address') }}
+                                    @endif
+                                </span></a>
+                            <div class="title_h1">Enter your password</div>
+                            <div class="form_grp">
+                                <label style="color:black;">Password</label>
+                                <div class="pasrwd-field">
+                                    <div class="pass-icon-set">
+                                        <img src="{{ asset('frontend_assets/images/eye-show.png') }}" alt=""
+                                            class="pass-icon-eye">
+                                        <img src="{{ asset('frontend_assets/images/eye-hidden.png') }}"
+                                            alt="" class="pass-icon-eye-off">
+                                    </div>
+                                    <input type="password" class="pass-input-field form_input" placeholder="Password"
+                                        name="password">
+                                </div>
+                            </div>
+                            <div class="form_grp form_grp_submit">
+                                <button class="cmn_theme_btn">Log in</button>
+                            </div>
+                            <div class="form_grp form_grp_dcl_text form_frgt_pass_link" id="businessForgetPassword">
+                                <a href="javascript:void(0)">Forgot your password?</a>
+                            </div>
+                        </div>
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Consumer Login Modal --}}
+    <div class="modal fade userLoginPopup travel_auth_popup lg" id="consumerLoginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-head">
+                    <div class="modal_main_logo"><a href="#"><img
+                                src="{{ asset('frontend_assets/images/logosmart-reward.svg') }}" alt=""></a>
+                    </div>
+                    <button type="button" class="cmn_close_popup_btn" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="close-btn-img"><img src="{{ asset('frontend_assets/images/close.png') }}"
+                                alt=""></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="login_popup_body">
+                        {{ Form::open(['route' => 'frontend.consumer-login', 'method' => 'POST', 'class' => 'kt-form parsley-validate']) }}
+                        <div class="">
+                            <div class="title_h1">Log in</div>
+                            <div class="form_grp">
+                                <label style="color:black;">Your email address <span class="reqrd">*</span></label>
+                                <input type="text" class="form_input" placeholder="Enter your Email"
+                                    name="email" id="consumer-email">
+                            </div>
+                            <div class="form_grp">
+                                <label style="color:black;">Password</label>
+                                <div class="pasrwd-field">
+                                    <div class="pass-icon-set">
+                                        <img src="{{ asset('frontend_assets/images/eye-show.png') }}" alt=""
+                                            class="pass-icon-eye">
+                                        <img src="{{ asset('frontend_assets/images/eye-hidden.png') }}"
+                                            alt="" class="pass-icon-eye-off">
+                                    </div>
+                                    <input type="password" class="pass-input-field form_input" placeholder="Password"
+                                        name="password">
+                                </div>
+                            </div>
+                            <div class="form_grp form_grp_dcl_text form_frgt_pass_link" id="consumerForgetPassword">
+                                <a href="javascript:void(0)">Forgot your password?</a>
+                            </div>
+                            <div class="form_grp form_grp_submit">
+                                <button class="cmn_theme_btn">Log in</button>
+                            </div>
+                            <div class="form_grp form_grp_dcl_text">
+                                By creating an account, you agree to our <a href="#">Privacy policy</a> and <a
+                                    href="#">Terms of use</a>.
+                            </div>
+                        </div>
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Forgot Password Modal --}}
+    <div class="modal fade userLoginPopup travel_auth_popup lg" id="forgetPasswordModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-head">
+                    <div class="modal_main_logo"><a href="#"><img
+                                src="{{ asset('frontend_assets/images/logosmart-reward.svg') }}" alt=""></a>
+                    </div>
+                    <button type="button" class="cmn_close_popup_btn" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="close-btn-img"><img src="{{ asset('frontend_assets/images/close.png') }}"
+                                alt=""></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="login_popup_body">
+                        <div>
+                            <form id="forgetPasswordForm" name="forgetPasswordForm">
+                                @csrf
+                                <input type="hidden" name="user_type" id="forgetPasswordUserType" value="">
+                                <div class="title_h1">Forgot your password?</div>
+                                <div class="imp_text">Enter your email address and we'll send you a link to reset your
+                                    password.</div>
+                                <div class="form_grp">
+                                    <label>Your email address</label>
+                                    <input type="text" class="form_input" placeholder="Enter your Email"
+                                        name="email" id="forgetPasswordEmail" required>
+                                </div>
+                                <div class="form_grp form_grp_submit pw-submit-btn">
+                                    <button type="submit" class="cmn_theme_btn" id="sendResetLink">Send reset
+                                        link</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Error Modals --}}
+    <div class="modal fade userLoginPopup travel_auth_popup lg" id="loginErrorModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-head">
+                    <div class="modal_main_logo"><a href="#"><img
+                                src="{{ asset('frontend_assets/images/logosmart-reward.svg') }}" alt=""></a>
+                    </div>
+                    <button type="button" class="cmn_close_popup_btn" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="close-btn-img"><img src="{{ asset('frontend_assets/images/close.png') }}"
+                                alt=""></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="login_popup_body">
+                        <div>
+                            <div class="step_msg"><strong id="errorMessage">Unable to log in. Please try
+                                    again.</strong></div>
+                            <div class="form_grp form_grp_submit pw-submit-btn">
+                                <button class="cmn_theme_btn" id="retryLogin">Try again</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Reset Password Modal --}}
+    <div class="modal fade userLoginPopup travel_auth_popup lg" id="resetPasswordModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-head">
+                    <div class="modal_main_logo"><a href="#"><img
+                                src="{{ asset('frontend_assets/images/logosmart-reward.svg') }}" alt=""></a>
+                    </div>
+                    <button type="button" class="cmn_close_popup_btn" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="close-btn-img"><img src="{{ asset('frontend_assets/images/close.png') }}"
+                                alt=""></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="login_popup_body">
+                        <form id="resetPasswordForm" name="resetPasswordForm" method="post">
+                            @csrf
+                            <input type="hidden" name="token" id="resetPasswordToken">
+                            <div class="title_h1">Reset Your Password</div>
+                            <div class="form_grp">
+                                <label>New Password</label>
+                                <div class="pasrwd-field">
+                                    <div class="pass-icon-set">
+                                        <img src="{{ asset('frontend_assets/images/eye-show.png') }}" alt=""
+                                            class="pass-icon-eye">
+                                        <img src="{{ asset('frontend_assets/images/eye-hidden.png') }}"
+                                            alt="" class="pass-icon-eye-off">
+                                    </div>
+                                    <input type="password" class="pass-input-field form_input"
+                                        placeholder="New Password" name="new_password" id="newPassword" required>
+                                </div>
+                            </div>
+                            <div class="form_grp">
+                                <label>Confirm Password</label>
+                                <div class="pasrwd-field">
+                                    <div class="pass-icon-set">
+                                        <img src="{{ asset('frontend_assets/images/eye-show.png') }}" alt=""
+                                            class="pass-icon-eye">
+                                        <img src="{{ asset('frontend_assets/images/eye-hidden.png') }}"
+                                            alt="" class="pass-icon-eye-off">
+                                    </div>
+                                    <input type="password" class="pass-input-field form_input"
+                                        placeholder="Confirm Password" name="confirm_password" id="confirmPassword"
+                                        required>
+                                </div>
+                            </div>
+                            <div id="resetPasswordMessage" class="form_grp" style="color: red; display: none;"></div>
+                            <div class="form_grp form_grp_submit pw-submit-btn">
+                                <button type="submit" class="cmn_theme_btn">Reset Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- end --}}
     <div class="modal prrprty_tab_mdl fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal"
         aria-hidden="true">
         <div class="modal-dialog homemodal">
@@ -151,7 +421,8 @@
 
                 <div class="modal-body">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <img
-                            src="{{ asset('frontend_assets/images/cancell-one.svg') }}" class="cancell-one11"></button>
+                            src="{{ asset('frontend_assets/images/cancell-one.svg') }}"
+                            class="cancell-one11"></button>
                     <div class="text-center mt-4 mb-4 popup-logo">
 
                         <img src="{{ asset('frontend_assets/images/logosmart-reward.svg') }}" />
@@ -2063,6 +2334,26 @@
         $(".provider_type_lstng").css('display', 'none');
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const blurWrapper = document.getElementById('blur-wrapper');
+        const consumerLoginModalEl = document.getElementById('consumerLoginModal');
+        const bodyEl = document.querySelector('.bodycls');
+
+        if (consumerLoginModalEl) {
+            consumerLoginModalEl.addEventListener('show.bs.modal', function() {
+                if (blurWrapper) blurWrapper.classList.add('blurred');
+                if (bodyEl) bodyEl.style.paddingTop = '0px';
+            });
+
+            consumerLoginModalEl.addEventListener('hidden.bs.modal', function() {
+                if (blurWrapper) blurWrapper.classList.remove('blurred');
+                if (bodyEl) bodyEl.style.paddingTop = '181px'; // Adjust or remove as needed
+            });
+        }
+    });
+</script>
+
 @stack('scripts')
 </body>
 

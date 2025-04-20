@@ -1148,7 +1148,8 @@
 
                     <!-- Carousel -->
 
-                    <div id="locationCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div id="locationCarousel" class="carousel slide" data-bs-ride="carousel"
+                        data-bs-interval="12000">
                         @if ($chunks->isNotEmpty())
                             <!-- Carousel Items -->
                             <div class="carousel-inner">

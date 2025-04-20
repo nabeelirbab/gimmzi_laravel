@@ -1163,9 +1163,8 @@
                                                 <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
                                                     <div class="card h-100" style="border-radius: 1rem">
                                                         @php
-                                                            $logo =
-                                                                $show_logo_image ??
-                                                                ($item['business']->logo_image ?? null);
+                                                            $logo = $item['business']->logo_image ?? null;
+                                                            // dd($logo->getUrl());
                                                         @endphp
 
                                                         <img src="{{ $logo ? (is_object($logo) ? $logo->getUrl() : $logo) : env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"

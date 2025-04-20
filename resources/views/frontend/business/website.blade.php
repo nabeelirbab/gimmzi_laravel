@@ -1084,9 +1084,9 @@
                                 $business->business_category_id,
                             )
                                 ->where('id', '!=', $business->id)
-                                ->with('locations')
+                                ->with(['locations', 'category'])
                                 ->get();
-
+                            // dd($sameCategoryBusinesses);
                             foreach ($sameCategoryBusinesses as $biz) {
                                 foreach ($biz->locations as $loc) {
                                     $filteredLocations->push(['business' => $biz, 'location' => $loc]);
@@ -1094,10 +1094,18 @@
                             }
 
                             if ($filteredLocations->isNotEmpty()) {
-                                $carouselHeading = 'Similar Businesses in the Same Category';
+                                // $carouselHeading =
+                                //     'Similar Businesses in the Same Category(' .
+                                //     $sameCategoryBusinesses[0]->category->category_name .
+                                //     ')';
+
+                                $carouselHeading =
+                                    'Similar category ' .
+                                    $sameCategoryBusinesses[0]->category->category_name .
+                                    ' Businesses';
                             } else {
                                 // Fallback 2: Any 10 businesses
-                                $closestBusinesses = \App\Models\BusinessProfile::with('locations')
+                                $closestBusinesses = \App\Models\BusinessProfile::with(['locations', 'category'])
                                     ->where('id', '!=', $business->id)
                                     ->limit(10)
                                     ->get();

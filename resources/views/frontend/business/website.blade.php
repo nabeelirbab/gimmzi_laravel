@@ -1093,12 +1093,24 @@
                             }
 
                             if ($filteredLocations->isNotEmpty()) {
-                                // $carouselHeading =
-                                //     'Similar Businesses in the Same Category(' .
-                                //     $sameCategoryBusinesses[0]->category->category_name .
-                                //     ')';
+                                $categoryName = $sameCategoryBusinesses[0]->category->category_name;
 
-                                $carouselHeading = 'More ' . $sameCategoryBusinesses[0]->category->category_name . '';
+                                // Step 1: Remove "find", "find a", or "find an" from start (case-insensitive)
+                                $cleanCategoryName = preg_replace('/^find\s+(a|an)?\s*/i', '', $categoryName);
+
+                                // Step 2: Pluralize "place" and "store" anywhere, preserving original casing
+                                $words = explode(' ', $cleanCategoryName);
+                                foreach ($words as &$word) {
+                                    if (strtolower($word) === 'place') {
+                                        $word = ctype_upper($word[0]) ? 'Places' : 'places';
+                                    } elseif (strtolower($word) === 'store') {
+                                        $word = ctype_upper($word[0]) ? 'Stores' : 'stores';
+                                    }
+                                }
+                                $cleanCategoryName = implode(' ', $words);
+
+                                $carouselHeading = 'More ' . $cleanCategoryName;
+                                // $carouselHeading = 'More ' . $sameCategoryBusinesses[0]->category->category_name . '';
                             } else {
                                 // Fallback 2: Any 10 businesses
                                 $closestBusinesses = \App\Models\BusinessProfile::with(['locations', 'category'])

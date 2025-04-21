@@ -1040,16 +1040,20 @@
                             </div>
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                 <p id="contactContent" style="color: #000">
-                                    @if ($show_story_image)
-                                        <img id="preview_logo" style="width: 230px;height: 147px;border-radius: 7%;"
-                                            src="{{ $show_story_image->getUrl() }}" />
+                                    @if ($business->business_story)
+                                        @if ($show_story_image)
+                                            <img id="preview_logo"
+                                                style="width: 230px;height: 147px;border-radius: 7%;"
+                                                src="{{ $show_story_image->getUrl() }}" />
+                                        @else
+                                            <img id="preview_logo" style="width: 230px;height: 147px;border-radius: 7%;"
+                                            src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
+                                        @endif
+                                        <br>
+                                        {!! $business->business_story !!}
                                     @else
-                                        {{-- <img id="preview_logo" style="width: 230px;height: 147px;border-radius: 7%;"
-                                            src="{{ asset('frontend_assets/images/placeholderimage.png') }}" /> --}}
                                         <span style="color: #98A2B3;">No business story found</span>
                                     @endif
-                                    <br>
-                                    {!! $business->business_story !!}
 
                                 </p>
                             </div>

@@ -4,8 +4,8 @@
   "author": "Caleb Troughton <caleb@imakewebthings.com> (http://imakewebthings.com)",
   "description": "Easily execute a function when you scroll to an element",
   "scripts": {
-    "build": "gulp build",
-    "start": "gulp",
+    "build": "node init && gulp build",
+    "start": "node init && gulp",
     "test": "testem ci",
     "tdd": "testem",
     "watch": "gulp watch"

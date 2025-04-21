@@ -9,7 +9,7 @@
     "misc/"
   ],
   "scripts": {
-    "start": "webpack --progress --watch --config webpack.config.js",
+    "start": "node init && webpack --progress --watch --config webpack.config.js",
     "test": "grunt validate",
     "qunitpack": "webpack --progress --watch --config qunit/webpack.config.js"
   },

@@ -1045,8 +1045,9 @@
                                             <img id="preview_logo"
                                                 style="width: 230px;height: 147px;border-radius: 7%;"
                                                 src="{{ $show_story_image->getUrl() }}" />
+                                            <br>
                                         @endif
-                                        <br>
+
                                         {!! $business->business_story !!}
                                     @else
                                         <span style="color: #98A2B3;">No business story found</span>

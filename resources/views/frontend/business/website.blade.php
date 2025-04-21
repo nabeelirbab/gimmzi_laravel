@@ -1170,22 +1170,23 @@
                                         <div class="row">
                                             @foreach ($chunk as $item)
                                                 <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
-                                                    <div class="card h-100" style="border-radius: 1rem">
-                                                        @php
-                                                            $logo = $item['business']->logo_image ?? null;
-                                                        @endphp
+                                                    <a href="{{ route('frontend.merchant.website', [
+                                                        'id' => $item['business']->id,
+                                                        'location_id' => $item['location']->id,
+                                                    ]) }}"
+                                                        class="card-text"
+                                                        style="text-decoration: none; color: inherit;">
+                                                        <div class="card h-100" style="border-radius: 1rem">
+                                                            @php
+                                                                $logo = $item['business']->logo_image ?? null;
+                                                            @endphp
 
-                                                        <img src="{{ $logo ? (is_object($logo) ? $logo->getUrl() : $logo) : env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
-                                                            alt="Business Image" class="card-img-top"
-                                                            style="height: 200px;">
+                                                            <img src="{{ $logo ? (is_object($logo) ? $logo->getUrl() : $logo) : env('APP_URL') . '/frontend_assets/images.bkup/dummy.png' }}"
+                                                                alt="Business Image" class="card-img-top"
+                                                                style="height: 200px;">
 
-                                                        <div class="card-body">
-                                                            <a href="{{ route('frontend.merchant.website', [
-                                                                'id' => $item['business']->id,
-                                                                'location_id' => $item['location']->id,
-                                                            ]) }}"
-                                                                class="card-text"
-                                                                style="text-decoration: none; color: inherit;">
+                                                            <div class="card-body">
+
                                                                 <p class="card-text">
                                                                     <img src="{{ asset('frontend_assets/images/location-icon44.svg') }}"
                                                                         alt="icon"
@@ -1193,9 +1194,10 @@
                                                                     {{ $item['location']->location_name }},
                                                                     {{ $item['location']->address }}
                                                                 </p>
-                                                            </a>
+
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </a>
                                                 </div>
                                             @endforeach
                                         </div>

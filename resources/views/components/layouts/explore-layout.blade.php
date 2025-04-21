@@ -133,6 +133,24 @@
 
         }
     </style>
+    <style>
+        .custom-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1040;
+        }
+
+        @supports not (backdrop-filter: blur(5px)) {
+            .custom-backdrop {
+                background-color: rgba(0, 0, 0, 0.7);
+            }
+        }
+    </style>
 
     <!-- <link rel="stylesheet" href="custom.css"> </head> -->
     @stack('style')
@@ -140,7 +158,6 @@
 
 
 <body class="bodycls">
-    <div id="blur-wrapper">
         {{-- Header start --}}
         <x-frontend.explore-header />
         {{-- Header end --}}
@@ -150,8 +167,8 @@
         {{-- Footer start --}}
         <x-frontend.explore-footer />
         {{-- Footer end --}}
-    </div>
 
+    <div class="custom-backdrop" id="customBackdrop" style="display: none;"></div>
     {{-- Consumer Login Modal --}}
     <div class="modal fade userLoginPopup travel_auth_popup lg" id="consumerLoginModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
@@ -180,8 +197,8 @@
                                     <div class="pass-icon-set">
                                         <img src="{{ asset('frontend_assets/images/eye-show.png') }}" alt=""
                                             class="pass-icon-eye">
-                                        <img src="{{ asset('frontend_assets/images/eye-hidden.png') }}" alt=""
-                                            class="pass-icon-eye-off">
+                                        <img src="{{ asset('frontend_assets/images/eye-hidden.png') }}"
+                                            alt="" class="pass-icon-eye-off">
                                     </div>
                                     <input type="password" class="pass-input-field form_input" placeholder="Password"
                                         name="password">
@@ -763,6 +780,39 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const customBackdrop = document.getElementById('customBackdrop');
+
+        function showBackdrop() {
+            customBackdrop.style.display = 'block';
+        }
+
+        function hideBackdrop() {
+            customBackdrop.style.display = 'none';
+        }
+
+        // Attach backdrop toggle to all modals
+        const modals = [
+            '#consumerLoginModal',
+            '#loginModal',
+            '#consumer_login_modal',
+            '#consumer_login_modal_password',
+            '#consumer_registration_password_modal',
+            '#consumer_new_registration_form',
+            '#mailSendSuccess',
+            '#thanksmodal'
+        ];
+
+        modals.forEach(modalId => {
+            const modal = document.querySelector(modalId);
+            if (modal) {
+                modal.addEventListener('show.bs.modal', showBackdrop);
+                modal.addEventListener('hide.bs.modal', hideBackdrop);
+            }
+        });
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const blurWrapper = document.getElementById('blur-wrapper');

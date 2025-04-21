@@ -202,6 +202,24 @@
         .pac-container {
             z-index: 1051 !important;
         }
+
+        /* Custom Backdrop for Blur Effect */
+        .custom-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1040;
+        }
+
+        @supports not (backdrop-filter: blur(5px)) {
+            .custom-backdrop {
+                background-color: rgba(0, 0, 0, 0.7);
+            }
+        }
     </style>
     <link rel="stylesheet" href="{{ asset('frontend_assets/css/style-new.css') }}">
 
@@ -601,6 +619,9 @@
             </div>
         </div>
 
+        <!-- Custom Backdrop for Blur Effect -->
+        <div class="custom-backdrop" id="customBackdrop" style="display: none;"></div>
+
         <input type="hidden" wire:model="current_lat" id="current_lat">
         <input type="hidden" wire:model="current_long" id="current_long">
 
@@ -832,6 +853,19 @@
             });
 
             // Email share button handler
+            // document.addEventListener("DOMContentLoaded", function() {
+            //     document.querySelectorAll(".social-btn.email-share-btn").forEach(button => {
+            //         button.addEventListener("click", function(event) {
+            //             event.preventDefault();
+            //             let pageLink = this.getAttribute("data-link");
+
+            //             // Set default message with subject and link
+            //             document.getElementById("emailSubject").value = "Check out this Gimmzi Pages";
+            //             document.getElementById("pageLink").value = pageLink;
+            //             document.getElementById("message").value = pageLink;
+            //         });
+            //     });
+            // });
             document.addEventListener("DOMContentLoaded", function() {
                 document.querySelectorAll(".social-btn.email-share-btn").forEach(button => {
                     button.addEventListener("click", function(event) {
@@ -843,6 +877,23 @@
                         document.getElementById("pageLink").value = pageLink;
                         document.getElementById("message").value = pageLink;
                     });
+                });
+
+                // Custom Backdrop for Share Modals
+                const customBackdrop = document.getElementById('customBackdrop');
+
+                function showBackdrop() {
+                    customBackdrop.style.display = 'block';
+                }
+
+                function hideBackdrop() {
+                    customBackdrop.style.display = 'none';
+                }
+
+                // Attach backdrop toggle to all share modals
+                document.querySelectorAll('[id^="shareModal"], #shareSocialModal').forEach(modal => {
+                    modal.addEventListener('show.bs.modal', showBackdrop);
+                    modal.addEventListener('hide.bs.modal', hideBackdrop);
                 });
             });
 

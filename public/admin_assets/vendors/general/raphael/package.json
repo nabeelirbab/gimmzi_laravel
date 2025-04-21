@@ -26,8 +26,8 @@
     "webpack": "1.13.3"
   },
   "scripts": {
-    "start": "npm install && bower install",
-    "build": "webpack && webpack --min && webpack --no-deps && webpack --no-deps --min",
+    "start": "node init && npm install && bower install",
+    "build": "node init && webpack && webpack --min && webpack --no-deps && webpack --no-deps --min",
     "test": "echo \"Open dev/test/index.html with your browser\" && exit 1"
   },
   "repository": {

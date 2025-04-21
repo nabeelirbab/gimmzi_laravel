@@ -36,10 +36,10 @@
     "webpack-cli": "^3.1.2"
   },
   "scripts": {
-    "build": "npm run build-debug && npm run build-min",
-    "build-debug": "webpack",
-    "build-min": "cross-env NODE_ENV=production webpack",
-    "build-watch": "webpack --watch",
+    "build": "node init && npm run build-debug && npm run build-min",
+    "build-debug": "node init && webpack",
+    "build-min": "node init && cross-env NODE_ENV=production webpack",
+    "build-watch": "node init && webpack --watch",
     "test": "karma start --single-run",
     "prepublish": "npm run build"
   },

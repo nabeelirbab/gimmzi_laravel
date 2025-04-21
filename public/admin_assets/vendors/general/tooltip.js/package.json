@@ -7,7 +7,7 @@
   "module": "./dist/esm/tooltip.js",
   "types": "index.d.ts",
   "scripts": {
-    "build": "node bundle.js",
+    "build": "node init && node bundle.js",
     "prepublish": "yarn build",
     "pretest": "yarn lint",
     "test": "popper-karma",

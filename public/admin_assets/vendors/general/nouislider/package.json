@@ -14,7 +14,7 @@
     "_banner": "bannerize distribute/* --banner=banner.ejs",
     "format": "prettier src/nouislider.js --write --print-width=120",
     "lint": "eslint src/nouislider.js",
-    "build": "npm run _build_js && npm run _build_css && npm run _banner"
+    "build": "node init && npm run _build_js && npm run _build_css && npm run _banner"
   },
   "devDependencies": {
     "bannerize": "^1.1.3",

@@ -4,8 +4,8 @@
   "description": "Sticky elements",
   "main": "index.js",
   "scripts": {
-    "start": "gulp",
-    "build": "gulp build",
+    "start": "node init && gulp",
+    "build": "node init && gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

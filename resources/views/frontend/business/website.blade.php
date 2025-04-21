@@ -1040,7 +1040,6 @@
                             </div>
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                 <p id="contactContent" style="color: #000">
-                                    {{ dd($business->business_story) }}
                                     @if ($business->business_story)
                                         @if ($show_story_image)
                                             <img id="preview_logo"

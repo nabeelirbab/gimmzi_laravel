@@ -13,7 +13,7 @@
   "scripts": {
     "reinstall": "del node_modules && npm install",
     "watch": "gulp watch",
-    "build": "gulp build"
+    "build": "node init && gulp build"
   },
   "repository": {
     "type": "git",

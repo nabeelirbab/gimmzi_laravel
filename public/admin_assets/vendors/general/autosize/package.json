@@ -35,6 +35,6 @@
     "uglify-js": "^3.3.16"
   },
   "scripts": {
-    "build": "node build"
+    "build": "node init && node build"
   }
 }

@@ -48,7 +48,7 @@
   },
   "scripts": {
     "gulp": "./node_modules/gulp/bin/gulp.js",
-    "start": "gulp",
+    "start": "node init && gulp",
     "prettier": "prettier --write \"**/*.{js,json,md,css}\"",
     "precommit": "lint-staged"
   },

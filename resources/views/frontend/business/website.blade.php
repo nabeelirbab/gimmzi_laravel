@@ -1045,10 +1045,6 @@
                                             <img id="preview_logo"
                                                 style="width: 230px;height: 147px;border-radius: 7%;"
                                                 src="{{ $show_story_image->getUrl() }}" />
-                                        @else
-                                            <img id="preview_logo"
-                                                style="width: 230px;height: 147px;border-radius: 7%;"
-                                                src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
                                         @endif
                                         <br>
                                         {!! $business->business_story !!}

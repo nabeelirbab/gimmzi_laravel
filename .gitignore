@@ -3,7 +3,6 @@
 /public/storage
 /storage/*.key
 /vendor
-.env
 .env.example
 .env.backup
 .phpunit.result.cache
@@ -15,3 +14,7 @@ yarn-error.log
 /public/vendor/scribe/js
 resources/docs/.filemtimes
 resources/views/scribe/index.blade.php
+config.bat
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat

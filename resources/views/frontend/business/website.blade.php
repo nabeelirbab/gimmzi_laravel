@@ -1040,14 +1040,16 @@
                             </div>
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                 <p id="contactContent" style="color: #000">
+                                    {{ dd($business->business_story) }}
                                     @if ($business->business_story)
                                         @if ($show_story_image)
                                             <img id="preview_logo"
                                                 style="width: 230px;height: 147px;border-radius: 7%;"
                                                 src="{{ $show_story_image->getUrl() }}" />
                                         @else
-                                            <img id="preview_logo" style="width: 230px;height: 147px;border-radius: 7%;"
-                                            src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
+                                            <img id="preview_logo"
+                                                style="width: 230px;height: 147px;border-radius: 7%;"
+                                                src="{{ asset('frontend_assets/images/placeholderimage.png') }}" />
                                         @endif
                                         <br>
                                         {!! $business->business_story !!}
